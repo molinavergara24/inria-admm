@@ -87,5 +87,3 @@ print(problem)
 # dense version of the matrices 
 Mdense = problem.M.todense()
 Hdense = problem.H.todense()
-
-

@@ -111,8 +111,8 @@ s.append(np.array([0,0,0])) #s[0]
 tau.append(1) #tau[0]
 
 #Value of parameters
-rho.append(1) #rho[0]
-rho.append(1) #rho[1]
+rho.append(1.0) #rho[0]
+rho.append(1.0) #rho[1]
 eta = 1
 
 ########################################
@@ -164,10 +164,10 @@ for k in range(MAXITER):
 	####################
 	## stop criterion ##
 	####################
-	pri_evalf = np.array([np.linalg.norm(v[k]),np.linalg.norm(u_hat[k]),np.linalg.norm(b)])
+	pri_evalf = np.array([np.linalg.norm(np.dot(A,v[k+1])),np.linalg.norm(u[k+1]),np.linalg.norm(b)])
 	eps_pri = np.sqrt(3)*ABSTOL + RELTOL*np.amax(pri_evalf)
 
-	dual_evalf = rho[k] * np.dot(A_T,xi_hat[k])
+	dual_evalf = rho[k] * np.dot(A_T,xi[k+1])
 	eps_dual = np.sqrt(3)*ABSTOL + RELTOL*np.linalg.norm(dual_evalf)
 
 	r_norm = np.linalg.norm(r[k+1])
@@ -178,7 +178,7 @@ for k in range(MAXITER):
 	###################################
 	## accelerated ADMM with restart ##
 	###################################
-	e.append(np.square(np.linalg.norm(xi[k+1]-xi_hat[k])) + rho * np.square(np.linalg.norm(u[k+1]-u_hat[k]))) #e[k]
+	e.append(np.square(np.linalg.norm(xi[k+1]-xi_hat[k])) + rho[k] * np.square(np.linalg.norm(u[k+1]-u_hat[k]))) #e[k]
 
 	if e[k] < eta * e[k-1]:
 		tau.append(0.5 * (1 + np.sqrt(1 + 4 * np.square(tau[k])))) #tau[k+1]
@@ -204,9 +204,6 @@ end = time.clock()
 ## REPORTING DATA ##
 ####################
 
-#for i in range(len(v)):
-#	print 'iteration',i,'value of v:',v[i]
-
 plt.plot([np.linalg.norm(k) for k in r], label='||r||')
 plt.hold(True)
 plt.plot([np.linalg.norm(k) for k in s], label='||s||')
@@ -217,7 +214,7 @@ plt.xlabel('Iteration')
 plt.text(len(r)/2,1,'N_iter = '+str(len(r)-1))
 plt.text(len(r)/2,0.9,'Total time = '+str((end-start)*10**3)+' ms')
 plt.text(len(r)/2,0.8,'Time_per_iter = '+str(((end-start)/(len(r)-1))*10**3)+' ms')
-plt.title('With acceleration / Without restarting')
+plt.title('With acceleration / With restarting')
 plt.legend()
 plt.show()
 

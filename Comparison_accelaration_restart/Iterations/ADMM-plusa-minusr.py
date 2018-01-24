@@ -143,10 +143,10 @@ for k in range(MAXITER):
 	####################
 	## stop criterion ##
 	####################
-	pri_evalf = np.array([np.linalg.norm(v[k]),np.linalg.norm(u_hat[k]),np.linalg.norm(b)])
+	pri_evalf = np.array([np.linalg.norm(np.dot(A,v[k+1])),np.linalg.norm(u[k+1]),np.linalg.norm(b)])
 	eps_pri = np.sqrt(3)*ABSTOL + RELTOL*np.amax(pri_evalf)
 
-	dual_evalf = rho * np.dot(A_T,xi_hat[k])
+	dual_evalf = rho * np.dot(A_T,xi[k+1])
 	eps_dual = np.sqrt(3)*ABSTOL + RELTOL*np.linalg.norm(dual_evalf)
 
 	r_norm = np.linalg.norm(r[k+1])

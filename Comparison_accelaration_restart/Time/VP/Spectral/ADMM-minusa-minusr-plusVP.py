@@ -59,7 +59,7 @@ def penalty(rho,r_norm,s_norm):
 ############# TERMS / NOT A FUNCTION YET ############
 #####################################################
 
-#3 balls in a vertical line
+#3 balls falling in a vertical line
 #mass=1,radius=1,gravity=9.8
 
 mass = 1
@@ -77,6 +77,8 @@ MAXITER = 1000
 ABSTOL = 1e-04
 RELTOL = 1e-04
 
+eps_corr = 0.2
+
 ########################################
 ############# REQUIRE TERMS ############
 ########################################
@@ -85,14 +87,14 @@ RELTOL = 1e-04
 v = []
 
 u = []
-u_hat = []
 
 xi = []
-xi_hat = []
+xiG = [] #spectral constant
 
 r = [] #primal residual
+rG = [] #spectral constant
+
 s = [] #dual residual
-tau = [] #over-relaxation
 e = [] #restart
 
 rho = [] #augmented Lagrangian penalty parameter
@@ -101,27 +103,18 @@ rho = [] #augmented Lagrangian penalty parameter
 v.append(np.array([0,0,0])) #v[0]
 
 u.append(np.array([0,0,0])) #u[0] #this is u tilde, but in the notation of the paper is used as hat
-u_hat.append(u[0]) #u_hat[0] #in the notation of the paper this used with a underline
 
 xi.append(np.array([0,0,0])) #xi[0]
-xi_hat.append(xi[0]) #xi_hat[0]
+xiG.append(xi[0]) #xiG[0]
 
 r.append(np.array([0,0,0])) #r[0]
+rG.append(r[0]) #rG[0]
 s.append(np.array([0,0,0])) #s[0]
-tau.append(1) #tau[0]
 
 #Value of parameters
 rho.append(1e-01) #rho[0]
 rho.append(1e-01) #rho[1]
 eta = 1
-
-########################################
-## TERMS COMMON TO ALL THE ITERATIONS ##
-########################################
-
-#Transpose matrix of M and A
-M_T = np.transpose(M)
-A_T = np.transpose(A)
 
 ################
 ## ITERATIONS ##
@@ -130,15 +123,16 @@ A_T = np.transpose(A)
 start = time.clock()
 
 for k in range(MAXITER):
-	
-	#Cholesky factorization of M + rho * dot(A_T,A)
+
+	#Cholesky factorization of M + rho * dot(M_T,M)
+	A_T = np.transpose(A)
 	L = np.linalg.cholesky(M + rho[k] * np.dot(A_T,A))
 	L_T = np.transpose(L)
 
 	################
 	## v - update ##
 	################
-        RHS = -f + rho[k] * np.dot(A_T, -b - xi_hat[k] + u_hat[k])
+        RHS = -f + rho[k] * np.dot(A_T, -b - xi[k] + u[k])
         v_cholesky = np.linalg.solve(L, RHS)
 	v.append(np.linalg.solve(L_T, v_cholesky)) #v[k+1]
 
@@ -146,20 +140,20 @@ for k in range(MAXITER):
 	## u - update ##
 	################
 	Av = np.dot(A,v[k+1])
-	vector = Av + xi_hat[k] + b
+	vector = Av + xi[k] + b
 	u.append(projection(vector)) #u[k+1]
 
 	########################
 	## residuals - update ##
 	########################
-	s.append(rho[k] * np.dot(A_T,(u[k+1]-u_hat[k]))) #s[k+1]
+	s.append(rho[k] * np.dot(A_T,(u[k+1]-u[k]))) #s[k+1]
 	r.append(Av - u[k+1] + b) #r[k+1]
 
 	#################
 	## xi - update ##
 	#################
 	ratio = rho[k]/rho[k+1] #update of dual scaled variable with new rho
-	xi.append(ratio * (xi_hat[k] + r[k+1])) #xi[k+1]
+	xi.append(ratio*(xi[k] + r[k+1])) #xi[k+1]
 
 	####################
 	## stop criterion ##
@@ -172,59 +166,90 @@ for k in range(MAXITER):
 
 	r_norm = np.linalg.norm(r[k+1])
 	s_norm = np.linalg.norm(s[k+1])
+
+	end = time.clock()
+
 	if r_norm<=eps_pri and s_norm<=eps_dual:
 		break
 
-	###################################
-	## accelerated ADMM with restart ##
-	###################################
-	e.append(np.square(np.linalg.norm(xi[k+1]-xi_hat[k])) + rho * np.square(np.linalg.norm(u[k+1]-u_hat[k]))) #e[k]
+	#################################
+	## Spectral parameter - update ##
+	#################################
 
-	if e[k] < eta * e[k-1]:
-		tau.append(0.5 * (1 + np.sqrt(1 + 4 * np.square(tau[k])))) #tau[k+1]
-		alpha = (tau[k] - 1) / tau[k+1]
-		u_hat.append(u[k+1] + alpha * (u[k+1] - u[k])) #u_hat[k+1]
-		xi_hat.append(xi[k+1] + alpha * (xi[k+1] - xi[k])) #xi_hat[k+1]
-	else:
-		tau.append(1) #tau[k+1]
-		u_hat.append(u[k]) #u_hat[k+1]
-		xi_hat.append(xi[k]) #xi_hat[k+1]
-		e[k] = e[k-1] / eta
+	#Set up of needed constants
+	rG.append(Av - u[k] + b) #rG[k+1]
+	xiG.append(ratio * (xi[k] + rG[k+1])) #xiG[k+1]
 
-	################################
-	## penalty parameter - update ##
-	################################
-	rho.append(penalty(rho[k+1],r_norm,s_norm))
-	#rho.append(1)	
+	#Set up of new variables
+	Dlambda = rho[k+1]*xiG[k+1] - rho[k]*xiG[k]
+	DH = np.dot(A,v[k+1]-v[k])
+	DG = u[k+1] - u[k]
+
+	#Definitions of inner products
+	Dlambda_dot = np.dot(Dlambda,Dlambda)
+	DH_dot = np.dot(DH,DH)
+	DG_dot = np.dot(DG,DG)
+
+	DH_Dlambda_dot = np.dot(DH,Dlambda)
+	DG_Dlambda_dot = np.dot(DG,Dlambda)
+
+	#Definitions of norms
+	Dlambda_norm = np.linalg.norm(Dlambda)
+	DH_norm = np.linalg.norm(DH)
+	DG_norm = np.linalg.norm(DG)
 	
+	#Definition of alfa and beta SD/MG
+	alfa_SD = Dlambda_dot / DH_Dlambda_dot
+	alfa_MG = DH_Dlambda_dot / DH_dot
+
+	beta_SD = Dlambda_dot / DG_Dlambda_dot
+	beta_MG = DG_Dlambda_dot / DG_dot
+
+	#Election of alfa and beta hat
+	if 2.0*alfa_MG > alfa_SD:
+		alfa_hat = alfa_MG
+	else:
+		alfa_hat = alfa_SD - alfa_MG/2.0
+
+	if 2.0*beta_MG > beta_SD:
+		beta_hat = beta_MG
+	else:
+		beta_hat = beta_SD - beta_MG/2.0
+
+	#Correlations
+	alfa_corr = DH_Dlambda_dot / (DH_norm * Dlambda_norm)
+	beta_corr = DG_Dlambda_dot / (DG_norm * Dlambda_norm)
+
+	#Penalty parameter update
+	if alfa_corr > eps_corr and beta_corr > eps_corr:
+		rho.append(np.sqrt(alfa_hat*beta_hat))
+	if alfa_corr > eps_corr and beta_corr <= eps_corr:
+		rho.append(alfa_hat)
+	if alfa_corr <= eps_corr and beta_corr > eps_corr:
+		rho.append(beta_hat)
+	else:
+		rho.append(rho[k+1])
+
 	#end rutine
-
-end = time.clock()
-
+	
 ####################
 ## REPORTING DATA ##
 ####################
 
+#Reporting the value of v
 #for i in range(len(v)):
 #	print 'iteration',i,'value of v:',v[i]
 
-plt.plot(rho, label='rho')
-plt.ylabel('Rho')
+plt.plot([np.linalg.norm(k) for k in r], label='||r||')
+plt.hold(True)
+plt.plot([np.linalg.norm(k) for k in s], label='||s||')
+plt.hold(True)
+plt.ylabel('Residuals')
 plt.xlabel('Iteration')
+#plt.xlim(xmax=30)
+plt.text(len(r)/2,1,'N_iter = '+str(len(r)-1))
+plt.text(len(r)/2,0.9,'Total time = '+str((end-start)*10**3)+' ms')
+plt.text(len(r)/2,0.8,'Time_per_iter = '+str(((end-start)/(len(r)-1))*10**3)+' ms')
+plt.title('Without acceleration / Without restarting')
+plt.legend()
 plt.show()
-
-while False:
-	plt.plot([np.linalg.norm(k) for k in r], label='||r||')
-	plt.hold(True)
-	plt.plot([np.linalg.norm(k) for k in s], label='||s||')
-	plt.hold(True)
-	plt.ylabel('Residuals')
-	plt.xlabel('Iteration')
-	#plt.xlim(xmax=140)
-	plt.text(len(r)/2,1,'N_iter = '+str(len(r)-1))
-	plt.text(len(r)/2,0.9,'Total time = '+str((end-start)*10**3)+' ms')
-	plt.text(len(r)/2,0.8,'Time_per_iter = '+str(((end-start)/(len(r)-1))*10**3)+' ms')
-	plt.title('With acceleration / With restarting')
-	plt.legend()
-	plt.show()
-

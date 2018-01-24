@@ -46,7 +46,16 @@ def projection(vector):
 #Penalty parameter
 def penalty(rho,r_norm,s_norm):
 	mu = 10.0
-	factor = 2.0
+	factormax = 2.0
+
+	ratiosqrt = np.sqrt(r_norm / s_norm)
+	if 1.0 <= ratiosqrt and ratiosqrt < factormax:
+		factor = ratiosqrt
+	if 1.0/factormax < ratiosqrt and ratiosqrt < 1.0:
+		factor = 1.0/ratiosqrt
+	else:
+		factor = factormax	
+	
 
 	if r_norm > mu * s_norm:
 		return rho*factor
@@ -62,7 +71,7 @@ def penalty(rho,r_norm,s_norm):
 #3 balls in a vertical line
 #mass=1,radius=1,gravity=9.8
 
-mass = 1
+mass = 100
 
 M = np.array([[1,0,0],[0,1,0],[0,0,1]]) * mass
 f = np.array([-9.8,-9.8,-9.8]) * mass
@@ -74,7 +83,7 @@ b = np.array([-1,-2,-3])
 #######################################
 
 MAXITER = 1000
-ABSTOL = 1e-04
+ABSTOL = 0
 RELTOL = 1e-04
 
 ########################################
@@ -111,8 +120,8 @@ s.append(np.array([0,0,0])) #s[0]
 tau.append(1) #tau[0]
 
 #Value of parameters
-rho.append(1e-01) #rho[0]
-rho.append(1e-01) #rho[1]
+rho.append(0.1) #rho[0]
+rho.append(0.1) #rho[1]
 eta = 1
 
 ########################################
@@ -178,7 +187,7 @@ for k in range(MAXITER):
 	###################################
 	## accelerated ADMM with restart ##
 	###################################
-	e.append(np.square(np.linalg.norm(xi[k+1]-xi_hat[k])) + rho * np.square(np.linalg.norm(u[k+1]-u_hat[k]))) #e[k]
+	e.append(np.square(np.linalg.norm(xi[k+1]-xi_hat[k])) + rho[k] * np.square(np.linalg.norm(u[k+1]-u_hat[k]))) #e[k]
 
 	if e[k] < eta * e[k-1]:
 		tau.append(0.5 * (1 + np.sqrt(1 + 4 * np.square(tau[k])))) #tau[k+1]
@@ -194,8 +203,11 @@ for k in range(MAXITER):
 	################################
 	## penalty parameter - update ##
 	################################
-	rho.append(penalty(rho[k+1],r_norm,s_norm))
-	#rho.append(1)	
+	#rho.append(penalty(rho[k+1], r_norm, s_norm))
+	if np.linalg.norm(dual_evalf) == 0:
+		rho.append(penalty(rho[k+1], r_norm/np.amax(pri_evalf), 20 * r_norm/np.amax(pri_evalf)))
+	else:		
+		rho.append(penalty(rho[k+1], r_norm/np.amax(pri_evalf), s_norm/np.linalg.norm(dual_evalf)))	
 	
 	#end rutine
 
@@ -205,26 +217,17 @@ end = time.clock()
 ## REPORTING DATA ##
 ####################
 
-#for i in range(len(v)):
-#	print 'iteration',i,'value of v:',v[i]
-
-plt.plot(rho, label='rho')
-plt.ylabel('Rho')
+plt.plot([np.linalg.norm(k) for k in r], label='||r||')
+plt.hold(True)
+plt.plot([np.linalg.norm(k) for k in s], label='||s||')
+plt.hold(True)
+plt.ylabel('Residuals')
 plt.xlabel('Iteration')
+#plt.xlim(xmax=30)
+plt.text(len(r)/2,1,'N_iter = '+str(len(r)-1))
+plt.text(len(r)/2,0.9,'Total time = '+str((end-start)*10**3)+' ms')
+plt.text(len(r)/2,0.8,'Time_per_iter = '+str(((end-start)/(len(r)-1))*10**3)+' ms')
+plt.title('With acceleration / With restarting')
+plt.legend()
 plt.show()
-
-while False:
-	plt.plot([np.linalg.norm(k) for k in r], label='||r||')
-	plt.hold(True)
-	plt.plot([np.linalg.norm(k) for k in s], label='||s||')
-	plt.hold(True)
-	plt.ylabel('Residuals')
-	plt.xlabel('Iteration')
-	#plt.xlim(xmax=140)
-	plt.text(len(r)/2,1,'N_iter = '+str(len(r)-1))
-	plt.text(len(r)/2,0.9,'Total time = '+str((end-start)*10**3)+' ms')
-	plt.text(len(r)/2,0.8,'Time_per_iter = '+str(((end-start)/(len(r)-1))*10**3)+' ms')
-	plt.title('With acceleration / With restarting')
-	plt.legend()
-	plt.show()
 
