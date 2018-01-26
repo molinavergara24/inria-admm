@@ -19,29 +19,26 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+from read_fclib import *
 
 ##########################
 ## FUNCTION DEFINITIONS ##
 ##########################
 
-#Projection onto second order cone
+#Projection onto dual second order cone
 def projection(vector):
-	normvec = np.linalg.norm(vector[1:])
-	lambda_1 = vector[0] - normvec
-	lambda_2 = vector[0] + normvec
+	normx2 = np.linalg.norm(vector[1:])
+	x1 = vector[0]
 
-	zero = 1e-12 #how close is to zero
-	if np.linalg.norm(vector[1:]) > zero:
-		e_1 = vector[1]/normvec
-		e_2 = vector[2]/normvec
-		u_1 = 0.5 * np.array([1,-e_1,-e_2])
-		u_2 = 0.5 * np.array([1,e_1,e_2])		
+	if normx2 <= (-1/mu)*x1:
+		project =  0		
+	if normx2 <= (1/mu)*x1:
+		project = vector	
 	else:
-		e = np.sqrt(2)*0.5
-		u_1 = 0.5 * np.array([1,-e,-e])
-		u_2 = 0.5 * np.array([1,e,e])	
+		x2 = vector[1:]
+		project = (mu**2)/(1+mu**2) * (x1 + (1/mu)*normx2) * np.concatenate([np.array([1]),(1/mu)*x2*(1/normx2)])
 
-	return np.maximum(0,lambda_1) * u_1 + np.maximum(0,lambda_2) * u_2
+	return project
 
 #Penalty parameter
 def penalty(rho,r_norm,s_norm):
@@ -59,15 +56,11 @@ def penalty(rho,r_norm,s_norm):
 ############# TERMS / NOT A FUNCTION YET ############
 #####################################################
 
-#3 balls falling in a vertical line
-#mass=1,radius=1,gravity=9.8
-
-mass = 1
-
-M = np.array([[1,0,0],[0,1,0],[0,0,1]]) * mass
-f = np.array([-9.8,-9.8,-9.8]) * mass
-A = np.array([[1,0,0],[-1,1,0],[-1,-1,1]])
-b = np.array([-1,-2,-3])
+M = problem.M.toarray()
+f = problem.f
+A = np.transpose(problem.H.toarray())
+mu = problem.mu
+b = np.array([0,1,1]) * mu * 1
 
 #######################################
 ############# SOLVER TERMS ############
@@ -84,37 +77,36 @@ eps_corr = 0.2
 ########################################
 
 #Set-up of vectors
-v = []
+n = np.shape(M)[0]
 
-u = []
+v = [np.zeros([n,1])]
 
-xi = []
-xiG = [] #spectral constant
+u = [np.array([0,1,1])] #this is u tilde, but in the notation of the paper is used as hat
+u_hat = [np.array([0,1,1])]
 
-r = [] #primal residual
-rG = [] #spectral constant
+xi = [np.array([0,1,1])]
+xi_hat = [np.array([0,1,1])]
+xiG = [np.array([0,1,1])] #spectral
 
-s = [] #dual residual
-e = [] #restart
+r = [np.zeros([n,1])] #primal residual
+rG = [np.array([0,1,1])] #spectral
+s = [np.zeros([n,1])] #dual residual
 
-rho = [] #augmented Lagrangian penalty parameter
-
-#Value of v, u and xi
-v.append(np.array([0,0,0])) #v[0]
-
-u.append(np.array([0,0,0])) #u[0] #this is u tilde, but in the notation of the paper is used as hat
-
-xi.append(np.array([0,0,0])) #xi[0]
-xiG.append(xi[0]) #xiG[0]
-
-r.append(np.array([0,0,0])) #r[0]
-rG.append(r[0]) #rG[0]
-s.append(np.array([0,0,0])) #s[0]
-
-#Value of parameters
-rho.append(1e-01) #rho[0]
-rho.append(1e-01) #rho[1]
+#Parameters
+rho = []
+tau = []
+tau.append(1) #tau[0]
 eta = 1
+
+#Transpose matrix of A
+A_T = np.transpose(A)
+
+#Optimal penalty parameter by Ghadimi
+DUAL = np.dot(np.dot(A,np.linalg.inv(M)),A_T)
+eig = np.linalg.eigvals(DUAL)
+rh = 1 / np.sqrt(np.amax(eig)*np.amin(eig))
+rho.append(rh) #rho[0]
+rho.append(rh) #rho[1]
 
 ################
 ## ITERATIONS ##
@@ -125,14 +117,14 @@ start = time.clock()
 for k in range(MAXITER):
 
 	#Cholesky factorization of M + rho * dot(M_T,M)
-	A_T = np.transpose(A)
-	L = np.linalg.cholesky(M + rho[k] * np.dot(A_T,A))
+	P = M + rho[k] * np.dot(A_T,A)
+	L = np.linalg.cholesky(P)
 	L_T = np.transpose(L)
 
 	################
 	## v - update ##
 	################
-        RHS = -f + rho[k] * np.dot(A_T, -b - xi[k] + u[k])
+        RHS = -f + rho[k] * np.dot(A_T, -b - xi_hat[k] + u_hat[k])
         v_cholesky = np.linalg.solve(L, RHS)
 	v.append(np.linalg.solve(L_T, v_cholesky)) #v[k+1]
 
@@ -140,20 +132,20 @@ for k in range(MAXITER):
 	## u - update ##
 	################
 	Av = np.dot(A,v[k+1])
-	vector = Av + xi[k] + b
+	vector = Av + xi_hat[k] + b
 	u.append(projection(vector)) #u[k+1]
 
 	########################
 	## residuals - update ##
 	########################
-	s.append(rho[k] * np.dot(A_T,(u[k+1]-u[k]))) #s[k+1]
+	s.append(rho[k] * np.dot(A_T,(u[k+1]-u_hat[k]))) #s[k+1]
 	r.append(Av - u[k+1] + b) #r[k+1]
 
 	#################
 	## xi - update ##
 	#################
 	ratio = rho[k]/rho[k+1] #update of dual scaled variable with new rho
-	xi.append(ratio*(xi[k] + r[k+1])) #xi[k+1]
+	xi.append(ratio*(xi_hat[k] + r[k+1])) #xi[k+1]
 
 	####################
 	## stop criterion ##
@@ -167,10 +159,17 @@ for k in range(MAXITER):
 	r_norm = np.linalg.norm(r[k+1])
 	s_norm = np.linalg.norm(s[k+1])
 
-	end = time.clock()
-
 	if r_norm<=eps_pri and s_norm<=eps_dual:
 		break
+
+	###################################
+	## accelerated ADMM with restart ##
+	###################################
+
+	tau.append(0.5 * (1 + np.sqrt(1 + 4 * np.square(tau[k])))) #tau[k+1]
+	alpha = (tau[k] - 1) / tau[k+1]
+	u_hat.append(u[k+1] + alpha * (u[k+1] - u[k])) #u_hat[k+1]
+	xi_hat.append(xi[k+1] + alpha * (xi[k+1] - xi[k])) #xi_hat[k+1]
 
 	#################################
 	## Spectral parameter - update ##
@@ -182,16 +181,16 @@ for k in range(MAXITER):
 
 	#Set up of new variables
 	Dlambda = rho[k+1]*xiG[k+1] - rho[k]*xiG[k]
-	DH = np.dot(A,v[k+1]-v[k])
-	DG = u[k+1] - u[k]
+	DH = np.dot(A, v[k+1] - np.squeeze(v[k]))
+	DG = - u[k+1] + u[k]
 
 	#Definitions of inner products
-	Dlambda_dot = np.dot(Dlambda,Dlambda)
-	DH_dot = np.dot(DH,DH)
-	DG_dot = np.dot(DG,DG)
+	Dlambda_dot = np.dot(np.transpose(Dlambda),Dlambda)
+	DH_dot = np.dot(np.transpose(DH),DH)
+	DG_dot = np.dot(np.transpose(DG),DG)
 
-	DH_Dlambda_dot = np.dot(DH,Dlambda)
-	DG_Dlambda_dot = np.dot(DG,Dlambda)
+	DH_Dlambda_dot = np.dot(np.transpose(DH),Dlambda)
+	DG_Dlambda_dot = np.dot(np.transpose(DG),Dlambda)
 
 	#Definitions of norms
 	Dlambda_norm = np.linalg.norm(Dlambda)
@@ -222,34 +221,35 @@ for k in range(MAXITER):
 
 	#Penalty parameter update
 	if alfa_corr > eps_corr and beta_corr > eps_corr:
-		rho.append(np.sqrt(alfa_hat*beta_hat))
+		rhos = np.sqrt(alfa_hat*beta_hat)
 	if alfa_corr > eps_corr and beta_corr <= eps_corr:
-		rho.append(alfa_hat)
+		rhos = alfa_hat
 	if alfa_corr <= eps_corr and beta_corr > eps_corr:
-		rho.append(beta_hat)
+		rhos = beta_hat
 	else:
-		rho.append(rho[k+1])
+		rhos = rho[k+1]
+	rho.append(rhos)
 
 	#end rutine
-	
+
+end = time.clock()
+
 ####################
 ## REPORTING DATA ##
 ####################
 
-#Reporting the value of v
-#for i in range(len(v)):
-#	print 'iteration',i,'value of v:',v[i]
-
-plt.plot([np.linalg.norm(k) for k in r], label='||r||')
+R = [np.linalg.norm(k) for k in r[1:]]
+S = [np.linalg.norm(k) for k in s[1:]]
+plt.plot(R, label='||r||')
 plt.hold(True)
-plt.plot([np.linalg.norm(k) for k in s], label='||s||')
+plt.plot(S, label='||s||')
 plt.hold(True)
 plt.ylabel('Residuals')
 plt.xlabel('Iteration')
 #plt.xlim(xmax=30)
-plt.text(len(r)/2,1,'N_iter = '+str(len(r)-1))
-plt.text(len(r)/2,0.9,'Total time = '+str((end-start)*10**3)+' ms')
-plt.text(len(r)/2,0.8,'Time_per_iter = '+str(((end-start)/(len(r)-1))*10**3)+' ms')
-plt.title('Without acceleration / Without restarting')
+plt.text(len(r)/2,3*(np.amax(S)+np.amax(R))/4,'N_iter = '+str(len(r)-1))
+plt.text(len(r)/2,2*(np.amax(S)+np.amax(R))/4,'Total time = '+str((end-start)*10**3)+' ms')
+plt.text(len(r)/2,1*(np.amax(S)+np.amax(R))/4,'Time_per_iter = '+str(((end-start)/(len(r)-1))*10**3)+' ms')
+plt.title('With acceleration / Without restarting')
 plt.legend()
 plt.show()

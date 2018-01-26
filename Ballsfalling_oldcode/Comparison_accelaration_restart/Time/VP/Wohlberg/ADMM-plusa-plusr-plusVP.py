@@ -56,7 +56,6 @@ def penalty(rho,r_norm,s_norm):
 	else:
 		factor = factormax	
 	
-
 	if r_norm > mu * s_norm:
 		return rho*factor
 	if s_norm > mu * r_norm:
