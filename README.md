@@ -46,4 +46,4 @@ This approach imports and adapts the Barzilai-Borwein “spectral” stepsize me
 The proposed solution is to normalise the primal and dual residuals so that they become invariant to scalings of the ADMM problem to which the solution is also invariant. See paper in this [link](https://arxiv.org/abs/1704.06209).
 
 ## Import data
-Examples which provide the variables that are needed. See paper in this [link](https://hal.inria.fr/hal-00782128).
+Examples which provide the variables that are needed. For general information see  this [link](https://hal.inria.fr/hal-00782128).
