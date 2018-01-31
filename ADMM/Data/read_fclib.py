@@ -1,7 +1,7 @@
+import os
 import h5py
 import numpy
-filename = 'LMGC_GFC3D_CubeH8.hdf5'
-
+filename = os.getcwd()+'/Data/LMGC_GFC3D_CubeH8.hdf5'
 
 def is_fclib_file(filename):
     r = False
@@ -82,7 +82,7 @@ class gfc3d:
         
     
 problem = gfc3d(filename)
-print(problem)
+#print(problem)
 
 # dense version of the matrices 
 Mdense = problem.M.todense()
