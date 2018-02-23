@@ -1,0 +1,492 @@
+\documentclass[a4paper,11pt]{article}
+%\documentclass[a4paper,11pt]{scrartcl}
+%\AtBeginDvi{\special{pdf:mapfile dlbase14.map}}
+%\AtBeginDvi{\special{pdf:mapfile ipaex.map}}
+\usepackage{amsmath,amsthm,amssymb}
+%\usepackage{enumitem}
+\usepackage{algpseudocode,algorithm}
+%\usepackage[dvipdfmx]{graphicx}
+%\graphicspath{{./fig/}}
+\usepackage[square,sort&compress,numbers]{natbib}
+\usepackage{type1cm}
+%\usepackage{url}
+\usepackage{mathtools}\mathtoolsset{showonlyrefs=false}
+%\usepackage{algpseudocode,algorithm}
+%\usepackage{booktabs}
+%
+%\usepackage{subcaption}
+%\captionsetup[subfigure]{labelformat=simple,font=small,
+%  textfont=normalfont,singlelinecheck=off,
+%  justification=raggedright}
+%\captionsetup{subrefformat=simple}
+%\renewcommand\thesubfigure{(\alph{subfigure})}
+
+%\usepackage{helvet,courier}
+%\usepackage{newtxtext,newtxmath}
+%
+%\usepackage{showkeys}
+%
+%%%%%%%%% \memo, \OMIT, \OMITREF, \titleetc %%%%%%%%%
+\newcommand{\memo}[1]{\textbf{[MEMO:} #1 \ \textbf{ : end memo] }}  %%% For work
+%% \renewcommand{\memo}[1]{}           %%% For FINAL
+\newcommand{\OMIT}[1]{\textbf{[OMIT:} #1 \ \textbf{ --- end OMIT] }}  %%% For work
+%%   \renewcommand{\OMIT}[1]{}            %%% For FINAL
+%
+\newcommand{\Authornote}{\renewcommand{\thefootnote}{\fnsymbol{footnote}}}
+\newcommand{\authornote}{\Authornote\footnote}
+%
+\pagestyle{plain}
+
+\setlength{\topmargin}{-14mm}
+\setlength{\oddsidemargin}{-2mm}
+\setlength{\textwidth}{166mm}
+\setlength{\textheight}{50\baselineskip}
+\addtolength{\textheight}{\topskip}
+\renewcommand{\baselinestretch}{1.2}
+\setlength{\parskip}{0.0pt}
+%
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\dbltopfraction}{0.9}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.9}
+\renewcommand{\dblfloatpagefraction}{0.9}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{3}
+\setcounter{totalnumber}{3}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{assumption}[theorem]{Assumption}
+%
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{–½‘è}
+\newtheorem{example}[theorem]{—á}
+\newtheorem{corollary}[theorem]{Œn}
+%\newtheorem{algorithm}[theorem]{Algorithm}
+%
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+%
+\newcommand{\refalg}[1]{Algorithm~\ref{#1}}
+\newcommand{\refrem}[1]{Remark~\ref{#1}}
+\newcommand{\reffig}[1]{Figure~\ref{#1}}
+\newcommand{\reftab}[1]{Table~\ref{#1}}
+
+\newcommand{\finbox}{\nolinebreak\hfill{\small $\blacksquare$}}
+
+\newcommand{\MIN}{\mathop{\mathrm{Minimize}}}
+\newcommand{\MAX}{\mathop{\mathrm{Maximize}}}
+\newcommand{\Min}{\mathop{\mathrm{minimize}}}
+\newcommand{\st}{\mathop{\mathrm{s.{\,}t.}}}
+\newcommand{\ST}{\mathop{\mathrm{subject~to}}}
+\newcommand{\sign}{\mathop{\mathrm{sgn}}\nolimits}
+\newcommand{\domain}{\mathop{\mathrm{dom}}\nolimits}
+\newcommand{\rank}{\mathop{\mathrm{rank}}\nolimits}
+\newcommand{\boundary}{\mathop{\mathrm{bd}}\nolimits}
+\newcommand{\diag}{\mathop{\mathrm{diag}}\nolimits}
+\newcommand{\tr}{\mathop{\mathrm{tr}}\nolimits}
+\newcommand{\prox}{\mathop{\boldsymbol{\mathrm{prox}}}\nolimits}
+\newcommand{\argmin}{\operatornamewithlimits{\mathrm{arg\,min}}}
+\newcommand{\argmax}{\operatornamewithlimits{\mathrm{arg\,max}}}
+
+\newcommand{\overRe}{\ensuremath{\Re\cup\{+\infty\}}}
+
+\renewcommand{\Re}{\ensuremath{\mathbb{R}}}
+
+\newcommand{\bi}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\rr}[1]{\ensuremath{\mathrm{#1}}}
+\newcommand{\bs}[1]{\ensuremath{\boldsymbol{\mathsf{#1}}}}
+
+%%%%%%%%%%%%% Math Cal %%%%%%%%%%%%
+%
+\newcommand{\LC}{\ensuremath{\mathcal{L}}}
+
+\usepackage{color}
+\newcommand{\commentva}[1]{\textcolor{blue}{#1}}
+
+
+
+\begin{document}
+
+\noindent {Research Memorandum}
+
+\hfill{\today}
+
+\bigskip\bigskip%
+\begin{center}
+  {\Large\bfseries\sffamily% 
+  Accelerated Alternating Direction Method of Multipliers }
+  \par\medskip
+  {\Large\bfseries\sffamily% 
+  for Frictional Contact 
+  \authornote[1]{%
+  {\ttfamily /doc/contact/admm/}}%
+  }%
+  \par%
+  \bigskip%
+  {
+  Yoshihiro Kanno~\authornote[2]{%
+%  Corresponding author. 
+  Laboratory for Future Interdisciplinary Research of Science and Technology, 
+  Institute of Innovative Research, 
+  Tokyo Institute of Technology, 
+  Nagatsuta 4259, Yokohama 226-8503, Japan.
+  E-mail: \texttt{kanno.y.af@m.titech.ac.jp}. 
+%  Phone: +81-45-924-5364. 
+%  Fax: +81-45-924-5977.
+  }
+  }
+\end{center}
+
+
+\section{Algorithm Coulomb}
+
+The previous algorithm can be reformulated as well.
+As the upshot, the fast ADMM (\refalg{alg:fast.ADMM.prototype}) 
+for solving problem 
+\eqref{P.quadratic.SOCP.2} is formally stated in \refalg{alg:fast.ADMM}. 
+
+\begin{algorithm}
+  \caption{Fast ADMM for problem \eqref{P.quadratic.SOCP.2}.}
+  \label{alg:fast.ADMM}
+  \begin{algorithmic}[1]
+    \Require
+    $\tilde{\bi{u}}^{0} = \hat{\bi{u}}^{0}$, $\bi{\zeta}^{0}=\hat{\bi{\zeta}}^{0}$, 
+    $\tau_{0}=1$, and $\rho > 0$. 
+    \For{$k=0,1,2,\dots$}
+    \State \label{alg:fast.ADMM.linear}
+    $\bi{v}^{k+1}$ solves 
+    %\begin{align*}
+      $\displaystyle
+      \Bigl[ M + 
+  \rho H^{\top} H \Bigr] \bi{v} 
+  = -\bi{f} 
+  + \rho H^{\top} (\tilde{\bi{u}}^k - \bi{b}(s) - \hat{\bi{\zeta}}^k)$   
+    %\end{align*}
+
+    \State \label{alg:fast.ADMM.projection}
+    $\tilde{\bi{u}}^{k+1} := \Pi_{K_{e,\mu}^{*}}(H \bi{v}^{k+1}  + \hat{\bi{\zeta}}^k + \bi{b(s)})$ 
+    \State
+    $\bi{\zeta}^{k+1} := \hat{\bi{\zeta}}^k  + 
+  H \bi{v}^{k+1} - \tilde{\bi{u}}^{k+1} + \bi{b}(s)$     
+    \State
+    $\displaystyle 
+    \tau_{k+1} := \frac{1}{2} \Bigl( 1 + \sqrt{1 + 4\tau_{k}^{2}} \Bigr)$
+    \State
+    $\displaystyle
+    \hat{\bi{u}}^{k+1}
+    := \hat{\bi{u}}^{k} + \frac{\tau_{k}-1}{\tau_{k+1}} (\tilde{\bi{u}}^{k+1}-\tilde{\bi{u}}^{k})$ 
+    \State
+    $\displaystyle
+    \hat{\bi{\zeta}}^{k+1}
+    := \hat{\bi{\zeta}}^{k} + \frac{\tau_{k}-1}{\tau_{k+1}} (\bi{\zeta}^{k+1}-\bi{\zeta}^{k})$ 
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+
+In step~\ref{alg:fast.ADMM.linear} of \refalg{alg:fast.ADMM}, 
+the coefficient matrix of the system 
+of linear equations is common to all the iterations. 
+Hence, we carry out the Cholesky factorization only at the first 
+iteration (i.e., $k=0$); at the following iterations, 
+we can compute $\bi{v}^{k+1}$ only with the back-substitutions. 
+The projection in step~\ref{alg:fast.ADMM.projection} can be computed 
+explicitly by using the formula in \eqref{eq.projection.formula}. 
+The computations in the other steps are only matrix-vector products and 
+vector additions. 
+Therefore, the computational cost required for one iteration is 
+small, even for a large-scale problem. 
+
+In a similar manner, we can apply 
+\refalg{alg:fast.ADMM.restart.prototype} to problem 
+\eqref{P.quadratic.SOCP.2}, as formally stated in \refalg{alg:fast.ADMM.restart}. 
+
+\begin{algorithm}
+  \caption{Fast ADMM for problem with restart \eqref{P.quadratic.SOCP.2}.}
+  \label{alg:fast.ADMM.restart}
+  \begin{algorithmic}[1]
+    \Require
+    $\tilde{\bi{u}}^{0} = \hat{\bi{u}}^{0}$, $\bi{\zeta}^{0}=\hat{\bi{\zeta}}^{0}$, 
+    $\tau_{0}=1$, and $\rho > 0$. 
+    \For{$k=0,1,2,\dots$}
+    \State \label{alg:fast.ADMM.linear}
+    $\bi{v}^{k+1}$ solves 
+    %\begin{align*}
+      $\displaystyle
+      \Bigl[ M + 
+  \rho H^{\top} H \Bigr] \bi{v} 
+  = -\bi{f} 
+  + \rho H^{\top} (\tilde{\bi{u}}^k - \bi{b}(s) - \hat{\bi{\zeta}}^k)$   
+    %\end{align*}
+
+    \State \label{alg:fast.ADMM.projection}
+    $\tilde{\bi{u}}^{k+1} := \Pi_{K_{e,\mu}^{*}}(H \bi{v}^{k+1}  + \hat{\bi{\zeta}}^k + \bi{b(s)})$ 
+    \State
+    $\bi{\zeta}^{k+1} := \hat{\bi{\zeta}}^k  + 
+  H \bi{v}^{k+1} - \tilde{\bi{u}}^{k+1} + \bi{b}(s)$  
+
+    \If{$e_{k} < \eta e_{k-1}$}
+
+    \State
+    $\displaystyle 
+    \tau_{k+1} := \frac{1}{2} \Bigl( 1 + \sqrt{1 + 4\tau_{k}^{2}} \Bigr)$
+
+    \State
+    $\displaystyle
+    \hat{\bi{u}}^{k+1}
+    := \hat{\bi{u}}^{k} + \frac{\tau_{k}-1}{\tau_{k+1}} (\tilde{\bi{u}}^{k+1}-\tilde{\bi{u}}^{k})$ 
+    \State
+    $\displaystyle
+    \hat{\bi{\zeta}}^{k+1}
+    := \hat{\bi{\zeta}}^{k} + \frac{\tau_{k}-1}{\tau_{k+1}} (\bi{\zeta}^{k+1}-\bi{\zeta}^{k})$ 
+    
+    \Else
+    \State
+    $\tau_{k+1} := 1$
+    \State
+    $\displaystyle
+    \hat{\bi{u}}^{k+1}
+    := \tilde{\bi{u}}^{k}$ 
+    \State
+    $\displaystyle
+    \hat{\bi{\zeta}}^{k+1}
+    := \bi{\zeta}^{k}$     
+    \State
+    $e_{k} \gets e_{k-1}/\eta$ 
+
+    \EndIf
+
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{itemize}
+  \item To solve the friction problem, parameter $\bi{s}$ in problem 
+	\eqref{P.original.friction.SOCP.1} should be updated. 
+	This corresponds to updating $\bi{b}_{i}$ and $d_{i}$ in problem 
+	\eqref{P.quadratic.SOCP.2}. 
+	One obvious way is that, once we solve problem 
+	\eqref{P.quadratic.SOCP.2} with fixed $\bi{b}_{i}$ and $d_{i}$ 
+	by the fast ADMM (with restart), then update $\bi{b}_{i}$ and 
+	$d_{i}$ by using the obtained solution, and repeat this 
+	procedure. 
+	Another possibility is to update $\bi{b}_{i}$ and $d_{i}$ at 
+	each iteration of the fast ADMM (with restart). 
+	Intuitively, the latter saves the total computational cost, but 
+	stability of the algorithm in this case is not clear. 
+\end{itemize}
+
+
+\section{Projection onto second order cone}
+\begin{align}
+  \Pi_{K_{e,\mu}}(\bi{x}) = 
+  \begin{dcases*}
+	0
+    & if $\|\bi{x_2}\| \leq  - \frac{1}{\mu} x_{1}$, \\
+    \bi{x}
+    & if $\|\bi{x_2}\| \leq \mu x_{1}$, \\
+    \frac{1}{1+\mu^{2}} \left(x_{1} + \mu \| \bi{x}_{2} \|\right)
+    \begin{bmatrix}
+      1 \\    \mu \bi{x}_{2} / \| \bi{x}_{2} \| 
+    \end{bmatrix}
+    & if $- \mu \|\bi{x_2}\| < x_{1} < \frac{1}{\mu}\|\bi{x_2}\|$, \\
+  \end{dcases*}  
+\end{align}
+\begin{align}
+  \Pi_{K_{e,\mu}^{*}}(\bi{x}) = 
+  \begin{dcases*}
+	0
+    & if $\|\bi{x_2}\| \leq  - \mu x_{1}$, \\
+    \bi{x}
+    & if $\|\bi{x_2}\| \leq \frac{1}{\mu} x_{1}$, \\
+    \frac{\mu^{2}}{1+\mu^{2}} \left(x_{1} + \frac{1}{\mu} \| \bi{x}_{2} \|\right)
+    \begin{bmatrix}
+      1 \\    \frac{1}{\mu} \bi{x}_{2} / \| \bi{x}_{2} \| 
+    \end{bmatrix}
+    & if $- \frac{1}{\mu} \|\bi{x_2}\| < x_{1} < \mu \|\bi{x_2}\|$, \\
+  \end{dcases*}  
+\end{align}
+
+\subsection{Projection onto Coulomb's friction cone}
+
+For vector $\bi{x} = (x_{1},\bi{x}_{2}) \in \Re \times \Re^{n-1}$, its spectral 
+factorization with respect to $K_{e,\mu}$ is defined by \cite{HYF05}
+\begin{align}
+  \bi{x} = \lambda_{1} \bi{u}^{1} + \lambda_{2} \bi{u}^{2} . 
+\end{align}
+Here, $\lambda_{1}$, $\lambda_{2} \in \Re$ are the spectral values given by 
+\begin{align}
+  \lambda_{i} = x_{1} + \left({-}1\right)^{i} \mu^{\left({-}1\right)^{i}} \| \bi{x}_{2} \| , 
+\end{align}
+and $\bi{u}^{1}$, $\bi{u}^{2}  \in \Re^{n}$ are the spectral vectors 
+given by 
+\begin{align}
+  \bi{u}^{i} = 
+  \begin{dcases*}
+    \frac{1}{1+\mu^{2}}
+    \begin{bmatrix}
+      \mu^{2 \left(2-i\right)}  \\   \left({-}1\right)^{i} \mu \bi{x}_{2} / \| \bi{x}_{2} \| 
+    \end{bmatrix}
+    & if $\bi{x}_{2} \not= \bi{0}$, \\
+    \frac{1}{1+\mu^{2}}
+    \begin{bmatrix}
+      \mu^{2 \left(2-i\right)}  \\   \left({-}1\right)^{i} \mu \bi{\omega}
+    \end{bmatrix}
+    & if $\bi{x}_{2} = \bi{0}$, \\
+  \end{dcases*}  
+\end{align}
+with $\bi{\omega} \in \Re^{n-1}$ satisfying $\| \bi{\omega} \| = 1$. \\
+For $\bi{x} \in \Re^{n}$, let $\Pi_{K_{e,\mu}}(\bi{x}) \in \Re^{n}$ 
+denote the projection of $\bi{x}$ onto $K_{e,\mu}$, i.e., 
+\begin{align}
+  \Pi_{K_{e,\mu}}(\bi{x}) 
+  = \argmin \{  \| \bi{x}' - \bi{x} \| 
+  \mid \bi{x}' \in K_{e,\mu} \} . 
+\end{align}
+This can be computed explicitly as \cite{FLT01}
+\begin{align}
+  \Pi_{K_{e,\mu}}(\bi{x}) 
+  = \max \{ 0,\lambda_{1} \} \bi{u}^{1} 
+  + \max \{ 0,\lambda_{2} \} \bi{u}^{2} .
+  \label{eq.projection.formula}
+\end{align}
+Therefore the projection of $\bi{x}$ onto $K_{e,\mu}$ could be written as follows
+\begin{align}
+  \Pi_{K_{e,\mu}}(\bi{x}) = 
+  \begin{dcases*}
+	0
+    & if $-\bi{x} \in K_{e,\mu}^{*} \rightarrow \lambda_{i} \leq 0$ \\
+    \bi{x}
+    & if $\bi{x} \in K_{e,\mu} \rightarrow \lambda_{i} \geq 0$ \\
+    \frac{\left(x_{1} + \mu \| \bi{x}_{2} \|\right)}{1+\mu^{2}} 
+    \begin{bmatrix}
+      1 \\    \mu \bi{x}_{2} / \| \bi{x}_{2} \| 
+    \end{bmatrix}
+    & if $-\bi{x} \not\in K_{e,\mu}^{*} \wedge \bi{x} \not\in K_{e,\mu} \rightarrow \lambda_{1} < 0 \wedge \lambda_{2} > 0$ \\
+  \end{dcases*}  
+\end{align}
+Now, it is easy to see that the dual of $K_{e,\mu}$ is also a second-order cone
+\begin{align}
+  \ K_{e,\mu}^{*} = K_{e,\frac{1}{\mu}} = \{ (x_{1},\bi{x}_{2}) \in \Re \times \Re^{n-1}
+  \mid \| \bi{x}_{2} \| \le \frac{1}{\mu} x_{1} \}
+\end{align}
+Consequently, the projection of $\bi{x}$ onto $K_{e,\mu}^{*}$ could be written as follows
+\begin{align}
+  \Pi_{K_{e,\mu}^{*}}(\bi{x}) = 
+  \begin{dcases*}
+	0
+    & if $-\bi{x} \in K_{e,\mu} \rightarrow \lambda_{i}^{*} \leq 0$ \\
+    \bi{x}
+    & if $\bi{x} \in K_{e,\mu}^{*} \rightarrow \lambda_{i}^{*} \geq 0$ \\
+    \frac{\mu^{2} \left(x_{1} + \frac{1}{\mu} \| \bi{x}_{2} \|\right)}{1+\mu^{2}} 
+    \begin{bmatrix}
+      1 \\    \frac{1}{\mu} \bi{x}_{2} / \| \bi{x}_{2} \| 
+    \end{bmatrix}
+    & if $-\bi{x} \not\in K_{e,\mu} \wedge \bi{x} \not\in K_{e,\mu}^{*} \rightarrow \lambda_{1}^{*} < 0 \wedge \lambda_{2}^{*} > 0$, \\
+  \end{dcases*}  
+\end{align}
+where $\lambda_{i}^{*} = x_{1} + \left({-}1\right)^{i} \mu^{\left({-}1\right)^{i+1}} \| \bi{x}_{2} \|$.
+
+\begin{thebibliography}{99}
+\bibitem[\protect\citeauthoryear{Acary {\em et al.\/}}{2011}]{ACLM11}
+  {V.~Acary, F.~Cadoux, C.~Lemar\'{e}chal, J.~Malick}:
+  {A formulation of the linear discrete Coulomb friction problem 
+    via convex optimization}.
+  {\em ZAMM}, \textbf{91}, 155--175 (2011).
+
+\bibitem[\protect\citeauthoryear{Acary and Cadoux}{2013}]{AC13}
+  {V.~Acary, F.~Cadoux}:
+  {Applications of an existence result for the Coulomb friction problem}.
+  In: G.~E.~Stavroulakis (ed.),
+  {\em Recent Advances in Contact Mechanics},
+  pp.~45--66, Springer-Verlag, Berlin (2013).
+
+\bibitem[\protect\citeauthoryear{Boyd {\em et al.\/}}{2010}]{BPCPE10}
+  {S.~Boyd, N.~Parikh, E.~Chu, B.~Peleato, J.~Eckstein}:
+  {Distributed optimization and statistical learning via the 
+    alternating direction method of multipliers}.
+  {\em Foundations and Trends in Machine Learning},
+  \textbf{3}, 1--122 (2010).
+
+\bibitem[\protect\citeauthoryear{Fukushima {\em et al.\/}}{2001}]{FLT01}
+  {M.~Fukushima, Z.-Q.~Luo, P.~Tseng}:
+  {Smoothing functions for second-order-cone complementarity problems}.
+  {\em SIAM Journal on optimization},
+  \textbf{12}, 436--460 (2001).
+
+\bibitem[\protect\citeauthoryear{Giselsson and Boyd}{2014}]{GB14}
+  {P.~Giselsson, S.~Boyd}:
+  {Diagonal scaling in Douglas--Rachford splitting and ADMM}.
+  {\em The 53rd IEEE Conference on Decision and Control},
+  5033--5039, Los Angeles (2014).
+
+\bibitem[\protect\citeauthoryear{Goldstein {\em et al.\/}}{2014}]{GOdSB14}
+  {T.~Goldstein, B.~O'Donoghue, S.~Setzer, R.~Baraniuk}:
+  {Fast alternating direction optimization methods}.
+  {\em SIAM Journal on Imaging Sciences},
+  \textbf{7}, 1588--1623 (2014).
+
+\bibitem[\protect\citeauthoryear{Hager {\em et al.\/}}{2015}]{HNYZ15}
+  {W.~Hager, C.~Ngo, M.~Yashtini, H.-C.~Zhang}:
+  {An alternating direction approximate Newton algorithm 
+    for ill-conditioned inverse problems with application to parallel MRI}.
+  {\em Journal of the Operations Research Society of China},
+  \textbf{3}, 139--162 (2015).
+
+\bibitem[\protect\citeauthoryear{Hayashi {\em et al.\/}}{2005}]{HYF05}
+  {S.~Hayashi, N.~Yamashita, M.~Fukushima}:
+  {A combined smoothing and regularization method for 
+    monotone second-order cone complementarity problems}.
+  {\em SIAM Journal on Optimization},
+  \textbf{15}, 593-615 (2005).
+
+\bibitem[\protect\citeauthoryear{Martins and Pinto da Costa}{2000}]{MPC00}
+  {J.~M.~C.~Martins, A.~Pinto da Costa}:
+  {Stability of finite-dimensional nonlinear elastic systems with 
+    unilateral contact and friction}.
+  {\em International Journal of Solids and Structures},
+  \textbf{37}, 2519--2564 (2000).
+
+\bibitem[\protect\citeauthoryear{Martins {\em et al.\/}}{2002}]{MPCS02}
+  {J.~M.~C.~Martins, A.~Pinto da Costa, F.~M.~F.~Sim\~{o}es}:
+  {Some notes on friction and instabilities}.
+  In: J.~A.~C.~Martins, M.~Raous (eds.),
+  {\em Friction and Instabilities},
+  pp.~65--136, Springer-Verlag, Wien (2002).
+
+\bibitem[\protect\citeauthoryear{Pinto da Costa {\em et al.\/}}{2004}]{PCMFJ04}
+  {A.~Pinto da Costa, J.~A.~C.~Martins, I.~N.~Figueiredo, 
+    J.~J.~J\'{u}dice}:
+  {The directional instability problem in systems with 
+    frictional contacts}.
+  {\em Computer Methods in Applied Mechanics and Engineering},
+  \textbf{193}, 357--384 (2004).
+
+%\bibitem[\protect\citeauthoryear{Tseng}{1991}]{Tse91}
+%  {P.~Tseng}:
+%  {Applications of a splitting algorithm to decomposition 
+%    in convex programming and variational inequalities}.
+%  {\em SIAM Journal on Control and Optimization},
+%  \textbf{29}, 119--138 (1991).
+
+\end{thebibliography}
+
+
+
+\clearpage
+
+\tableofcontents
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+\grid

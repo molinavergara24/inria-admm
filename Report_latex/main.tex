@@ -1,0 +1,1358 @@
+\documentclass[a4paper,11pt]{article}
+%\documentclass[a4paper,11pt]{scrartcl}
+%\AtBeginDvi{\special{pdf:mapfile dlbase14.map}}
+%\AtBeginDvi{\special{pdf:mapfile ipaex.map}}
+\usepackage{amsmath,amsthm,amssymb}
+%\usepackage{enumitem}
+\usepackage{algpseudocode,algorithm}
+%\usepackage[dvipdfmx]{graphicx}
+%\graphicspath{{./fig/}}
+\usepackage[square,sort&compress,numbers]{natbib}
+\usepackage{type1cm}
+%\usepackage{url}
+\usepackage{mathtools}\mathtoolsset{showonlyrefs=false}
+%\usepackage{algpseudocode,algorithm}
+%\usepackage{booktabs}
+%
+%\usepackage{subcaption}
+%\captionsetup[subfigure]{labelformat=simple,font=small,
+%  textfont=normalfont,singlelinecheck=off,
+%  justification=raggedright}
+%\captionsetup{subrefformat=simple}
+%\renewcommand\thesubfigure{(\alph{subfigure})}
+
+%\usepackage{helvet,courier}
+%\usepackage{newtxtext,newtxmath}
+%
+%\usepackage{showkeys}
+%
+%%%%%%%%% \memo, \OMIT, \OMITREF, \titleetc %%%%%%%%%
+\newcommand{\memo}[1]{\textbf{[MEMO:} #1 \ \textbf{ : end memo] }}  %%% For work
+%% \renewcommand{\memo}[1]{}           %%% For FINAL
+\newcommand{\OMIT}[1]{\textbf{[OMIT:} #1 \ \textbf{ --- end OMIT] }}  %%% For work
+%%   \renewcommand{\OMIT}[1]{}            %%% For FINAL
+%
+\newcommand{\Authornote}{\renewcommand{\thefootnote}{\fnsymbol{footnote}}}
+\newcommand{\authornote}{\Authornote\footnote}
+%
+\pagestyle{plain}
+
+\setlength{\topmargin}{-14mm}
+\setlength{\oddsidemargin}{-2mm}
+\setlength{\textwidth}{166mm}
+\setlength{\textheight}{50\baselineskip}
+\addtolength{\textheight}{\topskip}
+\renewcommand{\baselinestretch}{1.2}
+\setlength{\parskip}{0.0pt}
+%
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\dbltopfraction}{0.9}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.9}
+\renewcommand{\dblfloatpagefraction}{0.9}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{3}
+\setcounter{totalnumber}{3}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{assumption}[theorem]{Assumption}
+%
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{–½‘è}
+\newtheorem{example}[theorem]{—á}
+\newtheorem{corollary}[theorem]{Œn}
+%\newtheorem{algorithm}[theorem]{Algorithm}
+%
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+%
+\newcommand{\refalg}[1]{Algorithm~\ref{#1}}
+\newcommand{\refrem}[1]{Remark~\ref{#1}}
+\newcommand{\reffig}[1]{Figure~\ref{#1}}
+\newcommand{\reftab}[1]{Table~\ref{#1}}
+
+\newcommand{\finbox}{\nolinebreak\hfill{\small $\blacksquare$}}
+
+\newcommand{\MIN}{\mathop{\mathrm{Minimize}}}
+\newcommand{\MAX}{\mathop{\mathrm{Maximize}}}
+\newcommand{\Min}{\mathop{\mathrm{minimize}}}
+\newcommand{\st}{\mathop{\mathrm{s.{\,}t.}}}
+\newcommand{\ST}{\mathop{\mathrm{subject~to}}}
+\newcommand{\sign}{\mathop{\mathrm{sgn}}\nolimits}
+\newcommand{\domain}{\mathop{\mathrm{dom}}\nolimits}
+\newcommand{\rank}{\mathop{\mathrm{rank}}\nolimits}
+\newcommand{\boundary}{\mathop{\mathrm{bd}}\nolimits}
+\newcommand{\diag}{\mathop{\mathrm{diag}}\nolimits}
+\newcommand{\tr}{\mathop{\mathrm{tr}}\nolimits}
+\newcommand{\prox}{\mathop{\boldsymbol{\mathrm{prox}}}\nolimits}
+\newcommand{\argmin}{\operatornamewithlimits{\mathrm{arg\,min}}}
+\newcommand{\argmax}{\operatornamewithlimits{\mathrm{arg\,max}}}
+
+\newcommand{\overRe}{\ensuremath{\Re\cup\{+\infty\}}}
+
+\renewcommand{\Re}{\ensuremath{\mathbb{R}}}
+
+\newcommand{\bi}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\rr}[1]{\ensuremath{\mathrm{#1}}}
+\newcommand{\bs}[1]{\ensuremath{\boldsymbol{\mathsf{#1}}}}
+
+%%%%%%%%%%%%% Math Cal %%%%%%%%%%%%
+%
+\newcommand{\LC}{\ensuremath{\mathcal{L}}}
+
+\usepackage{color}
+\newcommand{\commentva}[1]{\textcolor{blue}{#1}}
+
+
+
+\begin{document}
+
+\noindent {Research Memorandum}
+
+\hfill{\today}
+
+\bigskip\bigskip%
+\begin{center}
+  {\Large\bfseries\sffamily% 
+  Alternating Direction Method of Multipliers (ADMM)}
+  \par\medskip
+  {\Large\bfseries\sffamily% 
+  for Frictional Contact 
+  \authornote[1]{%
+  {\ttfamily https://github.com/molinavergara24/inria-admm}}%
+  }%
+  \par%
+  \bigskip%
+  {
+  Vincent Acary~\authornote[2]{%
+%  Corresponding author. 
+  INRIA, 655, Avenue de l'Europe, 38334 Saint Ismier Cedex, France.
+  E-mail: \texttt{vincent.acary@inria.fr}. 
+  }
+  , Yoshihiro Kanno~\authornote[3]{%
+%  Corresponding author. 
+  Laboratory for Future Interdisciplinary Research of Science and Technology, 
+  Institute of Innovative Research, 
+  Tokyo Institute of Technology, 
+  Nagatsuta 4259, Yokohama 226-8503, Japan.
+  E-mail: \texttt{kanno.y.af@m.titech.ac.jp}. 
+%  Phone: +81-45-924-5364. 
+%  Fax: +81-45-924-5977.
+  }
+  , Nicolas Molina~\authornote[4]{Department of Mechanical and Metallurgical Engieering, Escuela de Ingenieria, Pontificia Universidad Catolica de Chile, Vicuna Mackenna 4860, Santiago, Chile.
+  E-mail: \texttt{namolina@uc.cl}. 
+  }
+  }
+\end{center}
+
+\begin{abstract}
+    \textbf{Abstract:} In this report, we review the quadratic programming (QP) over second-order cones formulation of the discrete frictional contact problem that arises in space and time discretized mechanical systems with unilateral contact and three-dimensional Coulomb's friction. Thanks to this formulation, various numerical methods emerge naturally for solving the problem \citep{acary:hal-01630836}. Here we propose the application of the Alternating Direction Method of Multipliers (ADMM) with various improvements proposed in the literature. This numerical technique is compared over a large set of test examples using performance profiles.
+
+
+    \textbf{Keywords:} Multibody systems, nonsmooth mechanics, unilateral constraints, Coulomb's friction, impact, numerical methods, ADMM.	  
+\end{abstract}
+
+\clearpage
+\mbox{}
+\tableofcontents
+
+\clearpage
+\mbox{}
+\section{Introduction}
+More than thirty years after the pioneering work of several authors (see \citep{acary:hal-01630836} for references) on numerically solving mechanical problems with contact and friction, there are still active research on this subject in the computational mechanics and applied mathematics communities. This can be explained by the fact that problems from mechanical systems with unilateral contact and Coulomb's friction are difficult to numerically solve and the mathematical results of convergence of the numerical algorithms are rare and most of these require rather strong assumptions. In this report, we want to give some insights of the advantages and weaknesses of the ADMM numerical scheme by comparing it on the large sets of examples coming from the simulation of a wide range of mechanical systems.
+
+The ADMM is an invaluable element of the modern optimization toolbox. ADMM decomposes complex optimization problems into sequences of simpler subproblems, often solvable in closed form; its simplicity, flexibility, and broad applicability, make ADMM a state-of-the-art solver in machine learning, signal processing, and many other areas \citep{boyd2011distributed}.
+
+\subsection{Problem statement}
+In this section, following \citep{Acary2013, acary2011formulation} we formulate an abstract, algebraic finite-dimensional frictional contact problem. First, the problem is modeled as a complementarity problem over second-cones, and the properties of the latter are discussed. We end by presenting some instances with contact and friction phenomenon that fits our problem description.
+
+
+We want to discuss possible numerical solution procedures for the following three-dimensional finite-dimensional frictional contact problem and some of its variants. Let $n_{c} \in \mathbb{N}$ be the number of contact points and $n \in \mathbb{N}$ the number of degrees of freedom of a discrete mechanical system.
+
+
+The problem data are: a positive definite matrix $M \in \Re^{n \times n}$, a vector $f \in \Re^{n}$, a matrix $H \in \Re^{n \times m}$ with $m = 3n_{c}$, a vector $w \in \Re^{m}$ and a vector of coefficients of friction $\mu \in \Re^{n_{c}}$. The unknowns are two vectors $v \in \Re^{n}$, a velocity-like vector and $r \in \Re^{m}$, a contact reaction or impulse, solution to
+
+\begin{align}
+	\begin{cases}
+	M \bi{v} = H^{\top} \bi{r} + \bi{f} \\
+	K_{e,\mu}^{*}\ni \tilde{\bi{u}} \perp \bi{r} \in K_{e,\mu} \\
+	\end{cases}
+	\begin{array}{l}
+	\bi{u} := H \bi{v} + \bi{w} \\
+	\tilde{\bi{u}} := \bi{u} + \Phi(\bi{u})
+	\end{array}
+	\label{CF.complementary}
+\end{align}
+
+where the set $K_{e,\mu} \subseteq \Re^{m}$ is the cartesian product of Couloumb's friction second-order cone at each contact, that is
+\begin{align}
+	K_{e,\mu} = \prod_{\alpha = 1...n_{c}} K_{e,\mu}^{\alpha} =
+	\prod_{\alpha = 1...n_{c}} \{ (x_{1},\bi{x}_{2}) \in \Re \times \Re^{n-1} \mid \| \bi{x}_{2} \| \le \mu x_{1} \}
+\end{align}
+
+and $K_{e,\mu}^{*} \subseteq \Re^{n}$ denotes the dual cone of $K_{e,\mu}$. The function $\Phi: \Re^{m} \rightarrow \Re^{m}$ is a nonsmooth function defined as
+\begin{align}
+	\Phi(\bi{u}) = [\mu^{\alpha} \| E_{t} \bi{u}^{\alpha} \| \hat{\bi{e}}_{t}, \alpha = 1...n_{c}]^{\top}
+\end{align}
+where $\hat{\bi{e}}_{t} = [0, 1, 1]^{\top}$ is the tangential component vector and $E_{t} = diag(0,1,1)$ is a matrix $3 \times 3$.
+
+\clearpage
+\mbox{}
+\section{ADMM method}
+\label{sec:preliminary}
+
+\subsection{Fundamentals}
+
+In this section, following \citep{boyd2011distributed} we explain the 
+alternating direction method of multipliers (ADMM) for convex 
+optimization. 
+
+Let $f : \Re^{n} \to \overRe$ and 
+$g : \Re^{m} \to \overRe$ be a closed proper convex 
+functions. 
+Consider the following convex optimization problem in variables 
+$\bi{x} \in \Re^{n}$ and $\bi{y} \in \Re^{m}$: 
+\begin{subequations}\label{P.convex.1}%
+  \begin{alignat}{3}
+    & \MIN  &{\quad}& 
+    f(\bi{x}) + g(\bi{y}) \\
+    & \ST && 
+    A \bi{x} + B \bi{y} = \bi{c} , 
+  \end{alignat}
+\end{subequations}
+where $A \in \Re^{l \times n}$ and $B \in \Re^{l \times m}$ are constant 
+matrices, and $\bi{c} \in \Re^{l}$ is a constant vector. 
+
+The augmented Lagrangian of problem \eqref{P.convex.1} is defined as 
+\begin{align}
+  L_{\rho}(\bi{x};\bi{y};\bi{w}) 
+  = f(\bi{x}) + g(\bi{y}) 
+  + \bi{w}^{\top} (A \bi{x} + B \bi{y} - \bi{c}) 
+  + \frac{\rho}{2} \| A \bi{x} + B \bi{y} - \bi{c} \|^{2} ,
+  \label{eq.ADMM.Lagrangian.1}
+\end{align}
+where $\rho > 0$ is the penalty parameter, 
+and $\bi{w} \in \Re^{l}$ is the Lagrange multiplier (or the dual 
+variable). 
+ADMM consists of the iterations 
+\begin{align}
+  \bi{x}^{k+1} 
+  &:= \argmin_{\bi{x}} L_{\rho}(\bi{x};\bi{y}^{k};\bi{w}^{k}) ,\\
+  \bi{y}^{k+1} 
+  &:= \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};\bi{w}^{k}) ,\\
+  \bi{w}^{k+1} 
+  &:= \bi{w}^{k} 
+  + \rho (A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c}) .
+\end{align}
+
+For reference, the algorithm called the method of multipliers 
+(or the augmented Lagrangian method) updates the variables as follows: 
+\begin{align}
+  (\bi{x}^{k+1},\bi{y}^{k+1})
+  := \argmin_{\bi{x}, \bi{y}} L_{\rho}(\bi{x};\bi{y};\bi{w}^{k}) &&
+  \bi{w}^{k+1} 
+  := \bi{w}^{k} 
+  + \rho (A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c}) . 
+\end{align}
+Namely, the method of multipliers updates the primal variables 
+$\bi{x}$ and $\bi{y}$ simultaneously. 
+In contrast, ADMM updates $\bi{x}$ and $\bi{y}$ sequentially. 
+
+ADMM is often described in a slightly different form. 
+Define $\bi{z}$ by $\bi{z} = \bi{w} / \rho$. 
+Then the augmented Lagrangian in \eqref{eq.ADMM.Lagrangian.1} is reduced 
+to 
+\begin{align}
+  L_{\rho}(\bi{x};\bi{y};\bi{z}) 
+  = f(\bi{x}) + g(\bi{y}) 
+  + \frac{\rho}{2} \| A \bi{x} + B \bi{y} - \bi{c} + \bi{z} \|^{2} 
+  - \frac{\rho}{2} \| \bi{z} \|^{2} . 
+  \label{eq.ADMM.Lagrangian.2}
+\end{align}
+Using $L_{\rho}$ in \eqref{eq.ADMM.Lagrangian.2}, we can express ADMM as 
+follows: 
+\begin{align}
+  \bi{x}^{k+1} 
+  &:= \argmin_{\bi{x}} L_{\rho}(\bi{x};\bi{y}^{k};\bi{z}^{k}) , 
+  \label{eq.ADMM.update.2.1} \\
+  \bi{y}^{k+1} 
+  &:= \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};\bi{z}^{k}) , 
+  \label{eq.ADMM.update.2.2} \\
+  \bi{z}^{k+1} 
+  &:= \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c} .
+  \label{eq.ADMM.update.2.3}
+\end{align}
+The expression in \eqref{eq.ADMM.update.2.1}, \eqref{eq.ADMM.update.2.2}, 
+and \eqref{eq.ADMM.update.2.3} is called the ADMM in the scaled form, 
+and $\bi{u}$ is called the scaled dual variable. 
+
+\subsection{Residuals}
+The necessary and sufficient optimality condiction for the ADMM problem \eqref{P.convex.1} are primal and dual feasibility, therefore, one common way to measure how well the iterates satisfy the KKT conditions is to define the primal and dual residuals:
+\begin{align}
+\begin{array}{l}
+  \bi{r}^{k+1} := A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c} \\
+  \bi{s}^{k+1} := \rho A^{T} B \left( \bi{y}^{k+1} - \bi{y}^{k} \right)
+\end{array}
+\end{align}
+
+\subsection{Stop criterion}
+The residuals of the optimality conditions can be related to an approximated bound on the objective suboptimalty of the current point
+\begin{align}
+\begin{array}{l}
+  \| \bi{r}^{k} \| \leq \epsilon^{pri} \\
+  \| \bi{s}^{k} \| \leq \epsilon^{dual}  
+\end{array} \label{eq.stopcriterion}
+\end{align}
+where $\epsilon^{pri} > 0$ and $\epsilon^{dual} > 0$ are feasibility tolerances for the primal and dual residuals. These tolerances can be choosen using an absolute and relative criterion, such as
+\begin{align}
+\begin{array}{l}
+  \epsilon^{pri} = \sqrt{l} \epsilon^{abs} + \epsilon^{rel} max\lbrace \|A \bi{x}^{k+1}\|,\|B \bi{y}^{k+1}\|, \|\bi{c}\|  \rbrace \\
+  \epsilon^{dual} = \sqrt{n} \epsilon^{abs} + \epsilon^{rel} \|A^{T} \rho \bi{z}^{k+1}\| 
+\end{array}
+\end{align}
+where $\epsilon^{abs} > 0$ and $\epsilon^{dual} > 0$ is an absolute and relative tolerance, respectively. A reasonable value for the absolute and relative tolerance might be $10^{-6}$ and $10^{-3}$, respectively. This values typically depend on the scale of the data size.
+
+\clearpage
+\mbox{}
+\section{ADMM formulation of problem \eqref{P.original.friction.SOCP.1}}
+\label{sec:friction}
+
+\subsection{Coulomb friction problem via convex optimization}
+Since the problem \eqref{CF.complementary}  is nonsmooth and nonconvex, the use of an associated optimization problem is interesting from the numerical point of view if we want to improve the robustness and the stability of the numerical methods. In \citep{acary2011formulation}, a parametric convex optimization formulation is 
+presented for the dynamical Coulomb friction problem. 
+The problem reads 
+\begin{subequations}\label{P.original.friction.SOCP.1}%
+  \begin{alignat}{3}
+    & \MIN_{\bi{v}, \tilde{\bi{u}}}  &{\quad}& 
+    \frac{1}{2} \bi{v}^{\top} M \bi{v} + \bi{f}^{\top} \bi{v} \\
+    & \ST && 
+    \tilde{\bi{u}} = H \bi{v} + \bi{w} + \Phi(\bi{s}) , \\
+    & && 
+    \tilde{\bi{u}} \in K_{e,\mu}^{*} ,
+  \end{alignat}
+\end{subequations}
+where $\bi{s}$ is a parameter vector and $K_{e,\mu}^{*}$ is defined by 
+\begin{align}
+  \ K_{e,\mu}^{*} = \{ (x_{1},\bi{x}_{2}) \in \Re \times \Re^{n-1}
+  \mid \| \bi{x}_{2} \| \le \frac{1}{\mu} x_{1} \} . 
+\end{align}
+Let $\delta_{K_{e,\mu}^{*}} : \Re^{n} \to \overRe$ denote the 
+indicator function of $K_{e,\mu}^{*}$, i.e., 
+\begin{align}
+  \delta_{K_{e,\mu}^{*}}(\bi{x}) = 
+  \begin{dcases*}
+    0 
+    & if $\bi{x} \in K_{e,\mu}^{*}$, \\
+    +\infty
+    & otherwise. 
+  \end{dcases*}
+\end{align}
+Then problem \eqref{P.original.friction.SOCP.1} is equivalently rewritten as 
+follows: 
+\eqref{P.original.friction.SOCP.1} as follows: 
+ \begin{subequations}\label{P.quadratic.SOCP.2}%
+   \begin{alignat}{3}
+     & \MIN  &{\quad}& 
+    \frac{1}{2} \bi{v}^{\top} M \bi{v} + \bi{f}^{\top} \bi{v} + \delta_{K_{e,\mu}^{*}}(\hat{\bi{u}}) \\
+     & \ST & & 
+     \tilde{\bi{u}} = H \bi{v} + \bi{w} + \Phi(\bi{s})   
+   \end{alignat}
+ \end{subequations} 
+where $\Phi(\bi{s}) = [\mu^{\alpha} \| E_{t} \bi{s}^{\alpha} \| \hat{e}_{t}, \alpha = 1...n_{c}]^{\top}$. Therefore, in this notation $f(\bi{v}) = \frac{1}{2} \bi{v}^{\top} M \bi{v} + \bi{f}^{\top} \bi{v}, g(\tilde{\bi{u}}) = \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}), A = H , B = -I$ and $\bi{c} = -\bi{w} -\Phi(\bi{s})$.
+
+\subsection{Iteration}
+\label{sec:direction}
+
+Problem \eqref{P.quadratic.SOCP.2} is a minimization problem of a convex 
+function under linear equality constraints. 
+Its augmented Lagrangian (in the scaled form) is formulated as 
+\begin{align}
+  L_{\rho}(\bi{v};\tilde{\bi{u}};\bi{\zeta}) 
+  =& \frac{1}{2} \bi{v}^{\top} M \bi{v} + \bi{f}^{\top} \bi{v} 
+  +  \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}) +  \frac{\rho}{2} 
+  \| H \bi{v} + \bi{w} + \Phi(\bi{s}) + \bi{\zeta}  - \tilde{\bi{u}} \|^{2}
+    - \frac{\rho}{2} \| \bi{\zeta}\|^{2} , 
+    \label{eq.ADMM.friction.AugLagrange}
+\end{align}
+where $\rho$ is the penalty parameter, and $\bi{\zeta} \in \Re^{n}$ is  the scaled dual variable (the scaled Lagrange multiplier). 
+The ADMM solving problem \eqref{P.quadratic.SOCP.2} consists of 
+iterating the updates (see \eqref{eq.ADMM.update.2.1}, 
+\eqref{eq.ADMM.update.2.2}, and \eqref{eq.ADMM.update.2.3}) 
+\begin{align}
+  \bi{v}^{k+1} 
+  &:= \argmin_{\bi{v}} 
+  L_{\rho}(\bi{v};\tilde{\bi{u}}^{k};\bi{\zeta}^{k})  , 
+  \label{eq.ADMM.friction.1.1} \\
+  \tilde{\bi {u}}^{k+1}
+  &:= \argmin_{\tilde{\bi{u}}} 
+    L_{\rho}(\bi{v}^{k+1};\tilde{\bi{u}};\bi{\zeta}^{k}) ,
+    \label{eq.ADMM.friction.1.2} \\
+  \bi{\zeta}^{k+1} &:= \bi{\zeta}^{k} 
+  + 
+  H \bi{v}^{k+1} - \tilde{\bi{u}}^{k+1} + \Phi(\bi{s}) . 
+  \label{eq.ADMM.friction.1.3}
+\end{align}
+
+The first step in \eqref{eq.ADMM.friction.1.1} corresponds to 
+unconstrained minimization of a convex quadratic function. 
+It follows from the stationarity condition of this convex quadratic 
+function that $\bi{v}^{k+1}$ is the solution to the following system of 
+linear equations: 
+\begin{align}
+  \Bigl[ M + 
+  \rho H^{\top} H \Bigr] \bi{v}^{k+1} 
+  = -\bi{f} 
+  + \rho H^{\top} (\tilde{\bi{u}}^k - \bi{w} - \Phi(\bi{s}) - \bi{\zeta}^k)  . \label{eq.ADMM.friction.2.1}
+\end{align}
+
+The second step in \eqref{eq.ADMM.friction.1.2} can be computed independently for each $\alpha = 1 ... n_{c}$ as 
+\begin{align}
+  \tilde{\bi{u}}^{k+1}
+  &:= \argmin_{\tilde{\bi{u}}} 
+    \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}) 
+    + \frac{\rho}{2} 
+    \| H \bi{v}^{k+1} + \bi{w} + \Phi(\bi{s}) + \bi{\zeta}^{k} - \bi{\tilde u} \|^{2}.
+  \label{eq.ADMM.friction.2.2}
+\end{align}
+\eqref{eq.ADMM.friction.2.2} can be rewritten by using the projection 
+onto the second-order cone as 
+\begin{align}
+  \tilde{\bi{u}}^{k+1} := \Pi_{K_{e,\mu}^{*}}(H \bi{v}^{k+1} + \bi{w} + \Phi(\bi{s}) + \bi{\zeta}^{k})
+  \label{eq.ADMM.friction.2.2bi}
+\end{align}
+It is worthy to note that for \eqref{eq.ADMM.friction.2.1} we carry out a Cholesky or LU factorization and \eqref{eq.ADMM.friction.2.2bi} can be solved explicitly by using the formulan given in the next section.
+
+\subsection{Projection onto dual second-order cone}
+
+For vector $\bi{x} = (x_{1},\bi{x}_{2}) \in \Re \times \Re^{n-1}$, its spectral 
+factorization with respect to $K_{e,\mu}^{*}$ by means of Jordan algebra (in a general SOCC-function) is defined by \citep{hayashi2005combined}
+\begin{align}
+  \bi{x} = \lambda_{1} \bi{u}^{1} + \lambda_{2} \bi{u}^{2} . 
+\end{align}
+Here, $\lambda_{1}$, $\lambda_{2} \in \Re$ are the spectral values given by 
+\begin{align}
+  \lambda_{i} = x_{1} + \left({-}1\right)^{i} \mu^{\left({-}1\right)^{i+1}} \| \bi{x}_{2} \| , 
+\end{align}
+and $\bi{u}^{1}$, $\bi{u}^{2}  \in \Re^{n}$ are the spectral vectors 
+given by 
+\begin{align}
+  \bi{u}^{i} = 
+  \begin{dcases*}
+    \frac{\mu^{2}}{1+\mu^{2}}
+    \begin{bmatrix}
+      \mu^{2 \left(i-2\right)}  \\   \left({-}1\right)^{i} \frac{1}{\mu} \bi{x}_{2} / \| \bi{x}_{2} \| 
+    \end{bmatrix}
+    & if $\bi{x}_{2} \not= \bi{0}$, \\
+    \frac{\mu^{2}}{1+\mu^{2}}
+    \begin{bmatrix}
+      \mu^{2 \left(i-2\right)}  \\   \left({-}1\right)^{i} \frac{1}{\mu} \bi{\omega}
+    \end{bmatrix}
+    & if $\bi{x}_{2} = \bi{0}$, \\
+  \end{dcases*}  
+\end{align}
+with $\bi{\omega} \in \Re^{n-1}$ satisfying $\| \bi{\omega} \| = 1$. \\
+For $\bi{x} \in \Re^{n}$, let $\Pi_{K_{e,\mu}^{*}}(\bi{x}) \in \Re^{n}$ 
+denote the projection of $\bi{x}$ onto $K_{e,\mu}^{*}$, i.e., 
+\begin{align}
+  \Pi_{K_{e,\mu}^{*}}(\bi{x}) 
+  = \argmin \{  \| \bi{x}' - \bi{x} \| 
+  \mid \bi{x}' \in K_{e,\mu}^{*} \} . 
+\end{align}
+This can be computed explicitly as \citep{fukushima2002smoothing}
+\begin{align}
+  \Pi_{K_{e,\mu}^{*}}(\bi{x}) 
+  = \max \{ 0,\lambda_{1} \} \bi{u}^{1} 
+  + \max \{ 0,\lambda_{2} \} \bi{u}^{2} .
+  \label{eq.projection.formula}
+\end{align}
+Therefore the projection of $\bi{x}$ onto $K_{e,\mu}^{*}$ could be written as follows
+\begin{align}
+  \Pi_{K_{e,\mu}^{*}}(\bi{x}) = 
+  \begin{dcases*}
+	0
+    & if $-\bi{x} \in K_{e,\mu} \rightarrow \lambda_{i} \leq 0$ \\
+    \bi{x}
+    & if $\bi{x} \in K_{e,\mu}^{*} \rightarrow \lambda_{i} \geq 0$ \\
+    \frac{\mu^{2} \left(x_{1} + \frac{1}{\mu} \| \bi{x}_{2} \|\right)}{1+\mu^{2}} 
+    \begin{bmatrix}
+      1 \\    \frac{1}{\mu} \bi{x}_{2} / \| \bi{x}_{2} \| 
+    \end{bmatrix}
+    & if $-\bi{x} \not\in K_{e,\mu} \wedge \bi{x} \not\in K_{e,\mu}^{*} \rightarrow \lambda_{1} < 0 \wedge \lambda_{2} > 0$, \\
+  \end{dcases*}  
+\end{align}
+
+\clearpage
+\mbox{}
+\section{Penalty parameter for QP}
+A key ingredient in the efficiency and the convergence of ADMM is the choise of the sequence $\lbrace \rho_{k} \rbrace$. A sensible work has been done in the literature mainly motivated by the rate of convergence. This section presents the most popular approach for choosing the sequence $\lbrace \rho_{k} \rbrace$ for QPs.
+
+\subsection{Optimal penalty parameter selection for QP}
+The ADMM technique is surprisingly robust to poorly selected algorithm parameters: under mild conditions, the method is guaranteed to convergence for all positive values of $\rho$ \citep{boyd2011distributed, deng2016global, eckstein2012augmented}. However, the convergence time is heavily affected by the choice of the algorithm parameter.
+
+Two main results have been proposed for QPs in the initial guess of the parameter:
+
+\subsubsection{Ghadimi}
+The $\rho^{\bigstar}$ that minimizes the rate of convergence \citep{ghadimi2015optimal} is
+\begin{align}
+  \rho^{\bigstar} := \left(\sqrt{\lambda_{min_{\neq 0}}(H M^{-1} H^{T}) \lambda_{max}(H M^{-1} H^{T})}\right) ^{-1} 
+\end{align}
+If the constraint matrix $H$ is not full rank, the smallest non-zero eigenvalue is taken, which still works as a heuristic to reduce the rate of convergence [Ghadimi].
+
+\subsubsection{Di Cairano}
+The $\rho^{\bigstar}$ that minimizes the rate of convergence \citep{raghunathan2014alternating} is
+\begin{align}
+  \rho^{\bigstar} := \sqrt{\lambda_{min}(M) \lambda_{max}(M)}
+\end{align}
+In this case, the nullity of H equal to zero is avoided.
+
+\subsubsection{Acary}
+In this report is propposed the following value, where the penalty parameter could be seen as the factor that balance the matrix involved in the the first term of \eqref{eq.ADMM.friction.2.1}
+\begin{align}
+  \rho^{\bigstar} := \frac{\Vert M \Vert_{1}}{\Vert H \Vert_{1}}
+\end{align}
+
+\subsubsection{Normal}
+A less expensive and standard method is to set
+\begin{align}
+  \rho^{\bigstar} := 1
+\end{align}
+
+\subsection{Varying penalty parameter}
+\subsubsection{He}
+He et al. \citep{He2000} argue that adaptively choosing the penalty parameter to balance the residuals is a reasonable heuristic for minimising the distance from convergence: increasing $\rho$ strengthens the penalty term, yielding smaller primal residuals but larger dual ones; conversely, decreassing $\rho$ leads to larger primal and smaller dual residuals. Therefore, this heuristic is implemeted so that $\rho$ keeps both residuals of similar magnitude
+\begin{align}
+  \rho^{k+1} := 
+  \begin{dcases*}
+	\tau \rho^{k}
+    & if $ \| \bi{r}^{k} \| > \varphi \| \bi{s}^{k} \|$, \\
+    \tau^{-1} \rho^{k}
+    & if $ \| \bi{s}^{k} \| > \varphi \| \bi{r}^{k} \|$, \\
+    \rho^{k}
+    & otherwise, \\
+  \end{dcases*}  
+\end{align}
+where $\tau > 1$ and $\varphi > 1$. This method appears to becoming quite popular in the literature (see \citep{wohlberg2017admm}) for references).
+\subsubsection{Wohlberg}
+The behavior of ADMM under scaling is addresed by Wohlberg \citep{wohlberg2017admm}. For problems involving physical quantities, for example, scaling corresponds to choices of the units in which the functional value and solution are expressed. The heuristic implemented by He et al. \citep{He2000} is appropriately scaled to mantain invariance of the algorithm as:
+\begin{align}
+  \rho^{k+1} := 
+  \begin{dcases*}
+	\tau \rho^{k}
+    & if $ \| \bi{r}_{rel}^{k} \| > \xi \varphi \| \bi{s}_{rel}^{k} \|$, \\
+    \tau^{-1} \rho^{k}
+    & if $ \| \bi{s}_{rel}^{k} \| > \xi \varphi \| \bi{r}_{rel}^{k} \|$, \\
+    \rho^{k}
+    & otherwise, \\
+  \end{dcases*}  
+\end{align}
+
+where $\xi \in \Re^{+}$ and the relative primal and dual residuals are defined by
+\begin{align}
+\begin{array}{l}
+  \bi{r}_{rel}^{k+1}
+  := \dfrac{A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c}}{max\lbrace \|A \bi{x}^{k+1}\|,\|B \bi{y}^{k+1}\|, \|\bi{c}\|  \rbrace }  \\
+  \bi{s}_{rel}^{k+1}
+  := \dfrac{\rho A^{T} B \left( \bi{y}^{k+1} - \bi{y}^{k} \right)}{\|A^{T} \bi{w}^{k+1}\|}
+  = \frac{A^{T} B \left( \bi{y}^{k+1} - \bi{y}^{k} \right)}{\|A^{T} \bi{\zeta}^{k+1}\|} 
+\end{array}
+\end{align}
+This approach avoids the need for explicit compensation for problem scaling when the formulation is modified. The stopping critera in (eq.) is invariant to problem scaling when $\epsilon^{abs} = 0$.
+
+
+The fixed multiplier $\tau$ is a potential weakness of the penalty update policies: if $\tau$ is small, then a large number of iterations may be equired to reach appropiate $\rho$ value if $\rho^{0}$ is poorly chosen; on the other hand, if $\tau$ is large, the corrections to $\rho$ may be too large when $\rho$ is close to the optimal value. A straightforward solution is to adapt $\tau$ at each iteration
+\begin{align}
+  \tau^{k+1} := 
+  \begin{dcases*}
+	\sqrt{\xi^{-1} \frac{\| \bi{r}_{rel}^{k} \|}{\| \bi{s}_{rel}^{k} \|}}
+    & if $1 \leq \sqrt{\xi^{-1} \frac{\| \bi{r}_{rel}^{k} \|}{\| \bi{s}_{rel}^{k} \|}} < \tau_{max}$, \\
+    \sqrt{\xi \frac{\| \bi{s}_{rel}^{k} \|}{\| \bi{r}_{rel}^{k} \|}}
+    & if $\tau_{max}^{-1} < \sqrt{\xi^{-1} \frac{\| \bi{r}_{rel}^{k} \|}{\| \bi{s}_{rel}^{k} \|}} < 1$, \\
+    \tau_{max}
+    & otherwise, \\
+  \end{dcases*}  
+\end{align}
+where $\tau_{max}$ provides a bound on $\tau$, i.e., the convergence results in \citep{He2000} still hold for this extension.
+
+\subsubsection{Spectral}
+Xu et al. \citep{xu2016adaptive} propose to automate and speed up ADMM by using stepsize selection rules adapted from the gradient descent literature, namely the Barzilai-Borwein `spectral' method based in the dual of the ADMM in \eqref{P.convex.1}.
+
+The spectral stepsize estimation requires the curvature parameters: $\alpha$ and $\beta$. They are estimated based on the results from iteration $k$ and an older iteration $k_{0} < k$
+\begin{align}
+  \bi{z}_{S}^{k+1} := \frac{\rho^{k-1}}{\rho^{k}} \left(\bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k} - \bi{c}\right) \\
+  \Delta \hat{w}_{k} := \rho^{k} \bi{z}_{S}^{k+1} - \rho^{k_{0}} \bi{z}_{S}^{k_{0}} \\
+  \Delta \hat{F}_{k} := A \left( \bi{x}^{k+1} - \bi{x}^{k_{0}} \right) \\
+  \Delta \hat{G}_{k} := B \left( \bi{y}^{k+1} - \bi{y}^{k_{0}} \right)
+\end{align}
+so that the curvatures are estimated via least squares yielding
+\begin{align}
+\begin{array}{l}
+  \hat{\alpha}_{k}^{SD} := \dfrac{\langle \Delta \hat{w}_{k} , \Delta \hat{w}_{k} \rangle}{\langle \Delta \hat{F}_{k} , \Delta \hat{w}_{k} \rangle} \\
+  \hat{\alpha}_{k}^{MG} := \dfrac{\langle \Delta \hat{F}_{k} , \Delta \hat{w}_{k} \rangle}{\langle \Delta \hat{F}_{k} , \Delta \hat{F}_{k} \rangle} \\
+\end{array}  
+\begin{array}{l}
+  \hat{\beta}_{k}^{SD} := \dfrac{\langle \Delta \hat{w}_{k} , \Delta \hat{w}_{k} \rangle}{\langle \Delta \hat{G}_{k} , \Delta \hat{w}_{k} \rangle} \\
+  \hat{\beta}_{k}^{MG} := \dfrac{\langle \Delta \hat{G}_{k} , \Delta \hat{w}_{k} \rangle}{\langle \Delta \hat{G}_{k} , \Delta \hat{G}_{k} \rangle}
+\end{array}
+\end{align}
+where SD stands for \textit{steepest descent} and MG for \textit{minimum gradient}. A hybrid stepsize rule is proposed
+\begin{align}
+\begin{array}{l}
+  \hat{\alpha}_{k} := 
+  \begin{dcases*}
+	\hat{\alpha}_{k}^{SD}
+    & if $ 2 \hat{\alpha}_{k}^{MG} > \hat{\alpha}_{k}^{SD} $ \\
+    \hat{\alpha}_{k}^{MG}
+    & otherwise \\
+  \end{dcases*}  \\
+  \hat{\beta}_{k} := 
+  \begin{dcases*}
+	\hat{\beta}_{k}^{SD}
+    & if $ 2 \hat{\beta}_{k}^{MG} > \hat{\beta}_{k}^{SD} $ \\
+    \hat{\beta}_{k}^{MG}
+    & otherwise \\
+  \end{dcases*} 
+\end{array}  
+\end{align}
+
+On some iterations, the linear models underlying the spectral stepsize choice may be very inaccurate. Xu et al. propose to safeguard the method by assesing the quality of the curvature estimates, and only updating the stepsize if the curvature estimates satisfy a reliability criterion. To test the validity of this assumption, the correlation between the follow quatintites are measured:
+\begin{align}
+  \alpha_{k}^{cor} := \dfrac{\langle \Delta \hat{F}_{k} , \Delta \hat{w}_{k} \rangle}{ \|\Delta \hat{F}_{k}\|  \|\Delta \hat{w}_{k}\|}
+  \wedge
+  \beta_{k}^{cor} := \dfrac{\langle \Delta \hat{G}_{k} , \Delta \hat{w}_{k} \rangle}{ \|\Delta \hat{G}_{k}\|  \|\Delta \hat{w}_{k}\|}  
+\end{align}
+Finally, the safeguard spectral adaptative penalty rule is
+\begin{align}
+  \rho_{k+1} := 
+  \begin{dcases*}
+	\sqrt{\hat{\alpha}_{k} \hat{\beta}_{k}}
+    & if $ \alpha_{k}^{cor} > \epsilon^{cor} \wedge \beta_{k}^{cor} > \epsilon^{cor} $ \\
+    \hat{\alpha}_{k}
+    & if $ \alpha_{k}^{cor} > \epsilon^{cor} \wedge \beta_{k}^{cor} \leq \epsilon^{cor} $ \\
+    \hat{\beta}_{k}
+    & if $ \alpha_{k}^{cor} \leq \epsilon^{cor} \wedge \beta_{k}^{cor} > \epsilon^{cor} $ \\
+    \rho_{k}
+    & otherwise \\
+  \end{dcases*} 
+\end{align}
+where $\epsilon^{cor}$ is a quality threshold for the curvature estimates.
+
+\clearpage
+\mbox{}
+\section{ADMM improvements}
+\subsection{Relaxed ADMM}
+A relaxed version of ADMM was proposed in \citep{goldstein2014fast}. 
+This method applies Nesterov's type overrelaxation scheme to the 
+updates of $\bi{y}^{k}$ and $\bi{w}^{k}$ which takes into account past iterations. It is shown that the method converges in the primal and dual residuals with rate $O(1/k^{2})$.
+\begin{align}
+    \alpha_{k+1} := \frac{1}{2} \Bigl( 1 + \sqrt{1 + 4\alpha_{k}^{2}} \Bigr) 
+    \label{eq.ADMM.relaxed.1.1} \\
+    \hat{\bi{y}}^{k+1}
+    := \bi{y}^{k+1} + \frac{\alpha_{k}-1}{\alpha_{k+1}} (\bi{y}^{k+1}-\bi{y}^{k}) 
+    \label{eq.ADMM.relaxed.1.2} \\
+    \hat{\bi{z}}^{k+1}
+    := \bi{z}^{k+1} + \frac{\alpha_{k}-1}{\alpha_{k+1}} (\bi{z}^{k+1}-\frac{\rho^{k-1}}{\rho^{k}} \bi{z}^{k})
+    \label{eq.ADMM.relaxed.1.3}
+\end{align}
+
+\subsection{Relaxed + Restart ADMM}
+For weakly convex problems, we must enforce stability using a restart rule, which often makes the relaxed algorithm more efficient. It is also proposed in \citep{goldstein2014fast}. The restart rule relies on a combined resiual, which measures both the primal and dual error simultaneously:
+\begin{align}
+	e_{k}
+    := \| \bi{z}^{k+1} - \frac{\rho^{k-1}}{\rho^{k}} \hat{\bi{z}}^{k} \|^{2}
+    + \rho^{k} \| B (\bi{y}^{k+1} - \hat{\bi{y}}^{k}) \|^{2}
+\end{align}
+if $e_{k} < \eta e_{k-1}$ the relaxed ADMM \eqref{eq.ADMM.relaxed.1.1}, \eqref{eq.ADMM.relaxed.1.2} and \eqref{eq.ADMM.relaxed.1.3} is performed, otherwise, the restart rule states
+\begin{align} 
+    \alpha_{k+1} := 1 \\
+    \hat{\bi{y}}^{k+1}
+    := \bi{y}^{k+1} \\
+    \hat{\bi{z}}^{k+1}
+    := \bi{z}^{k+1} \\
+    e_{k} \leftarrow \frac{e_{k-1}}{\eta}
+\end{align}
+
+
+\clearpage
+\mbox{}
+\section{ADMM algorithms}
+\subsection{Constant penalty parameter}
+The relaxed ADMM involves a parameter $\eta \in (0,1)$. It is desirible to restart the method as infrequently as possible, it is recommended a value of $\eta$ close to $1$ \citep{goldstein2014fast}. In our case $\eta = 0.999$ was used.
+
+\begin{algorithm}
+  \caption{ADMM.}
+  \label{alg:prototype.cp-N}
+  \begin{algorithmic}[1]
+    \Require
+    $\bi{y}^{0}$, $\bi{z}^{0}$, and $\rho > 0$ 
+    \For{$k=0,1,2,\dots$}
+    \State
+    $\bi{x}^{k+1} 
+    := \argmin_{\bi{x}} L_{\rho}(\bi{x};\hat{\bi{y}}^{k};{\bi{z}}^{k})$ 
+    \State
+    $\bi{y}^{k+1} 
+    := \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};{\bi{z}}^{k})$ 
+    \State
+    $\bi{z}^{k+1} 
+  := \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c}$ 
+    \State
+    Stop criterion in ()
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{Relaxed ADMM.}
+  \label{alg:prototype.cp-R}
+  \begin{algorithmic}[1]
+    \Require
+    $\bi{y}^{0} = \hat{\bi{y}}^{0}$, $\bi{z}^{0}=\hat{\bi{z}}^{0}$, $\alpha_{0}=1$, and $\rho > 0$ 
+    \For{$k=0,1,2,\dots$}
+    \State
+    $\bi{x}^{k+1} 
+    := \argmin_{\bi{x}} L_{\rho}(\bi{x};\hat{\bi{y}}^{k};{\bi{z}}^{k})$ 
+    \State
+    $\bi{y}^{k+1} 
+    := \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};{\bi{z}}^{k})$ 
+    \State
+    $\bi{z}^{k+1} 
+  := \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c}$ 
+    \State
+    Stop criterion in ()
+    \State
+    Relaxation in ()
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+%\refalg{alg:fast.ADMM.restart.prototype}. 
+\begin{algorithm}
+  \caption{Relaxed + Restart ADMM.}
+  \label{alg:prototype.cp-RR}
+  \begin{algorithmic}[1]
+    \Require
+    $\bi{y}^{0} = \hat{\bi{y}}^{0}$, $\bi{z}^{0}=\hat{\bi{z}}^{0}$, 
+    $\alpha_{0}=1$, $\eta \approx 1$, and $\rho > 0$ 
+    \For{$k=0,1,2,\dots$}
+    \State
+    $\bi{x}^{k+1} 
+    := \argmin_{\bi{x}} L_{\rho}(\bi{x};\hat{\bi{y}}^{k};{\bi{z}}^{k})$ 
+    \State
+    $\bi{y}^{k+1} 
+    := \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};{\bi{z}}^{k})$ 
+    \State
+    $\bi{z}^{k+1} 
+  := \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c}$ 
+    \State
+    Stop criterion in () 
+    \State
+	Relaxation + Restart in ()
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+\clearpage
+\mbox{}
+\subsection{Varying penalty parameter - He}
+In Wang et al. the value $\tau = 2$ generally performs well in the $\rho$ update \citep{WANG2001}.
+
+\begin{algorithm}
+  \caption{ADMM.}
+  \label{alg:prototype.vp-N-He}
+  \begin{algorithmic}[1]
+    \Require
+    $\bi{y}^{0}$, $\bi{z}^{0}$, $\varphi = 10$, $\tau = 2$, and $\rho > 0$ 
+    \For{$k=0,1,2,\dots$}
+    \State
+    $\bi{x}^{k+1} 
+    := \argmin_{\bi{x}} L_{\rho}(\bi{x};\hat{\bi{y}}^{k};{\bi{z}}^{k})$ 
+    \State
+    $\bi{y}^{k+1} 
+    := \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};{\bi{z}}^{k})$ 
+    \State
+    $\bi{z}^{k+1} 
+  := \frac{\rho^{k-1}}{\rho^{k}} \left( \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c} \right)$ 
+    \State
+    Stop criterion in ()
+    \State
+    Update of $\rho$ in (He)
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{Relaxed ADMM.}
+  \label{alg:prototype.vp-R-He}
+  \begin{algorithmic}[1]
+    \Require
+    $\bi{y}^{0} = \hat{\bi{y}}^{0}$, $\bi{z}^{0}=\hat{\bi{z}}^{0}$, $\alpha_{0}=1$, $\varphi = 10$, $\tau = 2$, and $\rho > 0$ 
+    \For{$k=0,1,2,\dots$}
+    \State
+    $\bi{x}^{k+1} 
+    := \argmin_{\bi{x}} L_{\rho}(\bi{x};\hat{\bi{y}}^{k};{\bi{z}}^{k})$ 
+    \State
+    $\bi{y}^{k+1} 
+    := \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};{\bi{z}}^{k})$ 
+    \State
+    $\bi{z}^{k+1} 
+  := \frac{\rho^{k-1}}{\rho^{k}} \left( \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c} \right)$ 
+    \State
+    Stop criterion in ()
+    \State
+    Relaxation in ()
+    \State
+    Update of $\rho$ in (He)
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+%\refalg{alg:fast.ADMM.restart.prototype}. 
+\begin{algorithm}
+  \caption{Relaxed + Restart ADMM.}
+  \label{alg:prototype.vp-RR-He}
+  \begin{algorithmic}[1]
+    \Require
+    $\bi{y}^{0} = \hat{\bi{y}}^{0}$, $\bi{z}^{0}=\hat{\bi{z}}^{0}$, 
+    $\alpha_{0}=1$, $\eta \approx 1$, $\varphi = 10$, $\tau = 2$, and $\rho > 0$ 
+    \For{$k=0,1,2,\dots$}
+    \State
+    $\bi{x}^{k+1} 
+    := \argmin_{\bi{x}} L_{\rho}(\bi{x};\hat{\bi{y}}^{k};{\bi{z}}^{k})$ 
+    \State
+    $\bi{y}^{k+1} 
+    := \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};{\bi{z}}^{k})$ 
+    \State
+    $\bi{z}^{k+1} 
+  := \frac{\rho^{k-1}}{\rho^{k}} \left( \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c} \right)$ 
+    \State
+    Stop criterion in ()
+    \State
+    Relaxation + Restart in ()
+    \State
+    Update of $\rho$ in (He)
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+\clearpage
+\mbox{}
+\subsection{Varying penalty parameter - Wohlberg}
+In He et al. the value $\tau_{max} = 100$ generally performs well in the $\rho$ update \citep{wohlberg2017admm}.
+
+\begin{algorithm}
+  \caption{ADMM.}
+  \label{alg:prototype.vp-N-Wohlberg}
+  \begin{algorithmic}[1]
+    \Require
+    $\bi{y}^{0}$, $\bi{z}^{0}$, $\xi = 1$, $\varphi = 10$, $\tau_{max} = 100$, and $\rho > 0$ 
+    \For{$k=0,1,2,\dots$}
+    \State
+    $\bi{x}^{k+1} 
+    := \argmin_{\bi{x}} L_{\rho}(\bi{x};\hat{\bi{y}}^{k};{\bi{z}}^{k})$ 
+    \State
+    $\bi{y}^{k+1} 
+    := \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};{\bi{z}}^{k})$ 
+    \State
+    $\bi{z}^{k+1} 
+  := \frac{\rho^{k-1}}{\rho^{k}} \left( \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c} \right)$ 
+    \State
+    Stop criterion in ()
+    \State
+    Update of $\rho$ in (Wohlberg)
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{Relaxed ADMM.}
+  \label{alg:prototype.vp-R-Wohlberg}
+  \begin{algorithmic}[1]
+    \Require
+    $\bi{y}^{0} = \hat{\bi{y}}^{0}$, $\bi{z}^{0}=\hat{\bi{z}}^{0}$, $\alpha_{0}=1$, $\xi = 1$, $\varphi = 10$, $\tau_{max} = 100$, and $\rho > 0$ 
+    \For{$k=0,1,2,\dots$}
+    \State
+    $\bi{x}^{k+1} 
+    := \argmin_{\bi{x}} L_{\rho}(\bi{x};\hat{\bi{y}}^{k};{\bi{z}}^{k})$ 
+    \State
+    $\bi{y}^{k+1} 
+    := \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};{\bi{z}}^{k})$ 
+    \State
+    $\bi{z}^{k+1} 
+  := \frac{\rho^{k-1}}{\rho^{k}} \left( \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c} \right)$ 
+    \State
+    Stop criterion in ()
+    \State
+    Relaxation in ()
+    \State
+    Update of $\rho$ in (Wohlberg)
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+%\refalg{alg:fast.ADMM.restart.prototype}. 
+\begin{algorithm}
+  \caption{Relaxed + Restart ADMM.}
+  \label{alg:prototype.vp-RR-Wohlberg}
+  \begin{algorithmic}[1]
+    \Require
+    $\bi{y}^{0} = \hat{\bi{y}}^{0}$, $\bi{z}^{0}=\hat{\bi{z}}^{0}$, 
+    $\alpha_{0}=1$, $\eta \approx 1$, $\xi = 1$, $\varphi = 10$, $\tau_{max} = 100$, and $\rho > 0$ 
+    \For{$k=0,1,2,\dots$}
+    \State
+    $\bi{x}^{k+1} 
+    := \argmin_{\bi{x}} L_{\rho}(\bi{x};\hat{\bi{y}}^{k};{\bi{z}}^{k})$ 
+    \State
+    $\bi{y}^{k+1} 
+    := \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};{\bi{z}}^{k})$ 
+    \State
+    $\bi{z}^{k+1} 
+  := \frac{\rho^{k-1}}{\rho^{k}} \left( \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c} \right)$ 
+    \State
+    Stop criterion in ()
+    \State
+    Relaxation + Restart in ()
+    \State
+    Update of $\rho$ in (Wohlberg)
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+\clearpage
+\mbox{}
+\subsection{Varying penalty parameter - Spectral}
+Xu et al. suggest only updating the stepsize every $T_{f}$ iterations. Safeguarding threshold $\epsilon^{cor} = 0.2$ and $T_{f} = 2$ generally perform well \citep{xu2016adaptive}.
+
+\begin{algorithm}
+  \caption{ADMM.}
+  \label{alg:prototype.vp-N-Spectral}
+  \begin{algorithmic}[1]
+    \Require
+    $\bi{y}^{0}$, $\bi{z}^{0}$, $T_{f} = 2$, $\epsilon^{cor} = 0.2$, and $\rho > 0$ 
+    \For{$k=0,1,2,\dots$}
+    \State
+    $\bi{x}^{k+1} 
+    := \argmin_{\bi{x}} L_{\rho}(\bi{x};\hat{\bi{y}}^{k};{\bi{z}}^{k})$ 
+    \State
+    $\bi{y}^{k+1} 
+    := \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};{\bi{z}}^{k})$ 
+    \State
+    $\bi{z}^{k+1} 
+  := \frac{\rho^{k-1}}{\rho^{k}} \left( \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c} \right)$ 
+    \State
+    Stop criterion in ()
+    \If{$mod(k,T_{f}) = 1$}
+    \State
+    Update of $\rho$ in (Spectral)
+    \Else
+    \State
+    $\rho^{k+1} \leftarrow \rho^{k}$
+    \EndIf
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{Relaxed ADMM.}
+  \label{alg:prototype.vp-R-Spectral}
+  \begin{algorithmic}[1]
+    \Require
+    $\bi{y}^{0} = \hat{\bi{y}}^{0}$, $\bi{z}^{0}=\hat{\bi{z}}^{0}$, $\alpha_{0}=1$, $T_{f} = 2$, $\epsilon^{cor} = 0.2$, and $\rho > 0$ 
+    \For{$k=0,1,2,\dots$}
+    \State
+    $\bi{x}^{k+1} 
+    := \argmin_{\bi{x}} L_{\rho}(\bi{x};\hat{\bi{y}}^{k};{\bi{z}}^{k})$ 
+    \State
+    $\bi{y}^{k+1} 
+    := \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};{\bi{z}}^{k})$ 
+    \State
+    $\bi{z}^{k+1} 
+  := \frac{\rho^{k-1}}{\rho^{k}} \left( \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c} \right)$ 
+    \State
+    Stop criterion in ()
+    \State
+    Relaxation in ()
+    \If{$mod(k,T_{f}) = 1$}
+    \State
+    Update of $\rho$ in (Spectral)
+    \Else
+    \State
+    $\rho^{k+1} \leftarrow \rho^{k}$
+    \EndIf
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+%\refalg{alg:fast.ADMM.restart.prototype}. 
+\begin{algorithm}
+  \caption{Relaxed + Restart ADMM.}
+  \label{alg:prototype.vp-RR-Spectral}
+  \begin{algorithmic}[1]
+    \Require
+    $\bi{y}^{0} = \hat{\bi{y}}^{0}$, $\bi{z}^{0}=\hat{\bi{z}}^{0}$, 
+    $\alpha_{0}=1$, $\eta \approx 1$, $T_{f} = 2$, $\epsilon^{cor} = 0.2$, and $\rho > 0$ 
+    \For{$k=0,1,2,\dots$}
+    \State
+    $\bi{x}^{k+1} 
+    := \argmin_{\bi{x}} L_{\rho}(\bi{x};\hat{\bi{y}}^{k};{\bi{z}}^{k})$ 
+    \State
+    $\bi{y}^{k+1} 
+    := \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};{\bi{z}}^{k})$ 
+    \State
+    $\bi{z}^{k+1} 
+  := \frac{\rho^{k-1}}{\rho^{k}} \left( \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c} \right)$ 
+    \State
+    Stop criterion in ()
+    \State
+    Relaxation + Restart in ()
+    \If{$mod(k,T_{f}) = 1$}
+    \State
+    Update of $\rho$ in (Spectral)
+    \Else
+    \State
+    $\rho^{k+1} \leftarrow \rho^{k}$
+    \EndIf
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+\clearpage
+\mbox{}
+\section{Comparison}
+\subsection{Measuring errors}
+Wohlberg in \citep{wohlberg2017admm} states that the ADMM method is invariant when $\epsilon^{abs} = 0$. Xu et al. in \citep{xu2016adaptive} also use this value which helps to be less sensitive to scaling. However, in our case we set in every algorithm $\epsilon^{abs} = 10^{-6}$ which is a low value (therefore it aims to be less sensitive as possible to scaling) and also enhances the stop criterion if the data size is too small.
+
+\subsection{Performance profiles}
+In this section, following \citep{acary:hal-01630836} we explain the concept of performance profiles that was introduced in \citep{dolan2002} for benchmarking optimization solvers on a large set of problems. For a set $P$ of $n_{p}$ problems, and a set $S$ of $n_{s}$ solvers, we define a performance criterion for a solver $s$, a problem $p$ and a required precision \textit{tol} by
+\begin{align}
+	t_{p,s} = \text{computing time required for } s \text{ to solve } p \text{ at precision \textit{tol}}
+\end{align}
+A performance ratio over all the solvers is defined by
+\begin{align}
+	r_{p,s} = \frac{t_{p,s}}{\min \lbrace t_{p,s}, s \in S \rbrace} \geq 1
+\end{align}
+For $\tau > 1$, we define a distribution function $\rho_{s}$ for the performance ratio for a solvers as
+\begin{align}
+	\rho_{s}(\tau) = \frac{1}{n_{p}} card \lbrace p \in P, r_{p,s} \leq \tau \rbrace \leq 1
+\end{align}
+This distribution computes the number of problems $p$ that are solved with a performance ratio below a given threshold $\tau$. In other words, $\rho_{s}(\tau)$ represents the probability that the solver $s$ has a performance ratio not larger than a factor $\tau$ of the best solver. It is worth noting that $\rho_{s}(1)$ represents the probability that the solver $s$ beats the other solvers, and $\rho_{s}(\tau)$ characterizes the robustness of the method for large values of $\tau$. To summarize: the higher $\rho_{s}$ is, the better the method is. In the sequel, the term performance profile denotes a graph of the functions $\rho_{s}(\tau)$, $\tau > 1$. The computational time is used to measure performance in the algorithms.
+
+\clearpage
+\mbox{}
+\subsection{Nomenclature for the algorithms}
+The Table \ref{Table:1} shows the notation used in the results:
+
+\begin{table}[h!]
+\centering
+ \begin{tabular}{||c c c||} 
+ \hline
+ Name & Algorithm & Additional informations \\ [0.5ex] 
+ \hline\hline
+ cp-N & 1 & - \\ 
+ \hline
+ cp-R & 2 & - \\
+ \hline
+ cp-RR & 3 & - \\
+ \hline
+ vp-N-He & 4 & - \\
+ \hline
+ vp-R-He & 5 & - \\
+ \hline
+ vp-RR-He & 6 & - \\
+ \hline
+ vp-N-Wohlberg & 7 & - \\
+ \hline
+ vp-R-Wohlberg & 8 & - \\
+ \hline
+ vp-RR-Wohlberg & 9 & - \\
+ \hline
+ vp-N-Spectral & 10 & - \\
+ \hline
+ vp-R-Spectral & 11 & Relaxed terms used in $\rho$ update \\
+ \hline
+ vp-RR-Spectral & 12 & Relaxed terms used in $\rho$ update \\ [1ex] 
+ \hline
+\end{tabular}
+\caption{Nomenclature for the algorithms}
+\label{Table:1}
+\end{table}
+
+\clearpage
+\mbox{}
+\subsection{Results}
+In this section, we perform a comparison of the algorithms by optimal penalty parameter. The goal is to study the influence of the various parameters and possible strategies on the performance of the solvers. 
+
+\subsubsection{Ghadimi}
+Figure 1 shows that most of the algorithms are robust but slow. They are able to solve all the problems but they require a lot of time. Wohlberg and Spectral $\rho$-updates depict the worst behavior. Furthermore, the difference bewteen the constant and varying penalty parameter is only comparable in He $\rho$-update.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=\textwidth]{Results/Ghadimi_mini.png}
+\caption{Comparison of algorithms for Ghadimi optimal penalty parameter}
+\end{figure}
+
+\clearpage
+\mbox{}
+\subsubsection{Di Cairano}
+Figure 2 shows that most of the algorithms suffer of robustness. Wohlberg and Spectral $\rho$-updates depict the worst behavior. Furthermore, the difference bewteen the constant and varying penalty parameter is highly comparable in He $\rho$-update.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=\textwidth]{Results/DiCairano_mini.png}
+\caption{Comparison of algorithms for Di Cairano optimal penalty parameter}
+\end{figure}
+
+\clearpage
+\mbox{}
+\subsubsection{Acary}
+Figure 2 shows that most of the algorithms suffer of robustness. Wohlberg and Spectral $\rho$-updates depict the worst behavior. Furthermore, the difference bewteen the constant and varying penalty parameter is only comparable in He $\rho$-update.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=\textwidth]{Results/Acary_mini.png}
+\caption{Comparison of algorithms for Acary optimal penalty parameter}
+\end{figure}
+
+\clearpage
+\mbox{}
+\subsubsection{Normal}
+Figure 4 shows that most of the algorithms suffer of robustness. Wohlberg and Spectral $\rho$-updates depict the worst behavior. Furthermore, the difference bewteen the constant and varying penalty parameter is highly comparable in He $\rho$-update.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=\textwidth]{Results/Normal_mini.png}
+\caption{Comparison of algorithms for Normal optimal penalty parameter}
+\end{figure}
+
+\clearpage
+\mbox{}
+\subsection{Discussion}
+In Table \ref{Table:2} are despicted the best algorithms with their respective optimal penalty parameter. Although their behavior are very close, Di Cairano takes into account the data size of the problem, which makes it a more general solver.
+
+\begin{table}[h!]
+\centering
+ \begin{tabular}{||c c c||} 
+ \hline
+  & vp-RR-He \eqref{alg:prototype.vp-RR-He} (Di Cairano) & vp-RR-He \eqref{alg:prototype.vp-RR-He} (Normal) \\ [0.5ex] 
+ \hline\hline
+ $\rho_{s}(0)$ & 0.892 & 0.882 \\ 
+ \hline
+ $\tau_{\rho_{s} = 1}$ & 1.94 & 1.95 \\
+ \hline
+ Total CPU time (s) & 45.43 & 45.32 \\ [1ex] 
+ \hline
+\end{tabular}
+\caption{Comparison of best algorithms}
+\label{Table:2}
+\end{table}
+
+
+It is worth noting that for the penalty parameter proposed in this paper (Acary), its best performance is with cp-RR, i.e., this value is the closest one to the optimal and there is no need to update it under any scheme.
+
+
+\clearpage
+\mbox{}
+\section{S-update}
+To solve the friction problem, the parameter $s$ in problem \eqref{P.original.friction.SOCP.1} should be updated. One obvious way is that, once we solve problem \eqref{P.original.friction.SOCP.1} with fixed $s$ by ADMM, then update $s$ by using the obtained solution, and repeat this procedure. This is what we called \textit{external update}. Another possibility is to update $s$ at each iteration of the ADMM. This is what we called \textit{internal update}. Intuitively, the latter saves the total computational cost, but stability of the algorithm in this is not clear, there is no proof of existence or uniqueness in comparison to the first one \citep{acary2011formulation}.
+
+\subsection{Initial guess}
+Another issue is the initial guess of $s$ to improve the rate of convergence. One heuristic method that performs well in our tests is
+\begin{align}
+	\Phi^{0}(\bi{s}) = \Phi(\bi{s}^{0}) := \frac{1}{\| H \|_{F}}  \frac{\Phi(\mathbf{1})}{\| \Phi(\mathbf{1}) \|}
+\end{align}
+where $\bi{s}^{0} = \mathbf{1} \in \Re^{m}$ is the all-ones vector and $\| \bullet \|_{F}$ denotes the Frobenius norm, which could be seen as a measure of the data size in the constraint.
+
+\subsection{Internal update}
+For the next development, we consider
+\begin{align}
+	\Phi(\bi{u})
+	= [\mu^{\alpha} \| E_{t} \bi{u}^{\alpha} \| \hat{\bi{e}}_{t}, \alpha = 1...n_{c}]^{T}
+	= [\mu^{\alpha} \| E_{t} \left( H \bi{v} + \bi{w} \right)^{\alpha} \| \hat{\bi{e}}_{t}, \alpha = 1...n_{c}]^{T}
+\end{align}
+therefore $\Phi(\bi{u})$ could be seen as $\Phi(\bi{v})$. Then, the problem \eqref{eq.ADMM.friction.AugLagrange} is a minimization problem of a convex 
+function under non-linear equality constraints. 
+Its augmented Lagrangian (in the scaled form) is formulated as 
+\begin{align}
+  L_{\rho}(\bi{v};\tilde{\bi{u}};\bi{\zeta}) 
+  =& \frac{1}{2} \bi{v}^{\top} M \bi{v} + \bi{f}^{\top} \bi{v} 
+  +  \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}) +  \frac{\rho}{2} 
+  \| H \bi{v} + \bi{w} + \Phi(\bi{v}) + \bi{\zeta}  - \tilde{\bi{u}} \|^{2}
+    - \frac{\rho}{2} \| \bi{\zeta}\|^{2} , 
+\end{align}
+where $\rho$ is the penalty parameter, and $\bi{\zeta} \in \Re^{n}$ is  the scaled dual variable (the scaled Lagrange multiplier). 
+The ADMM solving problem \eqref{P.quadratic.SOCP.2} consists of 
+iterating the updates 
+\begin{align}
+  \bi{v}^{k+1} 
+  &:= \argmin_{\bi{v}} 
+  L_{\rho}(\bi{v};\tilde{\bi{u}}^{k};\bi{\zeta}^{k})  , 
+  \label{eq.ADMM.friction.1.1new} \\
+  \tilde{\bi {u}}^{k+1}
+  &:= \argmin_{\tilde{\bi{u}}} 
+    L_{\rho}(\bi{v}^{k+1};\tilde{\bi{u}};\bi{\zeta}^{k}) ,
+    \label{eq.ADMM.friction.1.2new} \\
+  \bi{\zeta}^{k+1} &:= \bi{\zeta}^{k} 
+  + 
+  H \bi{v}^{k+1} - \tilde{\bi{u}}^{k+1} + \Phi(\bi{v}^{k+1}) . 
+  \label{eq.ADMM.friction.1.3bis}
+\end{align}
+
+The first step in \eqref{eq.ADMM.friction.1.1new} corresponds to 
+unconstrained minimization of a convex function. 
+It follows from the stationarity condition of this convex 
+function that $\bi{v}^{k+1}$ is the solution to the following system of 
+linear equations: 
+\begin{align}
+  \Bigl[ M + 
+  \rho \left( H^{\top} + \partial_{\bi{v}} \Phi(\bi{v}^{k+1}) \right) H \Bigr] \bi{v}^{k+1} 
+  = -\bi{f} 
+  + \rho \left( H^{\top} + \partial_{\bi{v}} \Phi(\bi{v}^{k+1}) \right) (\tilde{\bi{u}}^k - \bi{w} - \Phi(\bi{v}^{k+1}) - \bi{\zeta}^k)
+\end{align}
+this non-linearity is difficult to handle, however, if the previous iteration is considered in the $\Phi(\bi{v})$ term, we get the following equation
+\begin{align}
+  \Bigl[ M + 
+  \rho \left( H^{\top} + \partial_{\bi{v}} \Phi(\bi{v}^{k}) \right) H \Bigr] \bi{v}^{k+1} 
+  = -\bi{f} 
+  + \rho \left( H^{\top} + \partial_{\bi{v}} \Phi(\bi{v}^{k}) \right) (\tilde{\bi{u}}^k - \bi{w} - \Phi(\bi{v}^{k}) - \bi{\zeta}^k)
+\end{align}
+which follows the same structure of \eqref{eq.ADMM.friction.2.1} and allows us to perform a LU or Cholesky factorization. If $\| E_{t} \bi{u}^{\alpha} \| \neq 0$
+\begin{align}
+  \partial_{\bi{v}} \Phi(\bi{v})
+  = \Bigl[ \mu^{\alpha} \hat{\bi{e}}_{t}^{\top}
+  \frac{E_{t} \left( H \bi{v} + \bi{w} \right)^{\alpha}}{\| E_{t} \left( H \bi{v} + \bi{w} \right)^{\alpha} \|}
+  E_{t}^{\top} H^{\alpha^{\top}}, \alpha = 1...n_{c} \Bigr]^{T} = \Psi
+\end{align}
+Therefore
+\begin{align}
+  \Bigl[ M + 
+  \rho \left( H^{\top} + \Psi \right) H \Bigr] \bi{v}^{k+1} 
+  = -\bi{f} 
+  + \rho \left( H^{\top} + \Psi \right) (\tilde{\bi{u}}^k - \bi{w} - \Phi(\bi{v}^{k}) - \bi{\zeta}^k)  . 
+\end{align}
+
+
+The second step in \eqref{eq.ADMM.friction.1.2new} can be computed independently for each $\alpha = 1 ... n_{c}$ as 
+\begin{align}
+  \tilde{\bi{u}}^{k+1}
+  &:= \argmin_{\tilde{\bi{u}}} 
+    \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}) 
+    + \frac{\rho}{2} 
+    \| H \bi{v}^{k+1} + \bi{w} + \Phi(\bi{v}^{k}) + \bi{\zeta}^{k} - \bi{\tilde u} \|^{2}.
+  \label{eq.ADMM.friction.2.2bis}
+\end{align}
+\eqref{eq.ADMM.friction.2.2bis} can be rewritten by using the projection 
+onto the second-order cone as 
+\begin{align}
+  \tilde{\bi{u}}^{k+1} := \Pi_{K_{e,\mu}^{*}}(H \bi{v}^{k+1} + \bi{w} + \bi{\zeta}^{k} + \Phi(\bi{v}^{k}))
+\end{align}
+\subsection{External update}
+In this case, the external error measurement is given for each $\alpha = 1 ... n_{c}$ by 
+\begin{align}
+	\Bigl[ \frac{\Phi(\bi{v}^{k+1}) - \Phi(\bi{v}^{k})}{\Phi(\bi{v}^{k})} \Bigr]^{\alpha} \leq \epsilon^{ext} \label{eq.stopcriterionexternal}
+\end{align}
+where $\epsilon^{ext}$ is the external tolerance, with a value $10^{-3}$.
+
+\clearpage
+\mbox{}
+\subsection{Comparison}
+In most of the test examples the behavior dispicted in Figure 5-7 is observed. This is analyzed with the best solver of Section 7 and the test example \emph{Box Stacks-i1000-352-6}.
+
+
+In Figure 5 is observed a convergence after 7 external iterations. Note that the first value is not shown because is zero.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.5]{Results/S_update/External13.png}
+\caption{External update with vp-RR-He (Di Cairano)}
+\end{figure}
+
+In Figure 6 is observed a convergence after 43 internal iterations. From iteration 25 the same value holds, but the stop criterion \eqref{eq.stopcriterion} is not satisfied.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.5]{Results/S_update/Internal13.png}
+\caption{Internal update with vp-RR-He (Di Cairano)}
+\end{figure}
+
+In Figure 7 is despicted the same internal update, but the stop criterion \eqref{eq.stopcriterion} is changed for the external one  \eqref{eq.stopcriterionexternal}. It is observed that $\| \Phi(s) \|$ holds from iteration 25, but $\Phi(s)^{\alpha}$ is not the same from iteration to iteration, the test was stopped at 1000 iterations.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.5]{Results/S_update/Internal13outsidestop.png}
+\caption{Internal update with vp-RR-He (Di Cairano) and stop criterion in \eqref{eq.stopcriterionexternal}}
+\end{figure}
+
+%\begin{table}[h!]
+%\centering
+% \begin{tabular}{||c c c c||} 
+% \hline
+%  & External & Internal & Internals \\ [0.5ex] 
+% \hline\hline
+% $\| \Phi(s) \|$ & 0.0934177564674 & 0.0943276827638 & 0.094323914933 \\ 
+% \hline
+% $\Phi(s)^{\alpha = 1}$ & [0  5.19325675e-06  5.19325675e-06] & [0  5.67873597e-06  5.67873597e-06] & [0  3.89936759e-06  3.89936759e-06] \\
+% \hline
+% $\Phi(s)^{\alpha = n_{c}}$ & [0  5.02494573e-04  5.02494573e-04] & [0  4.78479576e-04  4.78479576e-04] & [0  4.73342428e-04  4.73342428e-04] \\ [1ex] 
+% \hline
+%\end{tabular}
+%\caption{Comparison of s-update}
+%\label{Table:3}
+%\end{table}
+
+In Table \ref{Table:3} are shown the values of the final $\| \Phi(s) \|$ with its respectives first and last contact vector $\Phi(s)^{\alpha}$:
+\begin{table}[h!]
+\centering
+ \begin{tabular}{||c c c c||} 
+ \hline
+  & External & Internal & Internal-s \\ [0.5ex] 
+ \hline\hline
+ $\| \Phi(s) \|$ & 9.34e-02 & 9.43e-02 & 9.43e-02 \\ 
+ \hline
+ $\Phi(s)^{\alpha = 1}$ & [0.00e+00  5.19e-06  5.19e-06] & [0.00e+00  5.67e-06  5.67e-06] & [0.00e+00  3.89e-06  3.89e-06] \\
+ \hline
+ $\Phi(s)^{\alpha = n_{c}}$ & [0.00e+00  5.02e-04  5.02e-04] & [0.00e+00  4.78e-04  4.78e-04] & [0.00e+00  4.73e-04  4.73e-04] \\ [1ex] 
+ \hline
+\end{tabular}
+\caption{Comparison of s-update}
+\label{Table:3}
+\end{table}
+
+Both external and internal update converges to almost the same value of $\| \Phi(s) \|$, but this is an apparent result of uniqueness when $\Phi(s)^{\alpha}$ is compared in each case. Therefore, the internal update does not guarantee the same result for $\Phi(s)$.
+
+%\clearpage
+%\mbox{}
+%\section{General conclusions}
+%In this report, we reviewed the quadratic programming (QP) over second-order cones formulation of the discrete frictional contact problem that arises in space and time discretized mechanical systems with unilateral contact and three-dimensional Coulomb's friction, Thanks to this formulation, the Alternating Direction Method of Multipliers (ADMM) was proposed to solve this problem.
+
+%\clearpage
+%\mbox{}
+%\section{Parallel computing}
+%\textcolor{red}{
+%The package PARDISO is a thread-safe, high-performance, robust, memory efficient and easy to use software for solving large sparse symmetric and unsymmetric linear systems of equations on shared-memory and distributed-memory multiprocessors. \textit{https://pardiso-project.org/}
+%\begin{itemize}
+%\item Solves unsymmetric, structurally symmetric or symmetric systems, real or complex, positive definite or indefinite, hermitian.
+%\item LU decomposition with complete pivoting. 
+%\item Parallel on SMPs and Cluster of SMPs. 
+%\item Automatic combination of iterative and direct solver algorithms.
+%\end{itemize}
+%MUMPS ('MUltifrontal Massively Parallel Solver') is a package for solving systems of linear equations of the form Ax=b, where A is a square sparse matrix that can be either unsymmetric, symmetric positive definite, or general symmetric, on distributed memory computers. MUMPS implements a direct method based on a multifrontal approach which performs a Gaussian factorization. \textit{http://mumps.enseeiht.fr/}
+%\begin{itemize}
+%\item Solution of large linear systems withsymmetric positive definite matricesgeneral symmetric matricesgeneral unsymmetric matrices.
+%\end{itemize}
+%}
+
+\clearpage
+\mbox{}
+\bibliographystyle{unsrt}
+\bibliography{myreferences}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+\grid
+\grid
+\grid
+\grid
