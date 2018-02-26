@@ -1,43 +1,43 @@
 \contentsline {section}{\numberline {1}Introduction}{4}
 \contentsline {subsection}{\numberline {1.1}Problem statement}{4}
-\contentsline {section}{\numberline {2}ADMM method}{6}
-\contentsline {subsection}{\numberline {2.1}Fundamentals}{6}
-\contentsline {subsection}{\numberline {2.2}Residuals}{7}
-\contentsline {subsection}{\numberline {2.3}Stop criterion}{7}
-\contentsline {section}{\numberline {3}ADMM formulation of problem \textup {\hbox {\mathsurround \z@ \normalfont (\ignorespaces 17\hbox {}\unskip \@@italiccorr )}}}{8}
-\contentsline {subsection}{\numberline {3.1}Coulomb friction problem via convex optimization}{8}
-\contentsline {subsection}{\numberline {3.2}Iteration}{8}
-\contentsline {subsection}{\numberline {3.3}Projection onto dual second-order cone}{9}
-\contentsline {section}{\numberline {4}Penalty parameter for QP}{10}
-\contentsline {subsection}{\numberline {4.1}Optimal penalty parameter selection for QP}{10}
-\contentsline {subsubsection}{\numberline {4.1.1}Ghadimi}{10}
-\contentsline {subsubsection}{\numberline {4.1.2}Di Cairano}{10}
-\contentsline {subsubsection}{\numberline {4.1.3}Acary}{10}
-\contentsline {subsubsection}{\numberline {4.1.4}Normal}{10}
-\contentsline {subsection}{\numberline {4.2}Varying penalty parameter}{11}
-\contentsline {subsubsection}{\numberline {4.2.1}He}{11}
-\contentsline {subsubsection}{\numberline {4.2.2}Wohlberg}{11}
-\contentsline {subsubsection}{\numberline {4.2.3}Spectral}{12}
-\contentsline {section}{\numberline {5}ADMM improvements}{13}
-\contentsline {subsection}{\numberline {5.1}Relaxed ADMM}{13}
-\contentsline {subsection}{\numberline {5.2}Relaxed + Restart ADMM}{13}
-\contentsline {section}{\numberline {6}ADMM algorithms}{14}
-\contentsline {subsection}{\numberline {6.1}Constant penalty parameter}{14}
-\contentsline {subsection}{\numberline {6.2}Varying penalty parameter - He}{15}
-\contentsline {subsection}{\numberline {6.3}Varying penalty parameter - Wohlberg}{16}
-\contentsline {subsection}{\numberline {6.4}Varying penalty parameter - Spectral}{17}
-\contentsline {section}{\numberline {7}Comparison}{19}
-\contentsline {subsection}{\numberline {7.1}Measuring errors}{19}
-\contentsline {subsection}{\numberline {7.2}Performance profiles}{19}
-\contentsline {subsection}{\numberline {7.3}Nomenclature for the algorithms}{20}
-\contentsline {subsection}{\numberline {7.4}Results}{21}
-\contentsline {subsubsection}{\numberline {7.4.1}Ghadimi}{21}
-\contentsline {subsubsection}{\numberline {7.4.2}Di Cairano}{22}
-\contentsline {subsubsection}{\numberline {7.4.3}Acary}{23}
-\contentsline {subsubsection}{\numberline {7.4.4}Normal}{24}
-\contentsline {subsection}{\numberline {7.5}Discussion}{25}
-\contentsline {section}{\numberline {8}S-update}{26}
-\contentsline {subsection}{\numberline {8.1}Initial guess}{26}
-\contentsline {subsection}{\numberline {8.2}Internal update}{26}
-\contentsline {subsection}{\numberline {8.3}External update}{27}
-\contentsline {subsection}{\numberline {8.4}Comparison}{28}
+\contentsline {section}{\numberline {2}ADMM method}{5}
+\contentsline {subsection}{\numberline {2.1}Fundamentals}{5}
+\contentsline {subsection}{\numberline {2.2}Residuals}{6}
+\contentsline {subsection}{\numberline {2.3}Stop criterion}{6}
+\contentsline {section}{\numberline {3}ADMM formulation of problem \textup {\hbox {\mathsurround \z@ \normalfont (\ignorespaces 1\hbox {}\unskip \@@italiccorr )}}}{7}
+\contentsline {subsection}{\numberline {3.1}Coulomb friction problem via convex optimization}{7}
+\contentsline {subsection}{\numberline {3.2}Iteration}{7}
+\contentsline {subsection}{\numberline {3.3}Projection onto dual second-order cone}{8}
+\contentsline {section}{\numberline {4}Penalty parameter for QP}{9}
+\contentsline {subsection}{\numberline {4.1}Optimal penalty parameter selection for QP}{9}
+\contentsline {subsubsection}{\numberline {4.1.1}Ghadimi}{9}
+\contentsline {subsubsection}{\numberline {4.1.2}Di Cairano}{9}
+\contentsline {subsubsection}{\numberline {4.1.3}Acary}{9}
+\contentsline {subsubsection}{\numberline {4.1.4}Normal}{9}
+\contentsline {subsection}{\numberline {4.2}Varying penalty parameter}{10}
+\contentsline {subsubsection}{\numberline {4.2.1}He}{10}
+\contentsline {subsubsection}{\numberline {4.2.2}Wohlberg}{10}
+\contentsline {subsubsection}{\numberline {4.2.3}Spectral}{11}
+\contentsline {section}{\numberline {5}ADMM improvements}{12}
+\contentsline {subsection}{\numberline {5.1}Relaxed ADMM}{12}
+\contentsline {subsection}{\numberline {5.2}Relaxed + Restart ADMM}{12}
+\contentsline {section}{\numberline {6}ADMM algorithms}{13}
+\contentsline {subsection}{\numberline {6.1}Constant penalty parameter}{13}
+\contentsline {subsection}{\numberline {6.2}Varying penalty parameter - He}{14}
+\contentsline {subsection}{\numberline {6.3}Varying penalty parameter - Wohlberg}{15}
+\contentsline {subsection}{\numberline {6.4}Varying penalty parameter - Spectral}{16}
+\contentsline {section}{\numberline {7}Comparison}{18}
+\contentsline {subsection}{\numberline {7.1}Measuring errors}{18}
+\contentsline {subsection}{\numberline {7.2}Performance profiles}{18}
+\contentsline {subsection}{\numberline {7.3}Nomenclature for the algorithms}{19}
+\contentsline {subsection}{\numberline {7.4}Results}{20}
+\contentsline {subsubsection}{\numberline {7.4.1}Ghadimi}{20}
+\contentsline {subsubsection}{\numberline {7.4.2}Di Cairano}{21}
+\contentsline {subsubsection}{\numberline {7.4.3}Acary}{22}
+\contentsline {subsubsection}{\numberline {7.4.4}Normal}{23}
+\contentsline {subsection}{\numberline {7.5}Discussion}{24}
+\contentsline {section}{\numberline {8}S-update}{25}
+\contentsline {subsection}{\numberline {8.1}Initial guess}{25}
+\contentsline {subsection}{\numberline {8.2}Internal update}{25}
+\contentsline {subsection}{\numberline {8.3}External update}{26}
+\contentsline {subsection}{\numberline {8.4}Comparison}{27}

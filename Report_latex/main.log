@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.1.29)  23 FEB 2018 19:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.1.29)  26 FEB 2018 18:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -188,7 +188,30 @@ LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
 \l_MT_above_shortintertext_sep=\dimen119
 \l_MT_below_shortintertext_sep=\dimen120
 )
-\c@theorem=\count113
+(/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2016/02/20 v1.1-142 Sub-captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2016/02/04 v1.7-139 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+\captionmargin=\dimen121
+\captionmargin@=\dimen122
+\captionwidth=\dimen123
+\caption@tempdima=\dimen124
+\caption@indent=\dimen125
+\caption@parindent=\dimen126
+\caption@hangindent=\dimen127
+)
+\c@ContinuedFloat=\count113
+Package caption Info: float package is loaded.
+)
+\c@subfigure=\count114
+\c@subtable=\count115
+)
+\c@theorem=\count116
 
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2016/01/03 v1.1b Standard LaTeX Color (DPC)
@@ -207,22 +230,22 @@ Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
-\Gread@gobject=\count114
+\Gread@gobject=\count117
 )) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 114.
-LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
@@ -285,29 +308,32 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-\Gin@req@height=\dimen121
-\Gin@req@width=\dimen122
+\Gin@req@height=\dimen128
+\Gin@req@width=\dimen129
 )
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count115
-\scratchdimen=\dimen123
+\scratchcounter=\count118
+\scratchdimen=\dimen130
 \scratchbox=\box30
-\nofMPsegments=\count116
-\nofMParguments=\count117
+\nofMPsegments=\count119
+\nofMParguments=\count120
 \everyMPshowfont=\toks29
-\MPscratchCnt=\count118
-\MPscratchDim=\dimen124
-\MPnumerator=\count119
-\makeMPintoPDFobject=\count120
+\MPscratchCnt=\count121
+\MPscratchDim=\dimen131
+\MPnumerator=\count122
+\makeMPintoPDFobject=\count123
 \everyMPtoPDFconversion=\toks30
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 127.
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <6> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 128.
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <6> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 129.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 133.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 134.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./main.toc [2
@@ -319,13 +345,15 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
 
 [3] [4
 
-] [5] [6
+] [5
 
-] [7] [8
+] [6] [7
 
-] [9] [10
+] [8] [9
 
-] [11] [12] [13
+] [10] [11] [12
+
+] [13
 
 ] [14
 
@@ -333,100 +361,98 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
 
 ] [16
 
-] [17
+] [17] [18
 
-] [18]
+]
 [19
 
-] [20
-
-] <Results/Ghadimi_mini.png, id=87, 578.16pt x 433.62pt>
+] <Results/Ghadimi_mini.png, id=83, 578.16pt x 433.62pt>
 File: Results/Ghadimi_mini.png Graphic file (type png)
 
 <use Results/Ghadimi_mini.png>
-Package pdftex.def Info: Results/Ghadimi_mini.png used on input line 1094.
+Package pdftex.def Info: Results/Ghadimi_mini.png used on input line 1093.
 (pdftex.def)             Requested size: 472.31573pt x 354.23416pt.
- [21
+ [20
 
  <./Results/Ghadimi_mini.png>]
-<Results/DiCairano_mini.png, id=93, 578.16pt x 433.62pt>
+<Results/DiCairano_mini.png, id=89, 578.16pt x 433.62pt>
 File: Results/DiCairano_mini.png Graphic file (type png)
 
 <use Results/DiCairano_mini.png>
-Package pdftex.def Info: Results/DiCairano_mini.png used on input line 1105.
+Package pdftex.def Info: Results/DiCairano_mini.png used on input line 1104.
 (pdftex.def)             Requested size: 472.31573pt x 354.23416pt.
- [22
+ [21
 
  <./Results/DiCairano_mini.png>]
-<Results/Acary_mini.png, id=98, 578.16pt x 433.62pt>
+<Results/Acary_mini.png, id=94, 578.16pt x 433.62pt>
 File: Results/Acary_mini.png Graphic file (type png)
 
 <use Results/Acary_mini.png>
-Package pdftex.def Info: Results/Acary_mini.png used on input line 1116.
+Package pdftex.def Info: Results/Acary_mini.png used on input line 1115.
 (pdftex.def)             Requested size: 472.31573pt x 354.23416pt.
- [23
+ [22
 
  <./Results/Acary_mini.png>]
-<Results/Normal_mini.png, id=103, 578.16pt x 433.62pt>
+<Results/Normal_mini.png, id=99, 578.16pt x 433.62pt>
 File: Results/Normal_mini.png Graphic file (type png)
 
 <use Results/Normal_mini.png>
-Package pdftex.def Info: Results/Normal_mini.png used on input line 1127.
+Package pdftex.def Info: Results/Normal_mini.png used on input line 1126.
 (pdftex.def)             Requested size: 472.31573pt x 354.23416pt.
- [24
+ [23
 
- <./Results/Normal_mini.png>] [25
+ <./Results/Normal_mini.png>] [24
 
-] [26
+] [25
 
 ]
-[27] <Results/S_update/External13.png, id=118, 578.16pt x 433.62pt>
+[26] <Results/S_update/External13.png, id=114, 578.16pt x 433.62pt>
 File: Results/S_update/External13.png Graphic file (type png)
 
 <use Results/S_update/External13.png>
 Package pdftex.def Info: Results/S_update/External13.png used on input line 126
-8.
+7.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
-<Results/S_update/Internal13.png, id=119, 578.16pt x 433.62pt>
+<Results/S_update/Internal13.png, id=115, 578.16pt x 433.62pt>
 File: Results/S_update/Internal13.png Graphic file (type png)
 
 <use Results/S_update/Internal13.png>
 Package pdftex.def Info: Results/S_update/Internal13.png used on input line 127
-5.
+4.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
-<Results/S_update/Internal13outsidestop.png, id=120, 578.16pt x 433.62pt>
+<Results/S_update/Internal13outsidestop.png, id=116, 578.16pt x 433.62pt>
 File: Results/S_update/Internal13outsidestop.png Graphic file (type png)
 
 <use Results/S_update/Internal13outsidestop.png>
 Package pdftex.def Info: Results/S_update/Internal13outsidestop.png used on inp
-ut line 1282.
+ut line 1281.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
- [28
+ [27
 
  <./Results/S_update/External13.png> <./Results/S_update/Internal13.png>]
-Overfull \hbox (27.97534pt too wide) in paragraph at lines 1306--1317
+Overfull \hbox (27.97534pt too wide) in paragraph at lines 1305--1316
  [][] 
  []
 
-[29 <./Results/S_update/Internal13outsidestop.png>] (./main.bbl
+[28 <./Results/S_update/Internal13outsidestop.png>] (./main.bbl
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 13.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 13.
- [30
+ [29
 
-]) [31]
+]) [30]
 (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 4317 strings out of 493029
- 60827 string characters out of 6136234
- 131825 words of memory out of 5000000
- 7758 multiletter control sequences out of 15000+600000
+ 5416 strings out of 493029
+ 80715 string characters out of 6136234
+ 150740 words of memory out of 5000000
+ 8849 multiletter control sequences out of 15000+600000
  18576 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 51i,25n,28p,841b,301s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 51i,25n,40p,841b,398s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmb
 x10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pf
 b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
@@ -445,12 +471,11 @@ m/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx
 share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/t
 exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (31 pages, 628988 bytes).
+dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on main.pdf (30 pages, 620831 bytes).
 PDF statistics:
- 204 PDF objects out of 1000 (max. 8388607)
- 134 compressed objects within 2 object streams
+ 196 PDF objects out of 1000 (max. 8388607)
+ 128 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  36 words of extra memory for PDF output out of 10000 (max. 10000000)
 
