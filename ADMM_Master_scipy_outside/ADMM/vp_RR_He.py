@@ -95,24 +95,39 @@ def vp_RR_He(problem_data, rho_method):
 	## ITERATIONS ##
 	################
 
-	for j in range(MAXITER):
+	for j in range(15):
 		print j
 		
-		for k in range(len(u)-1,MAXITER):
-	
+		len_u = len(u)-1
+		for k in range(len_u,MAXITER):
+			
 			#Super LU factorization of M + rho * dot(M_T,M)
-			if rho[k] != rho[k-1] or k == 0:
+			if k == 0: #rho[k] != rho[k-1] or
 				P = M + rho[k] * csc_matrix.dot(A_T,A)
 				LU = linalg.splu(P)
 				LU_old = LU
+		
 			else:
 				LU = LU_old
 
+			#rho[k] != rho[k-1] or
 			################
 			## v - update ##
 			################
-			RHS = -f + rho[k] * csc_matrix.dot(A_T, -w - b[j] - xi_hat[k] + u_hat[k])
+			RHS = -f + rho[k] * csc_matrix.dot(A_T, -w - b[j] - xi_hat[k] + u_hat[k])	
 			v.append(LU.solve(RHS)) #v[k+1]
+
+
+			#P = M + rho[k] * csc_matrix.dot(A_T,A)
+			#RHS = -f + rho[k] * csc_matrix.dot(A_T, -w - b[j] - xi_hat[k] + u_hat[k])
+			#v.append(linalg.spsolve(P,RHS)) #v[k+1]
+
+
+			#P = M + rho[k] * csc_matrix.dot(A_T,A)
+			#LU = linalg.factorized(P)
+			#RHS = -f + rho[k] * csc_matrix.dot(A_T, -w - b[j] - xi_hat[k] + u_hat[k])
+			#v.append(LU(RHS)) #v[k+1]
+
 
 			################
 			## u - update ##
@@ -133,6 +148,26 @@ def vp_RR_He(problem_data, rho_method):
 			ratio = rho[k-1]/rho[k] #update of dual scaled variable with new rho
 			xi.append(ratio*(xi_hat[k] + r[k+1])) #xi[k+1]
 
+			if j!=0 and k!=0 and j < 2:
+				#from mpl_toolkits.mplot3d import Axes3D
+				#soa = np.array([np.concatenate((xi[k+1][:3],np.array([0,0,0]))).tolist()])
+				#np.concatenate((xi[k][:3],np.array([0,0,0]))).tolist()
+				#print rho[k]*xi[k+1][:3] * 1e19
+				print u[k+1][:3] 
+
+				#X, Y, Z, U, V, W = zip(*soa)
+				#fig = plt.figure()
+				#ax = fig.add_subplot(111, projection='3d')
+				#ax.quiver(X, Y, Z, U, V, W)
+				#ax.set_xlim([-1, 1])
+				#ax.set_ylim([-1, 1])
+				#ax.set_zlim([-1, 1])
+				#plt.show()
+				
+				#plotit(xi[-2:], xi[-2:], start, 5.0,'External update with vp_RR_He (Di Cairano)')
+
+				#print Av[-3:] - u[k+1][-3:] + w[-3:]
+
 			###################################
 			## accelerated ADMM with restart ##
 			###################################
@@ -143,7 +178,8 @@ def vp_RR_He(problem_data, rho_method):
 			################################
 			r_norm.append(np.linalg.norm(r[k+1]))
 			s_norm.append(np.linalg.norm(s[k+1]))
-			rho.append(penalty(rho[k],r_norm[k+1],s_norm[k+1]))	
+			rho.append(penalty(rho[k],r_norm[k+1],s_norm[k+1]))
+			#rho.append(0.125)
 	
 			####################
 			## stop criterion ##
@@ -155,12 +191,23 @@ def vp_RR_He(problem_data, rho_method):
 			eps_dual = np.sqrt(n)*ABSTOL + RELTOL*dual_evalf
 
 			if r_norm[k+1]<=eps_pri and s_norm[k+1]<=eps_dual:
+				R = rho[k]*xi[k+1]
+				N1 = csc_matrix.dot(M, v[k+1]) - csc_matrix.dot(A_T, R) + f
+				N2 = R - projection(R - u[k+1], 1/mu, dim1, dim2)  
+				N1_norm = np.linalg.norm(N1)
+				N2_norm = np.linalg.norm(N2)
+
+				print np.sqrt( N1_norm**2 + N2_norm**2 )				
+				#print rho[k]*xi[k+1]
+
+				#plotit(r[len_u:], xi[len_u:], start, 5.0,'External update with vp_RR_He (Di Cairano)')
+
 				break
 
 			#end rutine
 
 		#b(s) stop criterion
-		b.append(Es_matrix(w,mu,csr_matrix.dot(A,v[k+1])))
+		b.append(Es_matrix(w,mu,Av + w))
 
 		if j == 0:
 			pass
@@ -171,7 +218,9 @@ def vp_RR_He(problem_data, rho_method):
 			for i in range(dim2/dim1):
 				if np.linalg.norm(b_per_contact_j1[i] - b_per_contact_j0[i]) / np.linalg.norm(b_per_contact_j0[i]) > 1e-03:
 					count += 1
-			if count < 1:		
+			if count < 1:
+				#orthogonal = np.dot(u[-1],rho[-2]*xi[-1])
+				#print orthogonal		
 				break
 
 		v.append(np.zeros([n,]))
@@ -185,17 +234,46 @@ def vp_RR_He(problem_data, rho_method):
 		s_norm.append(0)
 		tau.append(1) #over-relaxation
 		e.append(np.nan) #restart
-		rho.append(rh)
+		rho.append(rho[-1])
 
 	end = time.clock()
-
+	time = end - start
 	####################
 	## REPORTING DATA ##
 	####################
-	print b[-1]
-	print np.linalg.norm(b[-1])
-	plotit(b,s,start,end,'With acceleration / Without restarting for '+problem_data+' for rho: '+rho_method)
 
-	time = end - start
-	print time
+	print P.nnz
+	print np.shape(P)
+
+
+	f, axarr = plt.subplots(2, sharex=True)
+	f.suptitle('Sharing X axis')
+	axarr[0].plot(rho, label='rho')
+	axarr[1].semilogy(r_norm, label='||r||')
+	axarr[1].semilogy(s_norm, label='||s||')
+
+	plt.show()
+
+	#plt.semilogy(r_norm, label='||r||')
+	#plt.hold(True)
+	#plt.semilogy(rho, label='||s||')
+	#plt.hold(True)
+	#plt.ylabel('Residuals')
+	#plt.xlabel('Iteration')
+	#plt.text(len(r)/2,np.log(np.amax(S)+np.amax(R))/10,'N_iter = '+str(len(r)-1))
+	#plt.text(len(r)/2,np.log(np.amax(S)+np.amax(R))/100,'Total time = '+str((end-start)*10**3)+' ms')
+	#plt.text(len(r)/2,np.log(np.amax(S)+np.amax(R))/1000,'Time_per_iter = '+str(((end-start)/(len(r)-1))*10**3)+' ms')
+	#plt.title('External update with vp_RR_He (Di Cairano)')
+	#plt.legend()
+	plt.show()
+
+	#print 'Total time: ',time
 	return time
+
+
+	#print b[-1]
+	#print np.linalg.norm(b[-1])
+	#plotit(b,s,start,end,'With acceleration / Without restarting for '+problem_data+' for rho: '+rho_method)
+	#plotit(r, rho, start,end,'External update with vp_RR_He (Di Cairano)')
+
+	

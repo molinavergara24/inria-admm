@@ -63,7 +63,7 @@ def cp_RR(problem_data, rho_method):
 	n = np.shape(M)[0]
 	p = np.shape(w)[0]
 
-	b = 0.1 * Es_matrix(w,mu,np.ones([p,])) / np.linalg.norm(Es_matrix(w,mu,np.ones([p,])))
+	b = [1/linalg.norm(A,'fro') * Es_matrix(w,mu,np.zeros([p,])) / np.linalg.norm(Es_matrix(w,mu,np.ones([p,])))]
 
 	#################################
 	############# SET-UP ############
@@ -98,44 +98,67 @@ def cp_RR(problem_data, rho_method):
 	## ITERATIONS ##
 	################
 	for k in range(MAXITER):
+		print k
 	
 		################
 		## v - update ##
 		################
-		RHS = -f + rho * csc_matrix.dot(A_T, -w - b - xi_hat[k] + u_hat[k])
+		RHS = -f + rho * csc_matrix.dot(A_T, -w - b[k] - xi_hat[k] + u_hat[k])
 		v.append(LU.solve(RHS)) #v[k+1]
 
 		################
 		## u - update ##
 		################
 		Av = csr_matrix.dot(A,v[k+1])
-		vector = Av + xi_hat[k] + w + b
+		vector = Av + xi_hat[k] + w + b[k]
 		u.append(projection(vector,mu,dim1,dim2)) #u[k+1]
 
 		########################
 		## residuals - update ##
 		########################
 		s.append(rho * csc_matrix.dot(A_T,(u[k+1]-u_hat[k]))) #s[k+1]
-		r.append(Av - u[k+1] + w + b) #r[k+1]
+		r.append(Av - u[k+1] + w + b[k]) #r[k+1]
 
 		#################
 		## xi - update ##
 		#################
 		xi.append(xi_hat[k] + r[k+1]) #xi[k+1]
 
+		#b update
+		b.append(Es_matrix(w,mu,Av + w))
+
 		####################
 		## stop criterion ##
 		####################
-		pri_evalf = np.amax(np.array([np.linalg.norm(csr_matrix.dot(A,v[k+1])),np.linalg.norm(u[k+1]),np.linalg.norm(w + b)]))
-		eps_pri = np.sqrt(p)*ABSTOL + RELTOL*pri_evalf
+		#pri_evalf = np.amax(np.array([np.linalg.norm(csr_matrix.dot(A,v[k+1])),np.linalg.norm(u[k+1]),np.linalg.norm(w + b[k+1])]))
+		#eps_pri = np.sqrt(p)*ABSTOL + RELTOL*pri_evalf
 
-		dual_evalf = np.linalg.norm(rho * csc_matrix.dot(A_T,xi[k+1]))
-		eps_dual = np.sqrt(n)*ABSTOL + RELTOL*dual_evalf
+		#dual_evalf = np.linalg.norm(rho[k] * csc_matrix.dot(A_T,xi[k+1]))
+		#eps_dual = np.sqrt(n)*ABSTOL + RELTOL*dual_evalf
 
 		r_norm.append(np.linalg.norm(r[k+1]))
 		s_norm.append(np.linalg.norm(s[k+1]))
-		if r_norm[k+1]<=eps_pri and s_norm[k+1]<=eps_dual:
-			break	
+		#if r_norm[k+1]<=eps_pri and s_norm[k+1]<=eps_dual:
+		#	orthogonal = np.dot(u[-1],rho[-2]*xi[-1])
+		#	print orthogonal
+		#	break
+
+		b_per_contact_j1 = np.split(b[k+1],dim2/dim1)
+		b_per_contact_j0 = np.split(b[k],dim2/dim1)
+		count = 0
+		for j in range(dim2/dim1):
+			if np.linalg.norm(b_per_contact_j1[j] - b_per_contact_j0[j]) / np.linalg.norm(b_per_contact_j0[j]) > 1e-03:
+				count += 1
+		if count < 1:	
+			R = rho[k]*xi[k+1]
+			N1 = csc_matrix.dot(M, v[k+1]) - csc_matrix.dot(A_T, R) + f
+			N2 = R - projection(R - u[k+1], 1/mu, dim1, dim2)  
+			N1_norm = np.linalg.norm(N1)
+			N2_norm = np.linalg.norm(N2)
+
+			print np.sqrt( N1_norm**2 + N2_norm**2 )				
+			#print rho[k]*xi[k+1]	
+			break
 
 		###################################
 		## accelerated ADMM with restart ##
@@ -148,8 +171,9 @@ def cp_RR(problem_data, rho_method):
 	####################
 	## REPORTING DATA ##
 	####################
-	print u[-1]
-	plotit(r,s,start,end,'With acceleration / With restarting for '+problem_data+' for rho: '+rho_method)
+	plotit(b,r,start,end,'With acceleration / With restarting for '+problem_data+' for rho: '+rho_method)
 
 	time = end - start
+	#print 'Total time: ', time
+	#print b[-1]
 	return time

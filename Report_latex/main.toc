@@ -41,3 +41,5 @@
 \contentsline {subsection}{\numberline {8.2}Internal update}{25}
 \contentsline {subsection}{\numberline {8.3}External update}{26}
 \contentsline {subsection}{\numberline {8.4}Comparison}{27}
+\contentsline {section}{\numberline {9}Appendix A}{29}
+\contentsline {subsection}{\numberline {9.1}Convex formulation without initial affine constraints}{29}

@@ -200,9 +200,9 @@ where the set $K_{e,\mu} \subseteq \Re^{m}$ is the cartesian product of Couloumb
 
 The function $\Phi: \Re^{m} \rightarrow \Re^{m}$ is a nonsmooth function defined as
 \begin{align}
-	\Phi(\bi{u}) = [\mu^{\alpha} \| E_{t} \bi{u}^{\alpha} \| \hat{\bi{e}}_{t}, \alpha = 1...n_{c}]^{\top}
+	\Phi(\bi{u}) = [\mu^{\alpha} \| E_{t} \bi{u}^{\alpha} \| \hat{\bi{e}}_{n}, \alpha = 1...n_{c}]^{\top}
 \end{align}
-where $\hat{\bi{e}}_{t} = [0, 1, 1]^{\top}$ is the tangential component vector and $E_{t} = \diag (0,1,1) \in \Re^{3 \times 3}$ the linear transformation that maps to the tangential part of $\tilde{\bi{u}}$.
+where $\hat{\bi{e}}_{t} = [1, 0, 0]^{\top}$ is the normal component vector and $E_{t} = \diag (0,1,1) \in \Re^{3 \times 3}$ the linear transformation that maps to the tangential part of $\tilde{\bi{u}}$.
 
 \clearpage
 \mbox{}
@@ -362,7 +362,7 @@ Then problem \eqref{P.original.friction.SOCP.1} is equivalently rewritten as fol
      \tilde{\bi{u}} = H \bi{v} + \bi{w} + \Phi(\bi{s})   
    \end{alignat}
  \end{subequations} 
-where $\Phi(\bi{s}) = [\mu^{\alpha} \| E_{t} \bi{s}^{\alpha} \| \hat{e}_{t}, \alpha = 1...n_{c}]^{\top}$. Therefore, in the notation of \eqref{P.convex.1}: $f(\bi{v}) = \frac{1}{2} \bi{v}^{\top} M \bi{v} + \bi{f}^{\top} \bi{v}, g(\tilde{\bi{u}}) = \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}), A = H , B = -I$ and $\bi{c} = -\bi{w} -\Phi(\bi{s})$.
+where $\Phi(\bi{s}) = [\mu^{\alpha} \| E_{t} \bi{s}^{\alpha} \| \hat{e}_{n}, \alpha = 1...n_{c}]^{\top}$. Therefore, in the notation of \eqref{P.convex.1}: $f(\bi{v}) = \frac{1}{2} \bi{v}^{\top} M \bi{v} + \bi{f}^{\top} \bi{v}, g(\tilde{\bi{u}}) = \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}), A = H , B = -I$ and $\bi{c} = -\bi{w} -\Phi(\bi{s})$.
 
 \subsection{Iteration}
 \label{sec:direction}
@@ -498,7 +498,7 @@ The $\rho^{\star}$ that minimizes the rate of convergence is
 \begin{align}
   \rho^{\star} := \left(\sqrt{\lambda_{min}(H M^{-1} H^{\top}) \lambda_{max}(H M^{-1} H^{\top})}\right) ^{-1} 
 \end{align}
-If the constraint matrix $H$ is not full rank, the smallest non-zero eigenvalue is taken, which still works as a heuristic to reduce the rate of convergence \citep{ghadimi2015optimal}.
+If the constraint matrix $H$ is not full rank, the smallest non-zero eigenvalue is taken, which still works as a heuristic to reduce the rate of convergence \citep{ghadimi2015optimal}. It is worth noting that the matrix $H M^{-1} H^{\top}$ is called \textit{Delassus Matrix} and is denoted by $W$.
 
 \subsubsection{Di Cairano}
 The $\rho^{\star}$ that minimizes the rate of convergence is
@@ -1169,7 +1169,7 @@ Another issue is the initial guess of $s$ to improve the rate of convergence. On
 For the next development, we consider
 \begin{align}
 	\Phi(\bi{u})
-	= [\mu^{\alpha} \| E_{t} \bi{u}^{\alpha} \| \hat{\bi{e}}_{t}, \alpha = 1...n_{c}]^{T}
+	= [\mu^{\alpha} \| E_{t} \bi{u}^{\alpha} \| \hat{\bi{e}}_{n}, \alpha = 1...n_{c}]^{T}
 	= [\mu^{\alpha} \| E_{t} \left( H \bi{v} + \bi{w} \right)^{\alpha} \| \hat{\bi{e}}_{t}, \alpha = 1...n_{c}]^{T}
 \end{align}
 therefore $\Phi(\bi{u})$ could be seen as $\Phi(\bi{v})$. Then, the problem \eqref{eq.ADMM.friction.AugLagrange} is a minimization problem of a convex 
@@ -1221,7 +1221,7 @@ this non-linearity is difficult to handle, however, if the previous iteration is
 which follows the same structure of \eqref{eq.ADMM.friction.2.1} and allows us to perform a LU or Cholesky factorization. If $\| E_{t} \bi{u}^{\alpha} \| \neq 0$
 \begin{align}
   \partial_{\bi{v}} \Phi(\bi{v})
-  = \Bigl[ \mu^{\alpha} \hat{\bi{e}}_{t}^{\top}
+  = \Bigl[ \mu^{\alpha} \hat{\bi{e}}_{n}^{\top}
   \frac{E_{t} \left( H \bi{v} + \bi{w} \right)^{\alpha}}{\| E_{t} \left( H \bi{v} + \bi{w} \right)^{\alpha} \|}
   E_{t}^{\top} H^{\alpha^{\top}}, \alpha = 1...n_{c} \Bigr]^{T} = \Psi
 \end{align}
@@ -1340,6 +1340,82 @@ Both external and internal update converges to almost the same value of $\| \Phi
 %\item Solution of large linear systems withsymmetric positive definite matricesgeneral symmetric matricesgeneral unsymmetric matrices.
 %\end{itemize}
 %}
+
+\clearpage
+\mbox{}
+\section{Appendix A}
+\subsection{Convex formulation without initial affine constraints}
+The problem reads 
+\begin{subequations}\label{P.Delassus1}%
+  \begin{alignat}{3}
+    & \MIN_{\bi{r}}  &{\quad}& 
+    \frac{1}{2} \bi{r}^{\top} W \bi{r} + \bi{r}^{\top} (\bi{q}+\bi{s}) \\
+    & \ST && 
+    \bi{r} \in K_{e,\mu}
+  \end{alignat}
+\end{subequations}
+
+This problem can be rewritten in ADMM form introducing a lack variable
+\begin{subequations}\label{P.Delassus2}%
+  \begin{alignat}{3}
+    & \MIN_{\bi{r}}  &{\quad}& 
+    \frac{1}{2} \bi{r}^{\top} W \bi{r} + \bi{r}^{\top} (\bi{q}+\bi{s}) \\
+    & \ST && 
+    \bi{r} = \bi{p} \\
+    & && 
+    \bi{p} \in K_{e,\mu}
+  \end{alignat}
+\end{subequations}
+
+This problem is a minimization problem of a convex 
+function under linear equality constraints. 
+Its augmented Lagrangian (in the scaled form) is formulated as 
+\begin{align}
+	  L_{\rho}(\bi{r};\bi{p};\bi{\zeta}) =& 
+	  \frac{1}{2} \bi{r}^{\top} W \bi{r} + 
+	  \bi{r}^{\top} ( \bi{q} + \bi{s} ) + 
+	  \delta_{K_{e,\mu}}(\bi{p}) + 
+	  \frac{\rho}{2} \| \bi{r} - \bi{p} + \bi{\zeta} \|^{2} - 
+	  \frac{\rho}{2} \| \bi{\zeta} \|^{2}
+\end{align}
+where $\rho$ is the penalty parameter, and $\bi{\zeta} \in \Re^{m}$ is  the scaled dual variable (the scaled Lagrange multiplier). 
+The ADMM solving problem consists of 
+iterating the updates 
+\begin{align}
+  \bi{r}^{k+1} 
+  &:= \argmin_{\bi{r}} 
+  L_{\rho}(\bi{r};\bi{p}^{k};\bi{\zeta}^{k})  ,  \\
+  \bi{p}^{k+1}
+  &:= \argmin_{\bi{p}} 
+    L_{\rho}(\bi{r}^{k+1};\bi{p};\bi{\zeta}^{k}) , \\
+  \bi{\zeta}^{k+1} &:= \bi{\zeta}^{k} 
+  + ( \bi{r}^{k+1} - \bi{p}^{k+1}) .
+\end{align}
+
+The first step corresponds to 
+unconstrained minimization of a convex quadratic function. 
+It follows from the stationarity condition of this convex quadratic 
+function that $\bi{v}^{k+1}$ is the solution to the following system of 
+linear equations: 
+\begin{align}
+  \Bigl[ W + \rho I \Bigr] \bi{r}^{k+1} 
+  = - ( \bi{q} + \bi{s} ) 
+  + \rho ( \bi{p}^{k} - \bi{\zeta}^{k} )  .
+\end{align}
+
+The second step can be computed independently for each $\alpha = 1 ... n_{c}$ as 
+\begin{align}
+  \bi{p}^{k+1}
+  &:= \argmin_{\bi{p}} 
+    \delta_{K_{e,\mu}}(\bi{p}) 
+    + \frac{\rho}{2} \| \bi{r}^{k+1} - \bi{p} + \bi{\zeta}^{k}  \|^{2}.
+\end{align}
+it can be rewritten by using the projection onto the second-order cone as 
+\begin{align}
+  \bi{p}^{k+1} := \Pi_{K_{e,\mu}}(\bi{r}^{k+1}  + \bi{\zeta}^{k})
+\end{align}
+It is worthy to note that for (74) we carry out a Cholesky or LU factorization and (76) can be solved explicitly. All this procedure is simpler than the one applied in Section 3.
+
 
 \clearpage
 \mbox{}

@@ -6,7 +6,7 @@ import numpy as np
 
 eta = 0.999
 def plusr(tau,u,u_hat,xi,xi_hat,k,e,rho):
-	e.append(np.square(np.linalg.norm(xi[k+1]-xi_hat[k])) + rho * np.square(np.linalg.norm(u[k+1]-u_hat[k]))) #e[k]
+	e.append(rho * np.square(np.linalg.norm(xi[k+1]-xi_hat[k])) + rho * np.square(np.linalg.norm(u[k+1]-u_hat[k]))) #e[k]
 
 	if e[k] < eta * e[k-1]:
 		tau.append(0.5 * (1 + np.sqrt(1 + 4 * np.square(tau[k])))) #tau[k+1]
