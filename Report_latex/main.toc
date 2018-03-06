@@ -43,3 +43,4 @@
 \contentsline {subsection}{\numberline {8.4}Comparison}{27}
 \contentsline {section}{\numberline {9}Appendix A}{29}
 \contentsline {subsection}{\numberline {9.1}Convex formulation without initial affine constraints}{29}
+\contentsline {section}{\numberline {10}Appendix B}{30}

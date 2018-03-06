@@ -393,7 +393,7 @@ iterating the updates (see \eqref{eq.ADMM.update.2.1},
     \label{eq.ADMM.friction.1.2} \\
   \bi{\zeta}^{k+1} &:= \bi{\zeta}^{k} 
   + 
-  H \bi{v}^{k+1} - \tilde{\bi{u}}^{k+1} + \Phi(\bi{s}) . 
+  H \bi{v}^{k+1} +\bi{w} +\Phi(\bi{s}) - \tilde{\bi{u}}^{k+1} . 
   \label{eq.ADMM.friction.1.3}
 \end{align}
 
@@ -1415,6 +1415,31 @@ it can be rewritten by using the projection onto the second-order cone as
   \bi{p}^{k+1} := \Pi_{K_{e,\mu}}(\bi{r}^{k+1}  + \bi{\zeta}^{k})
 \end{align}
 It is worthy to note that for (74) we carry out a Cholesky or LU factorization and (76) can be solved explicitly. All this procedure is simpler than the one applied in Section 3.
+
+\clearpage
+\mbox{}
+\section{Appendix B}
+Take off $\bi{r} = \bi{0}$
+\begin{align*}
+\bi{u} + \bi{r} = \bi{u} \in K_{e,\mu}^{*}
+\end{align*}
+
+Sticking $\bi{u} = \bi{0}$
+\begin{align*}
+\bi{u} + \bi{r} = \bi{r} \in K_{e,\mu} \subseteq K_{e,\mu}^{*} 
+\end{align*}
+
+Sliding $\bi{u} \in \partial K_{e,\mu}^{*}$ and $\bi{r} \in \partial K_{e,\mu}$
+\begin{align*}
+\bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu}^{*}
+\end{align*}
+
+Therefore, for any case
+\begin{align*}
+\bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu}^{*} \\
+\Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{u} + \bi{r} \\
+\bi{u} + \bi{r} - \Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{0}
+\end{align*}
 
 
 \clearpage
