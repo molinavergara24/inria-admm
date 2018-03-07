@@ -1419,28 +1419,67 @@ It is worthy to note that for (74) we carry out a Cholesky or LU factorization a
 \clearpage
 \mbox{}
 \section{Appendix B}
-Take off $\bi{r} = \bi{0}$
+In the case
+\begin{align*}
+K_{e,\mu} \subseteq K_{e,\mu}^{*} \leftrightarrow
+0 \leq 2\theta \leq \frac{\pi}{2} \leftrightarrow
+0 \leq \mu \leq 1
+\end{align*}
+
+\begin{itemize}
+\item Take off $\bi{r} = \bi{0}$
 \begin{align*}
 \bi{u} + \bi{r} = \bi{u} \in K_{e,\mu}^{*}
 \end{align*}
 
-Sticking $\bi{u} = \bi{0}$
+\item Sticking $\bi{u} = \bi{0}$
 \begin{align*}
 \bi{u} + \bi{r} = \bi{r} \in K_{e,\mu} \subseteq K_{e,\mu}^{*} 
 \end{align*}
 
-Sliding $\bi{u} \in \partial K_{e,\mu}^{*}$ and $\bi{r} \in \partial K_{e,\mu}$
+\item Sliding $\bi{u} \in \partial K_{e,\mu}^{*}$ and $\bi{r} \in \partial K_{e,\mu}$
 \begin{align*}
 \bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu}^{*}
 \end{align*}
 
-Therefore, for any case
+\item Therefore, for any case
 \begin{align*}
 \bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu}^{*} \\
 \Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{u} + \bi{r} \\
 \bi{u} + \bi{r} - \Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{0}
 \end{align*}
+\end{itemize}
 
+In the case
+\begin{align*}
+K_{e,\mu}^{*} \subseteq K_{e,\mu} \leftrightarrow
+\frac{\pi}{2} \leq 2\theta \leq \pi \leftrightarrow
+1 \leq \mu \leq \infty
+\end{align*}
+
+\begin{itemize}
+\item Take off $\bi{r} = \bi{0}$
+\begin{align*}
+\bi{u} + \bi{r} = \bi{u} \in K_{e,\mu}^{*} \subseteq K_{e,\mu}
+\end{align*}
+
+\item Sticking $\bi{u} = \bi{0}$
+\begin{align*}
+\bi{u} + \bi{r} = \bi{r} \in K_{e,\mu}^{*} 
+\end{align*}
+
+\item Sliding $\bi{u} \in \partial K_{e,\mu}^{*}$ and $\bi{r} \in \partial K_{e,\mu}$
+\begin{align*}
+\bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu}
+\end{align*}
+
+\item Therefore, for any case
+\begin{align*}
+\bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu} \\
+\Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{0} \\
+\bi{u} + \bi{r} - \Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{u} + \bi{r}
+\end{align*}
+\end{itemize}
 
 \clearpage
 \mbox{}
