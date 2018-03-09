@@ -179,7 +179,7 @@ The problem data are: a positive definite matrix $M \in \Re^{n \times n}$, a vec
 
 \begin{align}
 	\begin{cases}
-	M \bi{v} = H^{\top} \bi{r} + \bi{f} \\
+	M \bi{v} + \bi{f} = H^{\top} \bi{r}  \\
 	K_{e,\mu}^{*}\ni \tilde{\bi{u}} \perp \bi{r} \in K_{e,\mu} \\
 	\end{cases}
 	\begin{array}{l}
@@ -195,7 +195,7 @@ where the set $K_{e,\mu} \subseteq \Re^{m}$ is the cartesian product of Couloumb
 	\prod_{\alpha = 1...n_{c}} \{ (x_{1},\bi{x}_{2}) \in \Re \times \Re^{n-1} \mid \| \bi{x}_{2} \| \le \mu x_{1} \} \\
 	\ K_{e,\mu}^{*} = \prod_{\alpha = 1...n_{c}} K_{e,\mu}^{\alpha *} =
 	\prod_{\alpha = 1...n_{c}} \{ (x_{1},\bi{x}_{2}) \in \Re \times \Re^{n-1}
-  \mid \| \bi{x}_{2} \| \le \frac{1}{\mu} x_{1} \} . 
+  \mid \| \bi{x}_{2} \| \le \frac{1}{\mu} x_{1} \} 
 \end{align}
 
 The function $\Phi: \Re^{m} \rightarrow \Re^{m}$ is a nonsmooth function defined as
@@ -225,7 +225,7 @@ $\bi{x} \in \Re^{n}$ and $\bi{y} \in \Re^{m}$:
     & \MIN  &{\quad}& 
     f(\bi{x}) + g(\bi{y}) \\
     & \ST && 
-    A \bi{x} + B \bi{y} = \bi{c} , 
+    A \bi{x} + B \bi{y} = \bi{c}  
   \end{alignat}
 \end{subequations}
 where $A \in \Re^{l \times n}$ and $B \in \Re^{l \times m}$ are constant 
@@ -236,7 +236,7 @@ The augmented Lagrangian of problem \eqref{P.convex.1} is defined as
   L_{\rho}(\bi{x};\bi{y};\bi{w}) 
   = f(\bi{x}) + g(\bi{y}) 
   + \bi{w}^{\top} (A \bi{x} + B \bi{y} - \bi{c}) 
-  + \frac{\rho}{2} \| A \bi{x} + B \bi{y} - \bi{c} \|^{2} ,
+  + \frac{\rho}{2} \| A \bi{x} + B \bi{y} - \bi{c} \|^{2} 
   \label{eq.ADMM.Lagrangian.1}
 \end{align}
 where $\rho > 0$ is the penalty parameter, 
@@ -245,23 +245,21 @@ variable).
 ADMM consists of the iterations 
 \begin{align}
   \bi{x}^{k+1} 
-  &:= \argmin_{\bi{x}} L_{\rho}(\bi{x};\bi{y}^{k};\bi{w}^{k}) ,\\
+  &:= \argmin_{\bi{x}} L_{\rho}(\bi{x};\bi{y}^{k};\bi{w}^{k}) \\
   \bi{y}^{k+1} 
-  &:= \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};\bi{w}^{k}) ,\\
+  &:= \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};\bi{w}^{k}) \\
   \bi{w}^{k+1} 
   &:= \bi{w}^{k} 
-  + \rho (A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c}) .
+  + \rho (A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c}) 
 \end{align}
-
-For reference, the algorithm called the method of multipliers 
-(or the augmented Lagrangian method) updates the variables as follows: 
+where the dual variable is updated via dual ascent method. For reference, the algorithm called the method of multipliers (or the augmented Lagrangian method) updates the variables as follows: 
 \begin{subequations}
 \begin{alignat}{3}
   (\bi{x}^{k+1},\bi{y}^{k+1})
   := \argmin_{\bi{x}, \bi{y}} L_{\rho}(\bi{x};\bi{y};\bi{w}^{k}) \\
   \bi{w}^{k+1} 
   := \bi{w}^{k} 
-  + \rho (A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c}) . 
+  + \rho (A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c})  
 \end{alignat}
 \end{subequations}
 
@@ -277,7 +275,7 @@ to
   L_{\rho}(\bi{x};\bi{y};\bi{z}) 
   = f(\bi{x}) + g(\bi{y}) 
   + \frac{\rho}{2} \| A \bi{x} + B \bi{y} - \bi{c} + \bi{z} \|^{2} 
-  - \frac{\rho}{2} \| \bi{z} \|^{2} . 
+  - \frac{\rho}{2} \| \bi{z} \|^{2} .
   \label{eq.ADMM.Lagrangian.2}
 \end{align}
 Using $L_{\rho}$ in \eqref{eq.ADMM.Lagrangian.2}, we can express ADMM as 
@@ -290,7 +288,7 @@ follows:
   &:= \argmin_{\bi{y}} L_{\rho}(\bi{x}^{k+1};\bi{y};\bi{z}^{k}) , 
   \label{eq.ADMM.update.2.2} \\
   \bi{z}^{k+1} 
-  &:= \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c} .
+  &:= \bi{z}^{k} + A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c} 
   \label{eq.ADMM.update.2.3}
 \end{align}
 The expression in \eqref{eq.ADMM.update.2.1}, \eqref{eq.ADMM.update.2.2}, 
@@ -337,9 +335,9 @@ The problem reads
     & \MIN_{\bi{v}, \tilde{\bi{u}}}  &{\quad}& 
     \frac{1}{2} \bi{v}^{\top} M \bi{v} + \bi{f}^{\top} \bi{v} \\
     & \ST && 
-    \tilde{\bi{u}} = H \bi{v} + \bi{w} + \Phi(\bi{s}) , \\
+    \tilde{\bi{u}} = H \bi{v} + \bi{w} + \Phi(\bi{s})  \\
     & && 
-    \tilde{\bi{u}} \in K_{e,\mu}^{*} ,
+    \tilde{\bi{u}} \in K_{e,\mu}^{*} 
   \end{alignat}
 \end{subequations}
 where $\bi{s} \in \Re^{m}$ is a parameter vector. Let $\delta_{K_{e,\mu}^{*}} : \Re^{n} \to \overRe$ denote the 
@@ -348,7 +346,7 @@ indicator function of $K_{e,\mu}^{*}$, i.e.,
   \delta_{K_{e,\mu}^{*}}(\bi{x}) = 
   \begin{dcases*}
     0 
-    & if $\bi{x} \in K_{e,\mu}^{*}$, \\
+    & if $\bi{x} \in K_{e,\mu}^{*}$ \\
     +\infty
     & otherwise. 
   \end{dcases*}
@@ -375,7 +373,7 @@ Its augmented Lagrangian (in the scaled form) is formulated as
   =& \frac{1}{2} \bi{v}^{\top} M \bi{v} + \bi{f}^{\top} \bi{v} 
   +  \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}) +  \frac{\rho}{2} 
   \| H \bi{v} + \bi{w} + \Phi(\bi{s}) + \bi{\zeta}  - \tilde{\bi{u}} \|^{2}
-    - \frac{\rho}{2} \| \bi{\zeta}\|^{2} , 
+    - \frac{\rho}{2} \| \bi{\zeta}\|^{2} 
     \label{eq.ADMM.friction.AugLagrange}
 \end{align}
 where $\rho$ is the penalty parameter, and $\bi{\zeta} \in \Re^{m}$ is  the scaled dual variable (the scaled Lagrange multiplier). 
@@ -385,15 +383,15 @@ iterating the updates (see \eqref{eq.ADMM.update.2.1},
 \begin{align}
   \bi{v}^{k+1} 
   &:= \argmin_{\bi{v}} 
-  L_{\rho}(\bi{v};\tilde{\bi{u}}^{k};\bi{\zeta}^{k})  , 
+  L_{\rho}(\bi{v};\tilde{\bi{u}}^{k};\bi{\zeta}^{k})  
   \label{eq.ADMM.friction.1.1} \\
   \tilde{\bi {u}}^{k+1}
   &:= \argmin_{\tilde{\bi{u}}} 
-    L_{\rho}(\bi{v}^{k+1};\tilde{\bi{u}};\bi{\zeta}^{k}) ,
+    L_{\rho}(\bi{v}^{k+1};\tilde{\bi{u}};\bi{\zeta}^{k}) 
     \label{eq.ADMM.friction.1.2} \\
   \bi{\zeta}^{k+1} &:= \bi{\zeta}^{k} 
   + 
-  H \bi{v}^{k+1} +\bi{w} +\Phi(\bi{s}) - \tilde{\bi{u}}^{k+1} . 
+  H \bi{v}^{k+1} +\bi{w} +\Phi(\bi{s}) - \tilde{\bi{u}}^{k+1}  
   \label{eq.ADMM.friction.1.3}
 \end{align}
 
@@ -406,7 +404,7 @@ linear equations:
   \Bigl[ M + 
   \rho H^{\top} H \Bigr] \bi{v}^{k+1} 
   = -\bi{f} 
-  + \rho H^{\top} (\tilde{\bi{u}}^k - \bi{w} - \Phi(\bi{s}) - \bi{\zeta}^k)  . \label{eq.ADMM.friction.2.1}
+  + \rho H^{\top} (\tilde{\bi{u}}^k - \bi{w} - \Phi(\bi{s}) - \bi{\zeta}^k)   \label{eq.ADMM.friction.2.1}
 \end{align}
 
 The second step in \eqref{eq.ADMM.friction.1.2} can be computed independently for each $\alpha = 1 ... n_{c}$ as 
@@ -415,27 +413,32 @@ The second step in \eqref{eq.ADMM.friction.1.2} can be computed independently fo
   &:= \argmin_{\tilde{\bi{u}}} 
     \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}) 
     + \frac{\rho}{2} 
-    \| H \bi{v}^{k+1} + \bi{w} + \Phi(\bi{s}) + \bi{\zeta}^{k} - \bi{\tilde u} \|^{2}.
+    \| H \bi{v}^{k+1} + \bi{w} + \Phi(\bi{s}) + \bi{\zeta}^{k} - \bi{\tilde u} \|^{2}
   \label{eq.ADMM.friction.2.2}
 \end{align}
-\eqref{eq.ADMM.friction.2.2} can be rewritten by using the projection 
-onto the second-order cone as 
+which is identified as the proximity operator or the Moreau-Yosida regularization of $\delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}})$ and this can be written explicitly by using the projection onto the second-order cone as
 \begin{align}
   \tilde{\bi{u}}^{k+1} := \Pi_{K_{e,\mu}^{*}}(H \bi{v}^{k+1} + \bi{w} + \Phi(\bi{s}) + \bi{\zeta}^{k})
   \label{eq.ADMM.friction.2.2bi}
 \end{align}
-It is worthy to note that for \eqref{eq.ADMM.friction.2.1} we carry out a Cholesky or LU factorization and \eqref{eq.ADMM.friction.2.2bi} can be solved explicitly by using the formulan given in the next section.
+moreover, it is recognized in \eqref{eq.ADMM.friction.2.2bi} the fixed-point iteration solution of the VI formulation of \eqref{CF.complementary}, described by Acary in \citep{acary:hal-01630836}, which is related to the zeroes of the natural map, i.e.,
+\begin{align}
+F_{\rho}^{nat}(\tilde{\bi{u}}) = \tilde{\bi{u}} - \Pi_{K_{e,\mu}^{*}}(\tilde{\bi{u}} - \rho \bi{r}) = 0 \label{eq.ADMM.naturalmap}
+\end{align}
+where $\bi{r}$ is the contact reaction or impulse (see Appendix C for the relationship between $\bi{r}$ and $\bi{\zeta}$). This formulation helps us to notice the fixed-point interation for the VI formulation immersed in the ADMM algorithm.
+
+Finally, it is worthy to note that for \eqref{eq.ADMM.friction.2.1} we carry out a Cholesky or LU factorization and \eqref{eq.ADMM.friction.2.2bi} can be solved explicitly by using the formulan given in the next section.
 
 \subsection{Projection onto dual second-order cone}
 
 For vector $\bi{x} = (x_{1},\bi{x}_{2}) \in \Re \times \Re^{n-1}$, its spectral 
 factorization with respect to $K_{e,\mu}^{*}$ by means of Jordan algebra (in a general SOCC-function) is defined by \citep{hayashi2005combined}
 \begin{align}
-  \bi{x} = \lambda_{1} \bi{u}^{1} + \lambda_{2} \bi{u}^{2} . 
+  \bi{x} = \lambda_{1} \bi{u}^{1} + \lambda_{2} \bi{u}^{2}  
 \end{align}
 Here, $\lambda_{1}$, $\lambda_{2} \in \Re$ are the spectral values given by 
 \begin{align}
-  \lambda_{i} = x_{1} + \left({-}1\right)^{i} \mu^{\left({-}1\right)^{i+1}} \| \bi{x}_{2} \| , 
+  \lambda_{i} = x_{1} + \left({-}1\right)^{i} \mu^{\left({-}1\right)^{i+1}} \| \bi{x}_{2} \|  
 \end{align}
 and $\bi{u}^{1}$, $\bi{u}^{2}  \in \Re^{n}$ are the spectral vectors 
 given by 
@@ -446,12 +449,12 @@ given by
     \begin{bmatrix}
       \mu^{2 \left(i-2\right)}  \\   \left({-}1\right)^{i} \frac{1}{\mu} \bi{x}_{2} / \| \bi{x}_{2} \| 
     \end{bmatrix}
-    & if $\bi{x}_{2} \not= \bi{0}$, \\
+    & if $\bi{x}_{2} \not= \bi{0}$ \\
     \frac{\mu^{2}}{1+\mu^{2}}
     \begin{bmatrix}
       \mu^{2 \left(i-2\right)}  \\   \left({-}1\right)^{i} \frac{1}{\mu} \bi{\omega}
     \end{bmatrix}
-    & if $\bi{x}_{2} = \bi{0}$, \\
+    & if $\bi{x}_{2} = \bi{0}$ \\
   \end{dcases*}  
 \end{align}
 with $\bi{\omega} \in \Re^{n-1}$ satisfying $\| \bi{\omega} \| = 1$. \\
@@ -466,7 +469,7 @@ This can be computed explicitly as \citep{fukushima2002smoothing}
 \begin{align}
   \Pi_{K_{e,\mu}^{*}}(\bi{x}) 
   = \max \{ 0,\lambda_{1} \} \bi{u}^{1} 
-  + \max \{ 0,\lambda_{2} \} \bi{u}^{2} .
+  + \max \{ 0,\lambda_{2} \} \bi{u}^{2} 
   \label{eq.projection.formula}
 \end{align}
 Therefore the projection of $\bi{x}$ onto $K_{e,\mu}^{*}$ could be written as follows
@@ -526,9 +529,9 @@ He et al. \citep{He2000} argue that adaptively choosing the penalty parameter to
   \rho^{k+1} := 
   \begin{dcases*}
 	\tau \rho^{k}
-    & if $ \| \bi{r}^{k} \| > \varphi \| \bi{s}^{k} \|$, \\
+    & if $ \| \bi{r}^{k} \| > \varphi \| \bi{s}^{k} \|$ \\
     \tau^{-1} \rho^{k}
-    & if $ \| \bi{s}^{k} \| > \varphi \| \bi{r}^{k} \|$, \\
+    & if $ \| \bi{s}^{k} \| > \varphi \| \bi{r}^{k} \|$ \\
     \rho^{k}
     & otherwise, \\
   \end{dcases*}  
@@ -540,9 +543,9 @@ The behavior of ADMM under scaling is addresed by Wohlberg \citep{wohlberg2017ad
   \rho^{k+1} := 
   \begin{dcases*}
 	\tau \rho^{k}
-    & if $ \| \bi{r}_{rel}^{k} \| > \xi \varphi \| \bi{s}_{rel}^{k} \|$, \\
+    & if $ \| \bi{r}_{rel}^{k} \| > \xi \varphi \| \bi{s}_{rel}^{k} \|$ \\
     \tau^{-1} \rho^{k}
-    & if $ \| \bi{s}_{rel}^{k} \| > \xi \varphi \| \bi{r}_{rel}^{k} \|$, \\
+    & if $ \| \bi{s}_{rel}^{k} \| > \xi \varphi \| \bi{r}_{rel}^{k} \|$ \\
     \rho^{k}
     & otherwise, \\
   \end{dcases*}  
@@ -566,11 +569,11 @@ The fixed multiplier $\tau$ is a potential weakness of the penalty update polici
   \tau^{k+1} := 
   \begin{dcases*}
 	\sqrt{\xi^{-1} \frac{\| \bi{r}_{rel}^{k} \|}{\| \bi{s}_{rel}^{k} \|}}
-    & if $1 \leq \sqrt{\xi^{-1} \frac{\| \bi{r}_{rel}^{k} \|}{\| \bi{s}_{rel}^{k} \|}} < \tau_{max}$, \\
+    & if $1 \leq \sqrt{\xi^{-1} \frac{\| \bi{r}_{rel}^{k} \|}{\| \bi{s}_{rel}^{k} \|}} < \tau_{max}$ \\
     \sqrt{\xi \frac{\| \bi{s}_{rel}^{k} \|}{\| \bi{r}_{rel}^{k} \|}}
-    & if $\tau_{max}^{-1} < \sqrt{\xi^{-1} \frac{\| \bi{r}_{rel}^{k} \|}{\| \bi{s}_{rel}^{k} \|}} < 1$, \\
+    & if $\tau_{max}^{-1} < \sqrt{\xi^{-1} \frac{\| \bi{r}_{rel}^{k} \|}{\| \bi{s}_{rel}^{k} \|}} < 1$ \\
     \tau_{max}
-    & otherwise, \\
+    & otherwise \\
   \end{dcases*}  
 \end{align}
 where $\tau_{max}$ provides a bound on $\tau$, i.e., the convergence results in \citep{He2000} still hold for this extension.
@@ -659,7 +662,7 @@ updates of $\bi{y}^{k}$ and $\bi{z}^{k}$ which takes into account past iteration
 For weakly convex problems, we must enforce stability using a restart rule, which often makes the relaxed algorithm more efficient. It is also proposed in \citep{goldstein2014fast}. The restart rule relies on a combined resiual, which measures both the primal and dual error simultaneously:
 \begin{align}
 	e_{k}
-    := \| \bi{z}^{k+1} - \frac{\rho^{k-1}}{\rho^{k}} \hat{\bi{z}}^{k} \|^{2}
+    := \rho^{k} \| \bi{z}^{k+1} - \frac{\rho^{k-1}}{\rho^{k}} \hat{\bi{z}}^{k} \|^{2}
     + \rho^{k} \| B (\bi{y}^{k+1} - \hat{\bi{y}}^{k}) \|^{2}
 \end{align}
 if $e_{k} < \eta e_{k-1}$ the relaxed ADMM \eqref{eq.ADMM.relaxed} is performed, otherwise, the restart rule states
@@ -1097,7 +1100,7 @@ Figure 1 shows that most of the algorithms are robust but slow. They are able to
 \clearpage
 \mbox{}
 \subsubsection{Di Cairano}
-Figure 2 shows that half of the algorithms suffer of robustness. Wohlberg and Spectral $\rho$-updates depict the worst behavior. Furthermore, the difference bewteen the constant and varying penalty parameter is highly comparable in He $\rho$-update.
+Figure 2 shows that most of the algorithms suffer of robustness. Wohlberg and Spectral $\rho$-updates depict the worst behavior. Furthermore, the difference bewteen the constant and varying penalty parameter is highly comparable in He $\rho$-update.
 
 \begin{figure}[hbtp]
 \centering
@@ -1108,7 +1111,7 @@ Figure 2 shows that half of the algorithms suffer of robustness. Wohlberg and Sp
 \clearpage
 \mbox{}
 \subsubsection{Acary}
-Figure 2 shows that half of the algorithms suffer of robustness. Wohlberg and Spectral $\rho$-updates depict the worst behavior. Furthermore, the difference bewteen the constant and varying penalty parameter is only comparable in He $\rho$-update.
+Figure 2 shows that most of the algorithms suffer of robustness. Wohlberg and Spectral $\rho$-updates depict the worst behavior. Furthermore, the difference bewteen the constant and varying penalty parameter is only comparable in He $\rho$-update.
 
 \begin{figure}[hbtp]
 \centering
@@ -1180,7 +1183,7 @@ Its augmented Lagrangian (in the scaled form) is formulated as
   =& \frac{1}{2} \bi{v}^{\top} M \bi{v} + \bi{f}^{\top} \bi{v} 
   +  \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}) +  \frac{\rho}{2} 
   \| H \bi{v} + \bi{w} + \Phi(\bi{v}) + \bi{\zeta}  - \tilde{\bi{u}} \|^{2}
-    - \frac{\rho}{2} \| \bi{\zeta}\|^{2} , 
+    - \frac{\rho}{2} \| \bi{\zeta}\|^{2} 
 \end{align}
 where $\rho$ is the penalty parameter, and $\bi{\zeta} \in \Re^{m}$ is  the scaled dual variable (the scaled Lagrange multiplier). 
 The ADMM solving problem \eqref{P.quadratic.SOCP.2} consists of 
@@ -1188,15 +1191,15 @@ iterating the updates
 \begin{align}
   \bi{v}^{k+1} 
   &:= \argmin_{\bi{v}} 
-  L_{\rho}(\bi{v};\tilde{\bi{u}}^{k};\bi{\zeta}^{k})  , 
+  L_{\rho}(\bi{v};\tilde{\bi{u}}^{k};\bi{\zeta}^{k})   
   \label{eq.ADMM.friction.1.1new} \\
   \tilde{\bi {u}}^{k+1}
   &:= \argmin_{\tilde{\bi{u}}} 
-    L_{\rho}(\bi{v}^{k+1};\tilde{\bi{u}};\bi{\zeta}^{k}) ,
+    L_{\rho}(\bi{v}^{k+1};\tilde{\bi{u}};\bi{\zeta}^{k}) 
     \label{eq.ADMM.friction.1.2new} \\
   \bi{\zeta}^{k+1} &:= \bi{\zeta}^{k} 
   + 
-  H \bi{v}^{k+1} - \tilde{\bi{u}}^{k+1} + \Phi(\bi{v}^{k+1}) . 
+  H \bi{v}^{k+1} - \tilde{\bi{u}}^{k+1} + \Phi(\bi{v}^{k+1})  
   \label{eq.ADMM.friction.1.3bis}
 \end{align}
 
@@ -1230,9 +1233,18 @@ Therefore
   \Bigl[ M + 
   \rho \left( H^{\top} + \Psi \right) H \Bigr] \bi{v}^{k+1} 
   = -\bi{f} 
-  + \rho \left( H^{\top} + \Psi \right) (\tilde{\bi{u}}^k - \bi{w} - \Phi(\bi{v}^{k}) - \bi{\zeta}^k)  . 
+  + \rho \left( H^{\top} + \Psi \right) (\tilde{\bi{u}}^k - \bi{w} - \Phi(\bi{v}^{k}) - \bi{\zeta}^k)  
+  \label{eq.ADMM.subgradient0}
 \end{align}
-
+Note that if in \eqref{eq.ADMM.friction.1.1new} it is evaluated $\Phi(\bi{v})$ in the previous iteration before compute the stationary condition, it results in
+\begin{align}
+  \Bigl[ M + 
+  \rho H^{\top} H \Bigr] \bi{v}^{k+1} 
+  = -\bi{f} 
+  + \rho H^{\top} (\tilde{\bi{u}}^k - \bi{w} - \Phi(\bi{v}^{k}) - \bi{\zeta}^k) 
+  \label{eq.ADMM.subgradient1}
+\end{align}
+which is a pseudo-update of \eqref{eq.ADMM.friction.1.1new} in comparison with \eqref{eq.ADMM.subgradient0}, but it aims to be faster whitout the compuation of $\Psi$, therefore, \eqref{eq.ADMM.subgradient1} will be used.
 
 The second step in \eqref{eq.ADMM.friction.1.2new} can be computed independently for each $\alpha = 1 ... n_{c}$ as 
 \begin{align}
@@ -1240,20 +1252,27 @@ The second step in \eqref{eq.ADMM.friction.1.2new} can be computed independently
   &:= \argmin_{\tilde{\bi{u}}} 
     \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}) 
     + \frac{\rho}{2} 
-    \| H \bi{v}^{k+1} + \bi{w} + \Phi(\bi{v}^{k}) + \bi{\zeta}^{k} - \bi{\tilde u} \|^{2}.
+    \| H \bi{v}^{k+1} + \bi{w} + \Phi(\bi{v}^{k}) + \bi{\zeta}^{k} - \bi{\tilde u} \|^{2}
   \label{eq.ADMM.friction.2.2bis}
 \end{align}
 \eqref{eq.ADMM.friction.2.2bis} can be rewritten by using the projection 
 onto the second-order cone as 
 \begin{align}
-  \tilde{\bi{u}}^{k+1} := \Pi_{K_{e,\mu}^{*}}(H \bi{v}^{k+1} + \bi{w} + \bi{\zeta}^{k} + \Phi(\bi{v}^{k}))
+  \tilde{\bi{u}}^{k+1} := \Pi_{K_{e,\mu}^{*}}(H \bi{v}^{k+1} + \bi{w} + \bi{\zeta}^{k} + \Phi(\bi{v}^{k+1}))
 \end{align}
+
 \subsection{External update}
 In this case, the external error measurement is given for each $\alpha = 1 ... n_{c}$ by 
 \begin{align}
 	\Bigl[ \frac{\Phi(\bi{v}^{k+1}) - \Phi(\bi{v}^{k})}{\Phi(\bi{v}^{k})} \Bigr]^{\alpha} \leq \epsilon^{ext} \label{eq.stopcriterionexternal}
 \end{align}
 where $\epsilon^{ext}$ is the external tolerance, with a value $10^{-3}$.
+
+\subsection{SICONOS error}
+The primal residual measures the error in the constraint in \eqref{CF.complementary}, but also the error could be measured from the dynamic equation and the natural map \eqref{eq.ADMM.naturalmap} as
+\begin{align}
+\epsilon^{SIC} = \sqrt{\| M \bi{v} + \bi{f} - H^{\top} \bi{r} \|^{2} + \| \tilde{\bi{u}} - \Pi_{K_{e,\mu}^{*}}(\tilde{\bi{u}} - \rho \bi{r}) \|^{2}}
+\end{align}
 
 \clearpage
 \mbox{}
@@ -1264,21 +1283,25 @@ In most of the test examples the behavior dispicted in Figure 5-7 is observed. T
 In Figure 5 is observed a convergence after 7 external iterations. Note that the first value is not shown because is zero.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.5]{Results/S_update/External13.png}
+\includegraphics[width=\textwidth]{Results/S_update/External13.png}
 \caption{External update with vp-RR-He (Di Cairano).}
 \end{figure}
 
+\clearpage
+\mbox{}
 In Figure 6 is observed a convergence after 43 internal iterations. From iteration 25 the same value holds, but the stop criterion \eqref{eq.stopcriterion} is not satisfied.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.5]{Results/S_update/Internal13.png}
+\includegraphics[width=\textwidth]{Results/S_update/Internal13.png}
 \caption{Internal update with vp-RR-He (Di Cairano).}
 \end{figure}
 
+\clearpage
+\mbox{}
 In Figure 7 is despicted the same internal update, but the stop criterion \eqref{eq.stopcriterion} is changed for the external one  \eqref{eq.stopcriterionexternal}. It is observed that $\| \Phi(\bi{v}) \|$ holds from iteration 25, but $\Phi(\bi{v})^{\alpha}$ is not the same from iteration to iteration, the test was stopped at 1000 iterations.
 \begin{figure}[hbtp]
 \centering
-\includegraphics[scale=0.5]{Results/S_update/Internal13outsidestop.png}
+\includegraphics[width=\textwidth]{Results/S_update/Internal13outsidestop.png}
 \caption{Internal update with vp-RR-He (Di Cairano) and stop criterion in \eqref{eq.stopcriterionexternal}.}
 \end{figure}
 
@@ -1306,18 +1329,18 @@ In Table \ref{Table:3} are shown the values of the final $\| \Phi(s) \|$ with it
  \hline
   & External & Internal & Internal-s \\ [0.5ex] 
  \hline\hline
- $\| \Phi(s) \|$ & 9.34e-02 & 9.43e-02 & 9.43e-02 \\ 
+ $\| \Phi(s) \|$ & 7.10e-02 & 7.10e-02 & 7.10e-02 \\ 
  \hline
- $\Phi(s)^{\alpha = 1}$ & [0.00e+00  5.19e-06  5.19e-06] & [0.00e+00  5.67e-06  5.67e-06] & [0.00e+00  3.89e-06  3.89e-06] \\
+ $\Phi(s)^{\alpha = 1}$ & [8.31e-06  0.00e+00  0.00e+00] & [6.49e-06  0.00e+00  0.00e+00] & [7.45e-06  0.00e+00  0.00e+00] \\
  \hline
- $\Phi(s)^{\alpha = n_{c}}$ & [0.00e+00  5.02e-04  5.02e-04] & [0.00e+00  4.78e-04  4.78e-04] & [0.00e+00  4.73e-04  4.73e-04] \\ [1ex] 
+ $\Phi(s)^{\alpha = n_{c}}$ & [1.02e-05  0.00e+00  0.00e+00] & [1.19e-05  0.00e+00  0.00e+00] & [7.85e-06  0.00e+00  0.00e+00] \\ [1ex] 
  \hline
 \end{tabular}
 \caption{Comparison of s-update}
 \label{Table:3}
 \end{table}
 
-Both external and internal update converges to almost the same value of $\| \Phi(s) \|$, but this is an apparent result of uniqueness when $\Phi(s)^{\alpha}$ is compared in each case. Therefore, the internal update does not guarantee the same result for $\Phi(s)$.
+Both external and internal update converges to the same value of $\| \Phi(s) \|$, but this is an apparent result of uniqueness when $\Phi(s)^{\alpha}$ is compared in each case. Therefore, the internal update does not guarantee the same result for $\Phi(s)$.
 
 %\clearpage
 %\mbox{}
@@ -1416,70 +1439,109 @@ it can be rewritten by using the projection onto the second-order cone as
 \end{align}
 It is worthy to note that for (74) we carry out a Cholesky or LU factorization and (76) can be solved explicitly. All this procedure is simpler than the one applied in Section 3.
 
+%\clearpage
+%\mbox{}
+%\section{Appendix B}
+%In the case
+%\begin{align*}
+%K_{e,\mu} \subseteq K_{e,\mu}^{*} \leftrightarrow
+%0 \leq 2\theta \leq \frac{\pi}{2} \leftrightarrow
+%0 \leq \mu \leq 1
+%\end{align*}
+%
+%\begin{itemize}
+%\item Take off $\bi{r} = \bi{0}$
+%\begin{align*}
+%\bi{u} - \bi{r} = \bi{u} \in K_{e,\mu}^{*}
+%\end{align*}
+%
+%\item Sticking $\bi{u} = \bi{0}$
+%\begin{align*}
+%\bi{u} + \bi{r} = \bi{r} \in K_{e,\mu} \subseteq K_{e,\mu}^{*} 
+%\end{align*}
+%
+%\item Sliding $\bi{u} \in \partial K_{e,\mu}^{*}$ and $\bi{r} \in \partial K_{e,\mu}$
+%\begin{align*}
+%\bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu}^{*}
+%\end{align*}
+%
+%\item Therefore, for any case
+%\begin{align*}
+%\bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu}^{*} \\
+%\Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{u} + \bi{r} \\
+%\bi{u} + \bi{r} - \Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{0}
+%\end{align*}
+%\end{itemize}
+%
+%In the case
+%\begin{align*}
+%K_{e,\mu}^{*} \subseteq K_{e,\mu} \leftrightarrow
+%\frac{\pi}{2} \leq 2\theta \leq \pi \leftrightarrow
+%1 \leq \mu \leq \infty
+%\end{align*}
+%
+%\begin{itemize}
+%\item Take off $\bi{r} = \bi{0}$
+%\begin{align*}
+%\bi{u} + \bi{r} = \bi{u} \in K_{e,\mu}^{*} \subseteq K_{e,\mu}
+%\end{align*}
+%
+%\item Sticking $\bi{u} = \bi{0}$
+%\begin{align*}
+%\bi{u} + \bi{r} = \bi{r} \in K_{e,\mu}^{*} 
+%\end{align*}
+%
+%\item Sliding $\bi{u} \in \partial K_{e,\mu}^{*}$ and $\bi{r} \in \partial K_{e,\mu}$
+%\begin{align*}
+%\bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu}
+%\end{align*}
+%
+%\item Therefore, for any case
+%\begin{align*}
+%\bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu} \\
+%\Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{0} \\
+%\bi{u} + \bi{r} - \Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{u} + \bi{r}
+%\end{align*}
+%\end{itemize}
+
 \clearpage
 \mbox{}
 \section{Appendix B}
-In the case
-\begin{align*}
-K_{e,\mu} \subseteq K_{e,\mu}^{*} \leftrightarrow
-0 \leq 2\theta \leq \frac{\pi}{2} \leftrightarrow
-0 \leq \mu \leq 1
-\end{align*}
+\subsection{Optimality conditions of problem \eqref{P.original.friction.SOCP.1}}
+The Lagrangian reads
+\begin{align}
+  L(\bi{v};\tilde{\bi{u}};\bi{\lambda}) 
+  =& \frac{1}{2} \bi{v}^{\top} M \bi{v} + 
+  \bi{f}^{\top} \bi{v} + 
+  \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}) + 
+  \bi{\lambda} ( H \bi{v} + \bi{w} + \Phi(\bi{s}) - \tilde{\bi{u}} )
+\end{align}
+where $\bi{\lambda}$ is the unscaled Lagrange multiplier, i.e., $\rho \bi{\zeta}$. Its gradient (or subgradient) is
 
-\begin{itemize}
-\item Take off $\bi{r} = \bi{0}$
-\begin{align*}
-\bi{u} + \bi{r} = \bi{u} \in K_{e,\mu}^{*}
-\end{align*}
+\begin{align}
+\partial_{\bi{v}} L(\bi{v};\tilde{\bi{u}};\bi{\lambda}) = 
+M \bi{v} + \bi{f} + H^{\top} \bi{\lambda} \\
+\partial_{\bi{u}} L(\bi{v};\tilde{\bi{u}};\bi{\lambda}) = 
+\partial_{\tilde{\bi{u}}} \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}) - \bi{\lambda} \\
+\partial_{\bi{\lambda}} L(\bi{v};\tilde{\bi{u}};\bi{\lambda}) = H \bi{v} + \bi{w} + \Phi(\bi{s}) - \tilde{\bi{u}}
+\end{align}
 
-\item Sticking $\bi{u} = \bi{0}$
-\begin{align*}
-\bi{u} + \bi{r} = \bi{r} \in K_{e,\mu} \subseteq K_{e,\mu}^{*} 
-\end{align*}
+Therefore, the optimality conditions are
+\begin{align}
+M \bi{v} + \bi{f} = - H^{\top} \lambda \\
+\lambda \in \partial_{\tilde{\bi{u}}} \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}) \\
+\tilde{\bi{u}} = H \bi{v} + \bi{w} + \Phi(\bi{s})
+\end{align}
 
-\item Sliding $\bi{u} \in \partial K_{e,\mu}^{*}$ and $\bi{r} \in \partial K_{e,\mu}$
-\begin{align*}
-\bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu}^{*}
-\end{align*}
+But, by definition (see \citep{acary:hal-01630836})
+\begin{align}
+- \bi{r} \in \partial_{\tilde{\bi{u}}} \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}})
+\end{align}
 
-\item Therefore, for any case
-\begin{align*}
-\bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu}^{*} \\
-\Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{u} + \bi{r} \\
-\bi{u} + \bi{r} - \Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{0}
-\end{align*}
-\end{itemize}
-
-In the case
-\begin{align*}
-K_{e,\mu}^{*} \subseteq K_{e,\mu} \leftrightarrow
-\frac{\pi}{2} \leq 2\theta \leq \pi \leftrightarrow
-1 \leq \mu \leq \infty
-\end{align*}
-
-\begin{itemize}
-\item Take off $\bi{r} = \bi{0}$
-\begin{align*}
-\bi{u} + \bi{r} = \bi{u} \in K_{e,\mu}^{*} \subseteq K_{e,\mu}
-\end{align*}
-
-\item Sticking $\bi{u} = \bi{0}$
-\begin{align*}
-\bi{u} + \bi{r} = \bi{r} \in K_{e,\mu}^{*} 
-\end{align*}
-
-\item Sliding $\bi{u} \in \partial K_{e,\mu}^{*}$ and $\bi{r} \in \partial K_{e,\mu}$
-\begin{align*}
-\bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu}
-\end{align*}
-
-\item Therefore, for any case
-\begin{align*}
-\bi{u} + \bi{r} = \bi{u} + \bi{r} \in K_{e,\mu} \\
-\Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{0} \\
-\bi{u} + \bi{r} - \Pi_{K_{e,\mu}^{*}}(\bi{u} + \bi{r}) = \bi{u} + \bi{r}
-\end{align*}
-\end{itemize}
+Finally
+\begin{align}
+\bi{r} = - \bi{\lambda} = - \rho \bi{\zeta}
+\end{align}
 
 \clearpage
 \mbox{}
