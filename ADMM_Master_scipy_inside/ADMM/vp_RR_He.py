@@ -69,7 +69,7 @@ def vp_RR_He(problem_data, rho_method):
 	n = np.shape(M)[0]
 	p = np.shape(w)[0]
 
-	b = [1/linalg.norm(A,'fro') * Es_matrix(w,mu,np.zeros([p,])) / np.linalg.norm(Es_matrix(w,mu,np.ones([p,])))]
+	b = [Es_matrix(w,mu,np.zeros([p,]))]
 
 	#################################
 	############# SET-UP ############
@@ -94,6 +94,13 @@ def vp_RR_He(problem_data, rho_method):
 	rh = eval(rho_string)
 	rho.append(rh) #rho[0]
 
+	#Plot
+	rho_plot = []	
+	b_plot = []
+	u_bin_plot = []
+	xi_bin_plot = []
+	siconos_plot = []
+
 	################
 	## ITERATIONS ##
 	################
@@ -116,58 +123,28 @@ def vp_RR_He(problem_data, rho_method):
 		v.append(LU.solve(RHS)) #v[k+1]
 
 		################
-		## u - update ##
+		## b - update ##
 		################
 		Av = csr_matrix.dot(A,v[k+1])
-		vector = Av + xi_hat[k] + w + b[k]
+		b.append(Es_matrix(w,mu,Av + w))
+
+		################
+		## u - update ##
+		################
+		vector = Av + xi_hat[k] + w + b[k+1]
 		u.append(projection(vector,mu,dim1,dim2)) #u[k+1]
 
 		########################
 		## residuals - update ##
 		########################
 		s.append(rho[k] * csc_matrix.dot(A_T,(u[k+1]-u_hat[k]))) #s[k+1]
-		r.append(Av - u[k+1] + w + b[k]) #r[k+1]
+		r.append(Av - u[k+1] + w + b[k+1]) #r[k+1]
 
 		#################
 		## xi - update ##
 		#################
 		ratio = rho[k-1]/rho[k] #update of dual scaled variable with new rho
 		xi.append(ratio*(xi_hat[k] + r[k+1])) #xi[k+1]
-
-		#b update
-		b.append(Es_matrix(w,mu,Av + w))
-
-		####################
-		## stop criterion ##
-		####################
-		#pri_evalf = np.amax(np.array([np.linalg.norm(csr_matrix.dot(A,v[k+1])),np.linalg.norm(u[k+1]),np.linalg.norm(w + b[k+1])]))
-		#eps_pri = np.sqrt(p)*ABSTOL + RELTOL*pri_evalf
-
-		#dual_evalf = np.linalg.norm(rho[k] * csc_matrix.dot(A_T,xi[k+1]))
-		#eps_dual = np.sqrt(n)*ABSTOL + RELTOL*dual_evalf
-
-		r_norm.append(np.linalg.norm(r[k+1]))
-		s_norm.append(np.linalg.norm(s[k+1]))
-		#if r_norm[k+1]<=eps_pri and s_norm[k+1]<=eps_dual:
-		#	orthogonal = np.dot(u[-1],rho[-2]*xi[-1])
-		#	print orthogonal
-		#	break
-
-		b_per_contact_j1 = np.split(b[k+1],dim2/dim1)
-		b_per_contact_j0 = np.split(b[k],dim2/dim1)
-		count = 0
-		for j in range(dim2/dim1):
-			if np.linalg.norm(b_per_contact_j1[j] - b_per_contact_j0[j]) / np.linalg.norm(b_per_contact_j0[j]) > 1e-03:
-				count += 1
-		if count < 1:		
-			R = rho[k]*xi[k+1]
-			N1 = csc_matrix.dot(M, v[k+1]) - csc_matrix.dot(A_T, R) + f
-			N2 = R - projection(R - u[k+1], 1/mu, dim1, dim2)  
-			N1_norm = np.linalg.norm(N1)
-			N2_norm = np.linalg.norm(N2)
-
-			print np.sqrt( N1_norm**2 + N2_norm**2 )					
-			break
 
 		###################################
 		## accelerated ADMM with restart ##
@@ -177,7 +154,126 @@ def vp_RR_He(problem_data, rho_method):
 		################################
 		## penalty parameter - update ##
 		################################
-		rho.append(penalty(rho[k],r_norm[k+1],s_norm[k+1]))	
+		r_norm.append(np.linalg.norm(r[k+1]))
+		s_norm.append(np.linalg.norm(s[k+1]))
+		rho.append(penalty(rho[k],r_norm[k+1],s_norm[k+1]))
+
+		####################
+		## stop criterion ##
+		####################
+		pri_evalf = np.amax(np.array([np.linalg.norm(csr_matrix.dot(A,v[k+1])),np.linalg.norm(u[k+1]),np.linalg.norm(w + b[k+1])]))
+		eps_pri = np.sqrt(p)*ABSTOL + RELTOL*pri_evalf
+
+		dual_evalf = np.linalg.norm(rho[k] * csc_matrix.dot(A_T,xi[k+1]))
+		eps_dual = np.sqrt(n)*ABSTOL + RELTOL*dual_evalf
+
+		R = -rho[k]*xi[k+1]
+		N1 = csc_matrix.dot(M, v[k+1]) - csc_matrix.dot(A_T, R) + f
+		N2 = u[k+1] - projection(u[k+1] - R, mu, dim1, dim2)  
+		N1_norm = np.linalg.norm(N1)
+		N2_norm = np.linalg.norm(N2)
+		siconos_plot.append(np.sqrt( N1_norm**2 + N2_norm**2 ))
+
+		if r_norm[k+1]<=eps_pri and s_norm[k+1]<=eps_dual:
+
+			for element in range(len(u)):
+				#Relative velocity
+				u_proj = projection(u[element],mu,dim1,dim2)
+
+				u_proj_contact = np.split(u_proj,dim2/dim1)
+				u_contact = np.split(u[element],dim2/dim1)			
+
+				u_count = 0.0
+				for contact in range(dim2/dim1):
+					if np.allclose(u_contact[contact], u_proj_contact[contact], rtol=0.1, atol=0.0):
+						u_count += 1.0
+			
+				u_bin = 100 * u_count / (dim2/dim1)
+				u_bin_plot.append(u_bin)
+
+				#Reaction
+				xi_proj = projection(-1.0 * xi[element],1/mu,dim1,dim2)
+
+				xi_proj_contact = np.split(xi_proj,dim2/dim1)
+				xi_contact = np.split(-1.0 * xi[element],dim2/dim1)			
+
+				xi_count = 0.0
+				for contact in range(dim2/dim1):
+					if np.allclose(xi_contact[contact], xi_proj_contact[contact], rtol=0.1, atol=0.0):
+						xi_count += 1.0
+			
+				xi_bin = 100 * xi_count / (dim2/dim1)
+				xi_bin_plot.append(xi_bin)					
+
+			for element in range(len(r_norm)):
+				rho_plot.append(rho[element])
+				b_plot.append(np.linalg.norm(b[element]))
+
+			#R = -rho[k]*xi[k+1]
+			#N1 = csc_matrix.dot(M, v[k+1]) - csc_matrix.dot(A_T, R) + f
+			#N2 = u[k+1] - projection(u[k+1] - R, mu, dim1, dim2)  
+			#N1_norm = np.linalg.norm(N1)
+			#N2_norm = np.linalg.norm(N2)
+
+			#print np.sqrt( N1_norm**2 + N2_norm**2 )
+			print b_plot[-1]
+			print b[-1][:3]
+			print b[-1][-3:]				
+			break
+
+		b_per_contact_j1 = np.split(b[k+1],dim2/dim1)
+		b_per_contact_j0 = np.split(b[k],dim2/dim1)
+		count = 0
+		for j in range(dim2/dim1):
+			if np.linalg.norm(b_per_contact_j1[j] - b_per_contact_j0[j]) / np.linalg.norm(b_per_contact_j0[j]) > 1e-03:
+				count += 1
+		if k == MAXITER-1: #count < 1
+
+			for element in range(len(u)):
+				#Relative velocity
+				u_proj = projection(u[element],mu,dim1,dim2)
+
+				u_proj_contact = np.split(u_proj,dim2/dim1)
+				u_contact = np.split(u[element],dim2/dim1)			
+
+				u_count = 0.0
+				for contact in range(dim2/dim1):
+					if np.allclose(u_contact[contact], u_proj_contact[contact], rtol=0.1, atol=0.0):
+						u_count += 1.0
+			
+				u_bin = 100 * u_count / (dim2/dim1)
+				u_bin_plot.append(u_bin)
+
+				#Reaction
+				xi_proj = projection(-1.0 * xi[element],1/mu,dim1,dim2)
+
+				xi_proj_contact = np.split(xi_proj,dim2/dim1)
+				xi_contact = np.split(-1.0 * xi[element],dim2/dim1)			
+
+				xi_count = 0.0
+				for contact in range(dim2/dim1):
+					if np.allclose(xi_contact[contact], xi_proj_contact[contact], rtol=0.1, atol=0.0):
+						xi_count += 1.0
+			
+				xi_bin = 100 * xi_count / (dim2/dim1)
+				xi_bin_plot.append(xi_bin)					
+
+			for element in range(len(r_norm)):
+				rho_plot.append(rho[element])
+				b_plot.append(np.linalg.norm(b[element]))
+	
+			#R = -rho[k]*xi[k+1]
+			#N1 = csc_matrix.dot(M, v[k+1]) - csc_matrix.dot(A_T, R) + f
+			#N2 = u[k+1] - projection(u[k+1] - R, mu, dim1, dim2)  
+			#N1_norm = np.linalg.norm(N1)
+			#N2_norm = np.linalg.norm(N2)
+
+			#print np.sqrt( N1_norm**2 + N2_norm**2 )	
+
+			print b_plot[-1]
+			print b[-1][:3]
+			print b[-1][-3:]				
+			break	
 	
 		#end rutine
 
@@ -186,9 +282,37 @@ def vp_RR_He(problem_data, rho_method):
 	####################
 	## REPORTING DATA ##
 	####################
+
+
+	f, axarr = plt.subplots(5, sharex=True)
+	f.suptitle('Internal update with vp_RR_He (Di Cairano)')
+
+	axarr[0].semilogy(b_plot)
+	axarr[0].set(ylabel='||Phi(s)||')
+
+	axarr[1].plot(rho_plot)
+	axarr[1].set(ylabel='Rho')
+
+	axarr[2].semilogy(r_norm, label='||r||')
+	axarr[2].semilogy(s_norm, label='||s||')
+	axarr[2].legend()
+	axarr[2].set(ylabel='Residuals')
+
+	axarr[3].semilogy(siconos_plot)
+	axarr[3].set(ylabel='SICONOS error')	
+
+	axarr[4].plot(u_bin_plot, label='u in K*')
+	axarr[4].plot(xi_bin_plot, label='-xi in K')
+	axarr[4].legend()
+	axarr[4].set(xlabel='Iteration', ylabel='Projection (%)')
+
+	plt.show()
+
+	plt.show()
+
 	#print b[-1]
 	#print np.linalg.norm(b[-1])
-	plotit(r,b,start,end,'With acceleration / Without restarting for '+problem_data+' for rho: '+rho_method)
+	#plotit(r,b,start,end,'With acceleration / Without restarting for '+problem_data+' for rho: '+rho_method)
 	#plotit(r,s,start,end,'Internal update with vp_RR_He (Di Cairano)')
 
 	time = end - start

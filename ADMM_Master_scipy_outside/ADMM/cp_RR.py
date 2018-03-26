@@ -86,6 +86,13 @@ def cp_RR(problem_data, rho_method):
 	rho_string = 'Solver.Rho.Optimal.' + rho_method + '(A,M,A_T)'
 	rho = eval(rho_string)
 
+	#Plot
+	r_plot = []
+	s_plot = []
+	b_plot = []
+	u_bin_plot = []
+	xi_bin_plot = []
+
 	########################################
 	## TERMS COMMON TO ALL THE ITERATIONS ##
 	########################################
@@ -97,7 +104,7 @@ def cp_RR(problem_data, rho_method):
 	################
 	## ITERATIONS ##
 	################
-	for j in range(15):
+	for j in range(20):
 		print j
 		
 		len_u = len(u)-1
@@ -144,23 +151,63 @@ def cp_RR(problem_data, rho_method):
 			r_norm.append(np.linalg.norm(r[k+1]))
 			s_norm.append(np.linalg.norm(s[k+1]))
 			if r_norm[k+1]<=eps_pri and s_norm[k+1]<=eps_dual:
-				R = rho*xi[k+1]
-				N1 = csc_matrix.dot(M, v[k+1]) - csc_matrix.dot(A_T, R) + f
-				N2 = R - projection(R - u[k+1], 1/mu, dim1, dim2)  
-				N1_norm = np.linalg.norm(N1)
-				N2_norm = np.linalg.norm(N2)
 
-				print np.sqrt( N1_norm**2 + N2_norm**2 )				
-				#print rho[k]*xi[k+1]
+				for element in range(len(u)):
+					#Relative velocity
+					u_proj = projection(u[element],mu,dim1,dim2)
 
-				#plotit(r[len_u:], xi[len_u:], start, 5.0,'External update with vp_RR_He (Di Cairano)')
+					u_proj_contact = np.split(u_proj,dim2/dim1)
+					u_contact = np.split(u[element],dim2/dim1)			
 
+					u_count = 0.0
+					for contact in range(dim2/dim1):
+						if np.array_equiv(u_contact[contact], u_proj_contact[contact]):
+							u_count += 1.0
+			
+					u_bin = 100 * u_count / (dim2/dim1)
+					u_bin_plot.append(u_bin)
+
+					#Reaction
+					xi_proj = projection(xi[element],1/mu,dim1,dim2)
+
+					xi_proj_contact = np.split(xi_proj,dim2/dim1)
+					xi_contact = np.split(xi[element],dim2/dim1)			
+
+					xi_count = 0.0
+					for contact in range(dim2/dim1):
+						if np.array_equiv(xi_contact[contact], xi_proj_contact[contact]):
+							xi_count += 1.0
+			
+					xi_bin = 100 * xi_count / (dim2/dim1)
+					xi_bin_plot.append(xi_bin)					
+
+
+				for element in range(len(r_norm)):
+					r_plot.append(r_norm[element])
+					s_plot.append(s_norm[element])
+					b_plot.append(np.linalg.norm(b[j]))
+
+				#print 'First contact'
+				#print rho*xi[k+1][:3]
+				#uy = projection(rho*xi[k+1],1/mu,dim1,dim2)
+				#print uy[:3]
+				#print 'Last contact'
+				#print rho*xi[k+1][-3:]
+				#print uy[-3:]				
+				
+				#print u[k+1]
+
+				#R = rho*xi[k+1]
+				#N1 = csc_matrix.dot(M, v[k+1]) - csc_matrix.dot(A_T, R) + f
+				#N2 = R - projection(R - u[k+1], 1/mu, dim1, dim2)  
+				#N1_norm = np.linalg.norm(N1)
+				#N2_norm = np.linalg.norm(N2)
+
+				#print np.sqrt( N1_norm**2 + N2_norm**2 )				
 				break
 
-
-
 		#b(s) stop criterion
-		b.append(Es_matrix(w,mu,csr_matrix.dot(A,v[k+1])))
+		b.append(Es_matrix(w,mu,Av + w))
 
 		if j == 0:
 			pass
@@ -171,28 +218,47 @@ def cp_RR(problem_data, rho_method):
 			for i in range(dim2/dim1):
 				if np.linalg.norm(b_per_contact_j1[i] - b_per_contact_j0[i]) / np.linalg.norm(b_per_contact_j0[i]) > 1e-03:
 					count += 1
-			if count < 1:
-				#orthogonal = np.dot(u[-1],rho[-2]*xi[-1])
-				#print orthogonal		
+			if count < 1:		
 				break
 
-		v.append(np.zeros([n,]))
-		u.append(np.zeros([p,]))
-		u_hat.append(np.zeros([p,]))
-		xi.append(np.zeros([p,]))
-		xi_hat.append(np.zeros([p,]))
-		r.append(np.zeros([p,])) #primal residual
-		s.append(np.zeros([p,])) #dual residual
-		r_norm.append(0)
-		s_norm.append(0)
-		tau.append(1) #over-relaxation
-		e.append(np.nan) #restart
+		v = [np.zeros([n,])]
+		u = [np.zeros([p,])] #this is u tilde, but in the notation of the paper is used as hat [np.zeros([10,0])]
+		u_hat = [np.zeros([p,])] #u_hat[0] #in the notation of the paper this used with a underline
+		xi = [np.zeros([p,])] 
+		xi_hat = [np.zeros([p,])]
+		r = [np.zeros([p,])] #primal residual
+		s = [np.zeros([p,])] #dual residual
+		r_norm = [0]
+		s_norm = [0]
+		tau = [1] #over-relaxation
+		e = [] #restart
 
 	end = time.clock()
 	####################
 	## REPORTING DATA ##
 	####################
-	plotit(r,b,start,end,'With acceleration / With restarting for '+problem_data+' for rho: '+rho_method)
+
+	f, axarr = plt.subplots(4, sharex=True)
+	f.suptitle('External update with cp_RR (Acary)')
+
+	axarr[0].semilogy(b_plot)
+	axarr[0].set(ylabel='||Phi(s)||')
+
+	axarr[1].axhline(y = rho)
+	axarr[1].set(ylabel='Rho')
+
+	axarr[2].semilogy(r_plot, label='||r||')
+	axarr[2].semilogy(s_plot, label='||s||')
+	axarr[2].set(ylabel='Residuals')
+
+	axarr[3].plot(u_bin_plot, label='u in K*')
+	axarr[3].plot(xi_bin_plot, label='xi in K')
+	axarr[3].legend()
+	axarr[3].set(xlabel='Iteration', ylabel='Projection (%)')
+	plt.show()
+
+
+	#plotit(r,b,start,end,'With acceleration / With restarting for '+problem_data+' for rho: '+rho_method)
 
 	time = end - start
 	print 'Total time: ', time
