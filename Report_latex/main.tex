@@ -1298,7 +1298,7 @@ In Figure 6 is observed a convergence after 43 internal iterations. From iterati
 
 \clearpage
 \mbox{}
-In Figure 7 is despicted the same internal update, but the stop criterion \eqref{eq.stopcriterion} is changed for the external one  \eqref{eq.stopcriterionexternal}. It is observed that $\| \Phi(\bi{v}) \|$ holds from iteration 25, but $\Phi(\bi{v})^{\alpha}$ is not the same from iteration to iteration, the test was stopped at 1000 iterations.
+In Figure 7 is despicted the same internal update, but the stop criterion \eqref{eq.stopcriterion} is changed for the external one  \eqref{eq.stopcriterionexternal}. It is observed that $\| \Phi(\bi{v}) \|$ holds from iteration 25, but $\Phi(\bi{v})^{\alpha}$ is not the same from iteration to iteration.
 \begin{figure}[hbtp]
 \centering
 \includegraphics[width=\textwidth]{Results/S_update/Internal13outsidestop.png}
@@ -1340,7 +1340,9 @@ In Table \ref{Table:3} are shown the values of the final $\| \Phi(s) \|$ with it
 \label{Table:3}
 \end{table}
 
-Both external and internal update converges to the same value of $\| \Phi(s) \|$, but this is an apparent result of uniqueness when $\Phi(s)^{\alpha}$ is compared in each case. Therefore, the internal update does not guarantee the same result for $\Phi(s)$.
+Both external and internal update converges to the same value of $\| \Phi(s) \|$, but this is an apparent result of uniqueness when $\Phi(s)^{\alpha}$ is compared in each case. Therefore, the internal update does not guarantee the same result for $\Phi(s)$. However, all of them have low values of SICONOS error and residuals, i.e., they solve the problem \eqref{CF.complementary}. This opens the question if these aproaches converge at some level to a different solutions of problem \eqref{CF.complementary}.
+
+%Note: I've done a comparison on the projection of u and -xi in their respectives cones, in order to see if they effectively are in the cones through this numerical method. When I use relative error the values of the reactions are so small (more than machine epsilon), that I was almost comparing zero with zero and it gave me apparent errors.
 
 %\clearpage
 %\mbox{}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.1.29)  9 MAR 2018 19:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.1.29)  27 MAR 2018 11:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -406,32 +406,33 @@ Package pdftex.def Info: Results/Normal_mini.png used on input line 1129.
 ] [26
 
 ]
-[27] <Results/S_update/External13.png, id=117, 1386.1386pt x 1031.2929pt>
+[27] <Results/S_update/External13.png, id=117, 578.16pt x 433.62pt>
 File: Results/S_update/External13.png Graphic file (type png)
 
 <use Results/S_update/External13.png>
 Package pdftex.def Info: Results/S_update/External13.png used on input line 128
 6.
-(pdftex.def)             Requested size: 472.31573pt x 351.40602pt.
+(pdftex.def)             Requested size: 472.31573pt x 354.23416pt.
  [28
 
  <./Results/S_update/External13.png>]
-<Results/S_update/Internal13.png, id=122, 1386.1386pt x 1031.2929pt>
+<Results/S_update/Internal13.png, id=122, 578.16pt x 433.62pt>
 File: Results/S_update/Internal13.png Graphic file (type png)
 
 <use Results/S_update/Internal13.png>
 Package pdftex.def Info: Results/S_update/Internal13.png used on input line 129
 5.
-(pdftex.def)             Requested size: 472.31573pt x 351.40602pt.
+(pdftex.def)             Requested size: 472.31573pt x 354.23416pt.
  [29
 
  <./Results/S_update/Internal13.png>]
-<Results/S_update/Internal13outsidestop.png, id=127, 1386.1386pt x 1031.2929pt>
+<Results/S_update/Internal13outsidestop.png, id=127, 578.16pt x 433.62pt>
 File: Results/S_update/Internal13outsidestop.png Graphic file (type png)
+
 <use Results/S_update/Internal13outsidestop.png>
 Package pdftex.def Info: Results/S_update/Internal13outsidestop.png used on inp
 ut line 1304.
-(pdftex.def)             Requested size: 472.31573pt x 351.40602pt.
+(pdftex.def)             Requested size: 472.31573pt x 354.23416pt.
 
 Overfull \hbox (42.57544pt too wide) in paragraph at lines 1328--1339
  [][] 
@@ -479,7 +480,7 @@ b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (34 pages, 937319 bytes).
+Output written on main.pdf (34 pages, 693911 bytes).
 PDF statistics:
  209 PDF objects out of 1000 (max. 8388607)
  137 compressed objects within 2 object streams
