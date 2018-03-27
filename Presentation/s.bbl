@@ -1,0 +1,76 @@
+\begin{thebibliography}{10}
+
+\bibitem{Acary2013}
+Vincent Acary and Florent Cadoux.
+\newblock {\em Applications of an Existence Result for the Coulomb Friction
+  Problem}, pages 45--66.
+\newblock Springer Berlin Heidelberg, Berlin, Heidelberg, 2013.
+
+\bibitem{acary2011formulation}
+Vincent Acary, Florent Cadoux, Claude Lemar{\'e}chal, and J{\'e}r{\^o}me
+  Malick.
+\newblock A formulation of the linear discrete coulomb friction problem via
+  convex optimization.
+\newblock {\em ZAMM-Journal of Applied Mathematics and Mechanics/Zeitschrift
+  f{\"u}r Angewandte Mathematik und Mechanik}, 91(2):155--175, 2011.
+
+\bibitem{acary:hal-01630836}
+Vincent Acary, Maurice Br{\'e}mond, and Olivier Huber.
+\newblock {On solving contact problems with Coulomb friction: formulations and
+  numerical comparisons}.
+\newblock Research Report RR-9118, {INRIA}, November 2017.
+
+\bibitem{hayashi2005combined}
+Shunsuke Hayashi, Nobuo Yamashita, and Masao Fukushima.
+\newblock A combined smoothing and regularization method for monotone
+  second-order cone complementarity problems.
+\newblock {\em SIAM Journal on Optimization}, 15(2):593--615, 2005.
+
+\bibitem{fukushima2002smoothing}
+Masao Fukushima, Zhi-Quan Luo, and Paul Tseng.
+\newblock Smoothing functions for second-order-cone complementarity problems.
+\newblock {\em SIAM Journal on optimization}, 12(2):436--460, 2002.
+
+\bibitem{ghadimi2015optimal}
+Euhanna Ghadimi, Andr{\'e} Teixeira, Iman Shames, and Mikael Johansson.
+\newblock Optimal parameter selection for the alternating direction method of
+  multipliers (admm): quadratic problems.
+\newblock {\em IEEE Transactions on Automatic Control}, 60(3):644--658, 2015.
+
+\bibitem{raghunathan2014alternating}
+Arvind~U Raghunathan and Stefano Di~Cairano.
+\newblock Alternating direction method of multipliers for strictly convex
+  quadratic programs: Optimal parameter selection.
+\newblock In {\em American Control Conference (ACC), 2014}, pages 4324--4329.
+  IEEE, 2014.
+
+\bibitem{He2000}
+B.~S. He, H.~Yang, and S.~L. Wang.
+\newblock Alternating direction method with self-adaptive penalty parameters
+  for monotone variational inequalities.
+\newblock {\em Journal of Optimization Theory and Applications},
+  106(2):337--356, Aug 2000.
+
+\bibitem{wohlberg2017admm}
+Brendt Wohlberg.
+\newblock Admm penalty parameter selection by residual balancing.
+\newblock {\em arXiv preprint arXiv:1704.06209}, 2017.
+
+\bibitem{xu2016adaptive}
+Zheng Xu, M{\'a}rio~AT Figueiredo, and Tom Goldstein.
+\newblock Adaptive admm with spectral penalty parameter selection.
+\newblock {\em arXiv preprint arXiv:1605.07246}, 2016.
+
+\bibitem{goldstein2014fast}
+Tom Goldstein, Brendan O'Donoghue, Simon Setzer, and Richard Baraniuk.
+\newblock Fast alternating direction optimization methods.
+\newblock {\em SIAM Journal on Imaging Sciences}, 7(3):1588--1623, 2014.
+
+\bibitem{WANG2001}
+S.~L. Wang and L.~Z. Liao.
+\newblock Decomposition method with a variable parameter for a class of
+  monotone variational inequality problems.
+\newblock {\em Journal of Optimization Theory and Applications},
+  109(2):415--429, May 2001.
+
+\end{thebibliography}
