@@ -1,26 +1,29 @@
 \BOOKMARK [2][]{Outline0.1}{Introduction}{}% 1
 \BOOKMARK [2][]{Outline0.2}{ADMM method}{}% 2
-\BOOKMARK [3][]{Outline0.2.1.6}{Fundamentals}{Outline0.2}% 3
-\BOOKMARK [3][]{Outline0.2.2.9}{Stop criterion}{Outline0.2}% 4
+\BOOKMARK [3][]{Outline0.2.1.7}{Fundamentals}{Outline0.2}% 3
+\BOOKMARK [3][]{Outline0.2.2.10}{Stop criterion}{Outline0.2}% 4
 \BOOKMARK [2][]{Outline0.3}{ADMM formulation of problem}{}% 5
-\BOOKMARK [3][]{Outline0.3.1.11}{Coulomb friction problem via convex optimization}{Outline0.3}% 6
-\BOOKMARK [3][]{Outline0.3.2.13}{Iterations}{Outline0.3}% 7
+\BOOKMARK [3][]{Outline0.3.1.12}{Coulomb friction problem via convex optimization}{Outline0.3}% 6
+\BOOKMARK [3][]{Outline0.3.2.14}{Iterations}{Outline0.3}% 7
 \BOOKMARK [3][]{Outline0.3.3.16}{Projection onto dual second-order cone}{Outline0.3}% 8
-\BOOKMARK [2][]{Outline0.4}{Penalty parameter for QP}{}% 9
-\BOOKMARK [3][]{Outline0.4.1.19}{Optimal penalty parameter selection for QP}{Outline0.4}% 10
+\BOOKMARK [2][]{Outline0.4}{Penalty parameter}{}% 9
+\BOOKMARK [3][]{Outline0.4.1.18}{Optimal penalty parameter selection}{Outline0.4}% 10
 \BOOKMARK [3][]{Outline0.4.2.21}{Varying penalty parameter}{Outline0.4}% 11
-\BOOKMARK [2][]{Outline0.5}{ADMM improvements}{}% 12
-\BOOKMARK [3][]{Outline0.5.1.28}{Relaxed ADMM}{Outline0.5}% 13
-\BOOKMARK [3][]{Outline0.5.2.29}{Relaxed + Restart ADMM}{Outline0.5}% 14
-\BOOKMARK [2][]{Outline0.6}{ADMM algorithms}{}% 15
-\BOOKMARK [3][]{Outline0.6.1.31}{Constant penalty parameter}{Outline0.6}% 16
-\BOOKMARK [3][]{Outline0.6.2.33}{Varying penalty parameter - He}{Outline0.6}% 17
-\BOOKMARK [3][]{Outline0.6.3.35}{Varying penalty parameter - Wohlberg}{Outline0.6}% 18
-\BOOKMARK [3][]{Outline0.6.4.37}{Varying penalty parameter - Spectral}{Outline0.6}% 19
-\BOOKMARK [2][]{Outline0.7}{Comparison}{}% 20
-\BOOKMARK [3][]{Outline0.7.1.43}{Results}{Outline0.7}% 21
-\BOOKMARK [3][]{Outline0.7.2.48}{Discussion}{Outline0.7}% 22
-\BOOKMARK [2][]{Outline0.8}{S-update}{}% 23
-\BOOKMARK [3][]{Outline0.8.1.51}{Internal update}{Outline0.8}% 24
-\BOOKMARK [3][]{Outline0.8.2.55}{Comparison}{Outline0.8}% 25
-\BOOKMARK [2][]{Outline0.9}{Final remarks}{}% 26
+\BOOKMARK [2][]{Outline0.5}{Iteration improvements}{}% 12
+\BOOKMARK [3][]{Outline0.5.1.29}{Relaxed ADMM}{Outline0.5}% 13
+\BOOKMARK [3][]{Outline0.5.2.30}{Relaxed + Restart ADMM}{Outline0.5}% 14
+\BOOKMARK [2][]{Outline0.6}{Numerical experience}{}% 15
+\BOOKMARK [2][]{Outline0.7}{Results}{}% 16
+\BOOKMARK [3][]{Outline0.7.1.36}{Ghadimi}{Outline0.7}% 17
+\BOOKMARK [3][]{Outline0.7.2.37}{Di Cairano}{Outline0.7}% 18
+\BOOKMARK [3][]{Outline0.7.3.38}{Acary}{Outline0.7}% 19
+\BOOKMARK [3][]{Outline0.7.4.39}{Normal}{Outline0.7}% 20
+\BOOKMARK [3][]{Outline0.7.5.40}{Discussion}{Outline0.7}% 21
+\BOOKMARK [2][]{Outline0.8}{S-update}{}% 22
+\BOOKMARK [3][]{Outline0.8.1.43}{Internal update}{Outline0.8}% 23
+\BOOKMARK [2][]{Outline0.9}{Numerical experience: S-update}{}% 24
+\BOOKMARK [2][]{Outline0.10}{Final remarks}{}% 25
+\BOOKMARK [3][]{Outline0.12.1.56}{Constant penalty parameter}{Outline0.10}% 26
+\BOOKMARK [3][]{Outline0.12.2.58}{Varying penalty parameter - He}{Outline0.10}% 27
+\BOOKMARK [3][]{Outline0.12.3.60}{Varying penalty parameter - Wohlberg}{Outline0.10}% 28
+\BOOKMARK [3][]{Outline0.12.4.62}{Varying penalty parameter - Spectral}{Outline0.10}% 29

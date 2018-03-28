@@ -1,4 +1,4 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{1}
 
 \bibitem{Acary2013}
 Vincent Acary and Florent Cadoux.
@@ -13,23 +13,6 @@ Vincent Acary, Florent Cadoux, Claude Lemar{\'e}chal, and J{\'e}r{\^o}me
   convex optimization.
 \newblock {\em ZAMM-Journal of Applied Mathematics and Mechanics/Zeitschrift
   f{\"u}r Angewandte Mathematik und Mechanik}, 91(2):155--175, 2011.
-
-\bibitem{acary:hal-01630836}
-Vincent Acary, Maurice Br{\'e}mond, and Olivier Huber.
-\newblock {On solving contact problems with Coulomb friction: formulations and
-  numerical comparisons}.
-\newblock Research Report RR-9118, {INRIA}, November 2017.
-
-\bibitem{hayashi2005combined}
-Shunsuke Hayashi, Nobuo Yamashita, and Masao Fukushima.
-\newblock A combined smoothing and regularization method for monotone
-  second-order cone complementarity problems.
-\newblock {\em SIAM Journal on Optimization}, 15(2):593--615, 2005.
-
-\bibitem{fukushima2002smoothing}
-Masao Fukushima, Zhi-Quan Luo, and Paul Tseng.
-\newblock Smoothing functions for second-order-cone complementarity problems.
-\newblock {\em SIAM Journal on optimization}, 12(2):436--460, 2002.
 
 \bibitem{ghadimi2015optimal}
 Euhanna Ghadimi, Andr{\'e} Teixeira, Iman Shames, and Mikael Johansson.

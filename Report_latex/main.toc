@@ -8,7 +8,7 @@
 \contentsline {subsection}{\numberline {3.1}Coulomb friction problem via convex optimization}{7}
 \contentsline {subsection}{\numberline {3.2}Iteration}{7}
 \contentsline {subsection}{\numberline {3.3}Projection onto dual second-order cone}{8}
-\contentsline {section}{\numberline {4}Penalty parameter for QP}{10}
+\contentsline {section}{\numberline {4}Penalty parameter}{10}
 \contentsline {subsection}{\numberline {4.1}Optimal penalty parameter selection for QP}{10}
 \contentsline {subsubsection}{\numberline {4.1.1}Ghadimi}{10}
 \contentsline {subsubsection}{\numberline {4.1.2}Di Cairano}{10}
@@ -18,7 +18,7 @@
 \contentsline {subsubsection}{\numberline {4.2.1}He}{11}
 \contentsline {subsubsection}{\numberline {4.2.2}Wohlberg}{11}
 \contentsline {subsubsection}{\numberline {4.2.3}Spectral}{12}
-\contentsline {section}{\numberline {5}ADMM improvements}{13}
+\contentsline {section}{\numberline {5}Iteration improvements}{13}
 \contentsline {subsection}{\numberline {5.1}Relaxed ADMM}{13}
 \contentsline {subsection}{\numberline {5.2}Relaxed + Restart ADMM}{13}
 \contentsline {section}{\numberline {6}ADMM algorithms}{14}
@@ -26,7 +26,7 @@
 \contentsline {subsection}{\numberline {6.2}Varying penalty parameter - He}{15}
 \contentsline {subsection}{\numberline {6.3}Varying penalty parameter - Wohlberg}{16}
 \contentsline {subsection}{\numberline {6.4}Varying penalty parameter - Spectral}{17}
-\contentsline {section}{\numberline {7}Comparison}{19}
+\contentsline {section}{\numberline {7}Numerical experience}{19}
 \contentsline {subsection}{\numberline {7.1}Measuring errors}{19}
 \contentsline {subsection}{\numberline {7.2}Performance profiles}{19}
 \contentsline {subsection}{\numberline {7.3}Nomenclature for the algorithms}{20}
@@ -41,7 +41,7 @@
 \contentsline {subsection}{\numberline {8.2}Internal update}{26}
 \contentsline {subsection}{\numberline {8.3}External update}{27}
 \contentsline {subsection}{\numberline {8.4}SICONOS error}{27}
-\contentsline {subsection}{\numberline {8.5}Comparison}{28}
+\contentsline {subsection}{\numberline {8.5}Numerical experience}{28}
 \contentsline {section}{\numberline {9}Appendix A}{31}
 \contentsline {subsection}{\numberline {9.1}Convex formulation without initial affine constraints}{31}
 \contentsline {section}{\numberline {10}Appendix B}{32}

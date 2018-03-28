@@ -425,7 +425,7 @@ moreover, it is recognized in \eqref{eq.ADMM.friction.2.2bi} the fixed-point ite
 \begin{align}
 F_{\rho}^{nat}(\tilde{\bi{u}}) = \tilde{\bi{u}} - \Pi_{K_{e,\mu}^{*}}(\tilde{\bi{u}} - \rho \bi{r}) = 0 \label{eq.ADMM.naturalmap}
 \end{align}
-where $\bi{r}$ is the contact reaction or impulse (see Appendix C for the relationship between $\bi{r}$ and $\bi{\zeta}$). This formulation helps us to notice the fixed-point interation for the VI formulation immersed in the ADMM algorithm.
+where $\bi{r}$ is the contact reaction or impulse (see Appendix B for the relationship between $\bi{r}$ and $\bi{\zeta}$). This formulation helps us to notice the fixed-point interation for the VI formulation immersed in the ADMM algorithm.
 
 Finally, it is worthy to note that for \eqref{eq.ADMM.friction.2.1} we carry out a Cholesky or LU factorization and \eqref{eq.ADMM.friction.2.2bi} can be solved explicitly by using the formulan given in the next section.
 
@@ -490,8 +490,8 @@ Therefore the projection of $\bi{x}$ onto $K_{e,\mu}^{*}$ could be written as fo
 
 \clearpage
 \mbox{}
-\section{Penalty parameter for QP}
-The ADMM technique is surprisingly robust to poorly selected algorithm parameters: under mild conditions, the method is guaranteed to convergence for all positive values of $\rho$ \citep{boyd2011distributed, deng2016global, eckstein2012augmented}. However, a key ingredient in the efficiency and the convergence time of ADMM is the choise of the sequence $\lbrace \rho_{k} \rbrace$. A sensible work has been done in the literature mainly motivated by the rate of convergence. This section presents the most popular approach for choosing the sequence $\lbrace \rho_{k} \rbrace$ for QPs.
+\section{Penalty parameter}
+The ADMM technique is surprisingly robust to poorly selected algorithm parameters: under mild conditions, the method is guaranteed to convergence for all positive values of $\rho$ \citep{boyd2011distributed, deng2016global, eckstein2012augmented}. However, a key ingredient in the efficiency and the convergence time of ADMM is the choise of the sequence $\lbrace \rho_{k} \rbrace$. A sensible work has been done in the literature mainly motivated by the rate of convergence. This section presents the most popular approach for choosing the sequence $\lbrace \rho_{k} \rbrace$ for QPs, which is closely related to the formulation in \eqref{P.quadratic.SOCP.2}.
 
 \subsection{Optimal penalty parameter selection for QP}
 In this section we present two main results that have been proposed for QPs in the initial guess of the parameter and we define another two ones:
@@ -643,7 +643,7 @@ where $\epsilon^{cor}$ is a quality threshold for the curvature estimates.
 
 \clearpage
 \mbox{}
-\section{ADMM improvements}
+\section{Iteration improvements}
 \subsection{Relaxed ADMM}
 A relaxed version of ADMM was proposed in \citep{goldstein2014fast}. 
 This method applies Nesterov's type overrelaxation scheme to the 
@@ -1024,7 +1024,7 @@ Xu et al. suggest only updating the stepsize every $T_{f}$ iterations. Safeguard
 
 \clearpage
 \mbox{}
-\section{Comparison}
+\section{Numerical experience}
 \subsection{Measuring errors}
 Wohlberg in \citep{wohlberg2017admm} states under his framework that the ADMM method is invariant when $\epsilon^{abs} = 0$. Xu et al. in \citep{xu2016adaptive} also use this value which helps to be less sensitive to scaling. However, in our case we set in every algorithm $\epsilon^{abs} = 10^{-6}$, which is a low value (therefore it aims to be less sensitive as possible to scaling) and also enhances the stop criterion if the data size is too small.
 
@@ -1141,7 +1141,7 @@ In Table \ref{Table:2} are depicted the best algorithms with their respective op
  \hline
   & vp-RR-He \eqref{alg:prototype.vp-RR-He} (Di Cairano) & vp-RR-He \eqref{alg:prototype.vp-RR-He} (Normal) \\ [0.5ex] 
  \hline\hline
- $\rho_{s}(0)$ & 0.892 & 0.882 \\ 
+ $\rho_{s}(1)$ & 0.892 & 0.882 \\ 
  \hline
  $\tau_{\rho_{s} = 1}$ & 1.94 & 1.95 \\
  \hline
@@ -1276,7 +1276,7 @@ The primal residual measures the error in the constraint in \eqref{CF.complement
 
 \clearpage
 \mbox{}
-\subsection{Comparison}
+\subsection{Numerical experience}
 In most of the test examples the behavior dispicted in Figure 5-7 is observed. This is analyzed with the best solver of Section 7 and the test example \emph{Box Stacks-i1000-352-6}.
 
 
@@ -1324,6 +1324,7 @@ In Figure 7 is despicted the same internal update, but the stop criterion \eqref
 
 In Table \ref{Table:3} are shown the values of the final $\| \Phi(s) \|$ with its respectives first and last contact vector $\Phi(s)^{\alpha}$:
 \begin{table}[h!]
+\resizebox{\textwidth}{!}{
 \centering
  \begin{tabular}{||c c c c||} 
  \hline
@@ -1336,6 +1337,7 @@ In Table \ref{Table:3} are shown the values of the final $\| \Phi(s) \|$ with it
  $\Phi(s)^{\alpha = n_{c}}$ & [1.02e-05  0.00e+00  0.00e+00] & [1.19e-05  0.00e+00  0.00e+00] & [7.85e-06  0.00e+00  0.00e+00] \\ [1ex] 
  \hline
 \end{tabular}
+}
 \caption{Comparison of s-update}
 \label{Table:3}
 \end{table}
