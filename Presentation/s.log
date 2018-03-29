@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.1.29)  28 MAR 2018 18:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.1.29)  29 MAR 2018 15:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1206,7 +1206,7 @@ LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
 ]
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <8> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 430.
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 427.
 
 
 [19
@@ -1237,156 +1237,158 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <8> not available
 
 ] [32
 
-] [33
-
-]
-<Results/Example/cubes.png, id=1278, 1330.9725pt x 789.95125pt>
+] <Results/Example/cubes.png, id=1248, 1330.9725pt x 789.95125pt>
 File: Results/Example/cubes.png Graphic file (type png)
 
 <use Results/Example/cubes.png>
-Package pdftex.def Info: Results/Example/cubes.png used on input line 707.
+Package pdftex.def Info: Results/Example/cubes.png used on input line 689.
 (pdftex.def)             Requested size: 266.18979pt x 157.98744pt.
- [34
+ [33
 
  <./Results/Example/cubes.png (PNG copy)>]
-(./s.toc) [35
+[34
 
-] <Results/Ghadimi_mini.png, id=1348, 578.16pt x 433.62pt>
+] (./s.toc) [35
+
+] [36
+
+]
+<Results/Ghadimi_mini.png, id=1375, 578.16pt x 433.62pt>
 File: Results/Ghadimi_mini.png Graphic file (type png)
 
 <use Results/Ghadimi_mini.png>
-Package pdftex.def Info: Results/Ghadimi_mini.png used on input line 719.
-(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
- [36
-
- <./Results/Ghadimi_mini.png>]
-<Results/DiCairano_mini.png, id=1381, 578.16pt x 433.62pt>
-File: Results/DiCairano_mini.png Graphic file (type png)
-
-<use Results/DiCairano_mini.png>
-Package pdftex.def Info: Results/DiCairano_mini.png used on input line 728.
+Package pdftex.def Info: Results/Ghadimi_mini.png used on input line 726.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
  [37
 
- <./Results/DiCairano_mini.png>]
-<Results/Acary_mini.png, id=1416, 578.16pt x 433.62pt>
-File: Results/Acary_mini.png Graphic file (type png)
+ <./Results/Ghadimi_mini.png>]
+<Results/DiCairano_mini.png, id=1410, 578.16pt x 433.62pt>
+File: Results/DiCairano_mini.png Graphic file (type png)
 
-<use Results/Acary_mini.png>
-Package pdftex.def Info: Results/Acary_mini.png used on input line 737.
+<use Results/DiCairano_mini.png>
+Package pdftex.def Info: Results/DiCairano_mini.png used on input line 735.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
  [38
 
- <./Results/Acary_mini.png>]
-<Results/Normal_mini.png, id=1449, 578.16pt x 433.62pt>
-File: Results/Normal_mini.png Graphic file (type png)
+ <./Results/DiCairano_mini.png>]
+<Results/Acary_mini.png, id=1443, 578.16pt x 433.62pt>
+File: Results/Acary_mini.png Graphic file (type png)
 
-<use Results/Normal_mini.png>
-Package pdftex.def Info: Results/Normal_mini.png used on input line 746.
+<use Results/Acary_mini.png>
+Package pdftex.def Info: Results/Acary_mini.png used on input line 744.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
  [39
 
- <./Results/Normal_mini.png>] [40
+ <./Results/Acary_mini.png>]
+<Results/Normal_mini.png, id=1476, 578.16pt x 433.62pt>
+File: Results/Normal_mini.png Graphic file (type png)
+
+<use Results/Normal_mini.png>
+Package pdftex.def Info: Results/Normal_mini.png used on input line 753.
+(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
+ [40
+
+ <./Results/Normal_mini.png>] [41
 
 ] (./s.toc)
-[41
-
-] [42
+[42
 
 ] [43
 
+] [44
+
 ]
-Overfull \hbox (26.63399pt too wide) in paragraph at lines 848--848
+Overfull \hbox (26.63399pt too wide) in paragraph at lines 856--856
 []  
  []
 
 
-Overfull \hbox (2.19614pt too wide) in paragraph at lines 848--848
+Overfull \hbox (2.19614pt too wide) in paragraph at lines 856--856
 []  
  []
 
-[44
+[45
 
-] [45
-
-]
-
-LaTeX Warning: Reference `eq.ADMM.naturalmap' on page 46 undefined on input lin
-e 905.
-
-[46
-
-] (./s.toc) [47
+] [46
 
 ]
-<Results/S_update/External13.png, id=1773, 578.16pt x 433.62pt>
+
+LaTeX Warning: Reference `eq.ADMM.naturalmap' on page 47 undefined on input lin
+e 913.
+
+[47
+
+] (./s.toc) [48
+
+]
+<Results/S_update/External13.png, id=1798, 578.16pt x 433.62pt>
 File: Results/S_update/External13.png Graphic file (type png)
 
 <use Results/S_update/External13.png>
-Package pdftex.def Info: Results/S_update/External13.png used on input line 918
-.
-(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
- [48
-
- <./Results/S_update/External13.png>]
-<Results/S_update/Internal13.png, id=1804, 578.16pt x 433.62pt>
-File: Results/S_update/Internal13.png Graphic file (type png)
-
-<use Results/S_update/Internal13.png>
-Package pdftex.def Info: Results/S_update/Internal13.png used on input line 927
+Package pdftex.def Info: Results/S_update/External13.png used on input line 926
 .
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
  [49
 
+ <./Results/S_update/External13.png>]
+<Results/S_update/Internal13.png, id=1830, 578.16pt x 433.62pt>
+File: Results/S_update/Internal13.png Graphic file (type png)
+
+<use Results/S_update/Internal13.png>
+Package pdftex.def Info: Results/S_update/Internal13.png used on input line 935
+.
+(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
+ [50
+
  <./Results/S_update/Internal13.png>]
-<Results/S_update/Internal13outsidestop.png, id=1836, 578.16pt x 433.62pt>
+<Results/S_update/Internal13outsidestop.png, id=1862, 578.16pt x 433.62pt>
 File: Results/S_update/Internal13outsidestop.png Graphic file (type png)
 
 <use Results/S_update/Internal13outsidestop.png>
 Package pdftex.def Info: Results/S_update/Internal13outsidestop.png used on inp
-ut line 936.
+ut line 944.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
- [50
+ [51
 
- <./Results/S_update/Internal13outsidestop.png>] [51
+ <./Results/S_update/Internal13outsidestop.png>] [52
 
-] (./s.toc) [52
+] (./s.toc) [53
 
-] [53
+] [54
 
-] (./s.bbl) [54
-
-] [55
-
+] (./s.bbl) [55
 
 ] [56
 
-]
-[57
 
-] [58
+] [57
 
 ]
-Overfull \vbox (6.59076pt too high) detected at line 1146
+[58
+
+] [59
+
+]
+Overfull \vbox (6.59076pt too high) detected at line 1155
  []
 
-[59
+[60
 
-] [60
-
-]
-Overfull \vbox (6.59076pt too high) detected at line 1234
- []
-
-[61
-
-] [62
+] [61
 
 ]
-Overfull \vbox (64.19061pt too high) detected at line 1337
+Overfull \vbox (6.59076pt too high) detected at line 1243
  []
 
-[63
+[62
+
+] [63
+
+]
+Overfull \vbox (64.19061pt too high) detected at line 1346
+ []
+
+[64
 
 ]
 \tf@nav=\write6
@@ -1400,14 +1402,14 @@ Overfull \vbox (64.19061pt too high) detected at line 1337
 
  
 AED: lastpage setting LastPage
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1339.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1339.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1348.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1348.
 (./s.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1339.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1339.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1348.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1348.
 
 Package rerunfilecheck Info: File `s.out' has not changed.
-(rerunfilecheck)             Checksum: 6A1B00BC4F272D104FBAE473C4E41D0C;1892.
+(rerunfilecheck)             Checksum: 9019B65E66F146687103B580DCB57C6D;1892.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1415,13 +1417,13 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1339.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1348.
  ) 
 Here is how much of TeX's memory you used:
- 23398 strings out of 493029
- 449846 string characters out of 6136234
- 527964 words of memory out of 5000000
- 26154 multiletter control sequences out of 15000+600000
+ 23402 strings out of 493029
+ 449883 string characters out of 6136234
+ 527963 words of memory out of 5000000
+ 26156 multiletter control sequences out of 15000+600000
  20106 words of font info for 61 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,26n,59p,739b,621s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1446,10 +1448,10 @@ mf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/symbols/msam5.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/public/amsfonts/symbols/msbm7.pfb></usr/share/texmf/fonts/type1/publ
 ic/cm-super/sfso0800.pfb>
-Output written on s.pdf (63 pages, 791896 bytes).
+Output written on s.pdf (64 pages, 748050 bytes).
 PDF statistics:
- 2420 PDF objects out of 2487 (max. 8388607)
- 2190 compressed objects within 22 object streams
- 200 named destinations out of 1000 (max. 500000)
+ 2446 PDF objects out of 2487 (max. 8388607)
+ 2213 compressed objects within 23 object streams
+ 202 named destinations out of 1000 (max. 500000)
  326 words of extra memory for PDF output out of 10000 (max. 10000000)
 

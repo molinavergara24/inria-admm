@@ -129,7 +129,7 @@ The problem data are:
 \begin{itemize}
 \item $M \in \Re^{n \times n}$, a positive definite matrix 
 \item $f \in \Re^{n}$
-\item $H \in \Re^{n \times m}$, with $m = 3n_{c}$,
+\item $H \in \Re^{n \times m}$, with $m = 3n_{c}$, $n_{c}$ number of contacts
 \item $w \in \Re^{m}$
 \item $\mu \in \Re^{n_{c}}$, a vector of coefficients of friction 
 \end{itemize}
@@ -141,16 +141,12 @@ The unknowns are two vectors:
 \end{frame}
 
 \begin{frame}{Finite-dimensional frictional contact problem}
-The set $K_{e,\mu} \subseteq \Re^{m}$ is the cartesian product of Couloumb's friction second-order cone at each contact and and $K_{e,\mu}^{*}$ its dual cone, i.e.,
+The set $K_{e,\mu} \subseteq \Re^{m}$ is the cartesian product of Couloumb's friction second-order cone at each contact and $K_{e,\mu}^{*}$ its dual cone, i.e.,
 \begin{align}
 	K_{e,\mu} = \prod_{\alpha = 1...n_{c}} K_{e,\mu}^{\alpha} =
-	\prod_{\alpha = 1...n_{c}} \{ (x_{1},\bi{x}_{2}) \in \Re \times \Re^{n-1} \mid \| \bi{x}_{2} \| \le \mu x_{1} \} \\
-	\ K_{e,\mu}^{*} = \prod_{\alpha = 1...n_{c}} K_{e,\mu}^{\alpha *} =
-	\prod_{\alpha = 1...n_{c}} \{ (x_{1},\bi{x}_{2}) \in \Re \times \Re^{n-1}
-  \mid \| \bi{x}_{2} \| \le \frac{1}{\mu} x_{1} \} 
+	\prod_{\alpha = 1...n_{c}} \{ (x_{1},\bi{x}_{2}) \in \Re \times \Re^{n-1} \mid \| \bi{x}_{2} \| \le \mu x_{1} \}
 \end{align}
-
-The function $\Phi: \Re^{m} \rightarrow \Re^{m}$ is a nonsmooth function defined as
+where $x_{1} = \bi{x}^{\top} e$, $\bi{x}_{2} = \bi{x} - x_{1} e$ and $K_{e,\mu}^{*} =  K_{e,\frac{1}{\mu}}$. The function $\Phi: \Re^{m} \rightarrow \Re^{m}$ is a nonsmooth function defined as
 \begin{align}
 	\Phi(\bi{u}) = [\mu^{\alpha} \| E_{t} \bi{u}^{\alpha} \| \hat{\bi{e}}_{n}, \alpha = 1...n_{c}]^{\top}
 \end{align}
@@ -236,7 +232,7 @@ and $\bi{z}$ is called the scaled dual variable.
 
 \subsection{Stop criterion}
 \begin{frame}{Stop criterion}
-The residuals of the optimality conditions can be related to an approximated bound on the KKT conditions (primal and dual feasibility) of the current point
+The residuals of the optimality conditions can be related to an approximated bound:
 \begin{align}
 \begin{array}{l}
   \| \bi{r}^{k} \| \leq \epsilon^{pri} \\
@@ -250,7 +246,7 @@ where $\bi{r}^{k+1} = A \bi{x}^{k+1} + B \bi{y}^{k+1} - \bi{c}$ and $\bi{s}^{k+1
   \epsilon^{dual} = \sqrt{n} \epsilon^{abs} + \epsilon^{rel} \|A^{T} \rho \bi{z}^{k+1}\| 
 \end{array}
 \end{align}
-where $\epsilon^{abs} > 0$ and $\epsilon^{dual} > 0$ is an absolute and relative tolerance, respectively. This values typically depend on the scale of the data size.
+where $\epsilon^{abs} > 0$ and $\epsilon^{rel} > 0$ is an absolute and relative tolerance, respectively. This values typically depend on the scale of the data size.
 \end{frame}
 
 \section{ADMM formulation of problem}
@@ -270,6 +266,7 @@ In \citep{acary2011formulation}, a parametric convex optimization formulation is
 \end{subequations}
 where $\bi{s} \in \Re^{m}$ is a parameter vector and $\Phi(\bi{s}) = [\mu^{\alpha} \| E_{t} \bi{s}^{\alpha} \| \hat{e}_{n}, \alpha = 1...n_{c}]^{\top}$. 
 \end{frame}
+%Lower proper convex function: we remove the conic constraint but the trade off is to have an objective function non-smooth (that's why we use subgradients)
 
 \begin{frame}{Coulomb friction problem via convex optimization}
 Let $\delta_{K_{e,\mu}^{*}} : \Re^{n} \to \overRe$ denote the 
@@ -389,9 +386,9 @@ The projection of $\bi{x}$ onto $K_{e,\mu}^{*}$ could be written as follows
     & if $-\bi{x} \not\in K_{e,\mu} \wedge \bi{x} \not\in K_{e,\mu}^{*}$, \\
   \end{dcases*}  
 \end{align}
-\begin{itemize}
-\item Finally, it is worthy to note that for \eqref{eq.ADMM.friction.2.1} we carry out a Cholesky or LU factorization and \eqref{eq.ADMM.friction.2.2bi} can be solved explicitly by using the formulan given above.
-\end{itemize}
+%\begin{itemize}
+%\item Finally, it is worthy to note that for \eqref{eq.ADMM.friction.2.1} we carry out a Cholesky or LU factorization and \eqref{eq.ADMM.friction.2.2bi} can be solved explicitly by using the formulan given above.
+%\end{itemize}
 \end{frame}
 
 \section{Penalty parameter}
@@ -463,7 +460,7 @@ Finally, a less expensive and standard method is to set
 \begin{itemize}
 \item He
 \end{itemize}
-He et al. \citep{He2000} argue that adaptively choosing the penalty parameter to balance the residuals is a reasonable heuristic for minimising the distance from convergence: increasing $\rho$ strengthens the penalty term, yielding smaller primal residuals but larger dual ones; conversely, decreassing $\rho$ leads to larger primal and smaller dual residuals. Therefore, this heuristic is implemeted so that $\rho$ keeps both residuals of similar magnitude
+He et al. \citep{He2000} argue that adaptively choosing the penalty parameter to balance the residuals is a reasonable heuristic for minimising the distance from convergence.
 \begin{align}
   \rho^{k+1} := 
   \begin{dcases*}
@@ -482,7 +479,7 @@ where $\tau > 1$ and $\varphi > 1$. This method appears to becoming quite popula
 \begin{itemize}
 \item Wohlberg
 \end{itemize}
-The behavior of ADMM under scaling is addresed by Wohlberg \citep{wohlberg2017admm}. For problems involving physical quantities, for example, scaling corresponds to choices of the units in which the functional value and solution are expressed. The heuristic implemented by He et al. is appropriately scaled to mantain invariance of the algorithm as:
+The behavior of ADMM under scaling is addresed by Wohlberg \citep{wohlberg2017admm}. The heuristic implemented by He et al. is appropriately scaled to mantain invariance of the algorithm as:
 \begin{align}
   \rho^{k+1} := 
   \begin{dcases*}
@@ -508,7 +505,7 @@ where $\xi \in \Re^{+}$ and the relative primal and dual residuals are defined b
 \end{frame}
 
 \begin{frame}{Varying penalty parameter}
-The fixed multiplier $\tau$ is a potential weakness of the penalty update policies: if $\tau$ is small, then a large number of iterations may be equired to reach appropiate $\rho$ value if $\rho^{0}$ is poorly chosen; on the other hand, if $\tau$ is large, the corrections to $\rho$ may be too large when $\rho$ is close to the optimal value. A straightforward solution is to adapt $\tau$ at each iteration
+The fixed multiplier $\tau$ is a potential weakness of the penalty update policies. A straightforward solution is to adapt $\tau$ at each iteration
 \begin{align}
   \tau^{k+1} := 
   \begin{dcases*}
@@ -572,7 +569,7 @@ where SD stands for \textit{steepest descent} and MG for \textit{minimum gradien
 \end{frame}
 
 \begin{frame}{Varying penalty parameter}
-On some iterations, the linear models underlying the spectral stepsize choice may be very inaccurate. Xu et al. propose to safeguard the method by assesing the quality of the curvature estimates, and only updating the stepsize if the curvature estimates satisfy a reliability criterion. To test the validity of this assumption, the correlation between the follow quatintites are measured:
+Xu et al. propose to safeguard the method by assesing the quality of the curvature estimates, and only updating the stepsize if the curvature estimates satisfy a reliability criterion:
 \begin{align}
   \alpha_{k}^{cor} := \dfrac{\langle \Delta \hat{F}_{k} , \Delta \hat{w}_{k} \rangle}{ \|\Delta \hat{F}_{k}\|  \|\Delta \hat{w}_{k}\|}
   \wedge
@@ -643,22 +640,6 @@ if $e_{k} < \eta e_{k-1}$ the relaxed ADMM \eqref{eq.ADMM.relaxed} is performed,
 %Wohlberg in \citep{wohlberg2017admm} states under his framework that the ADMM method is invariant when $\epsilon^{abs} = 0$. Xu et al. in \citep{xu2016adaptive} also use this value which helps to be less sensitive to scaling. However, in our case we set in every algorithm $\epsilon^{abs} = 10^{-6}$, which is a low value (therefore it aims to be less sensitive as possible to scaling) and also enhances the stop criterion if the data size is too small.
 %\end{frame}
 
-\begin{frame}{Performance profiles}
-For a set $P$ of $n_{p}$ problems, and a set $S$ of $n_{s}$ solvers, we define a performance criterion for a solver $s$, a problem $p$ and a required precision \textit{tol} by
-\begin{align}
-	t_{p,s} = \text{computing time required for } s \text{ to solve } p \text{ at precision \textit{tol}}
-\end{align}
-A performance ratio over all the solvers is defined by
-\begin{align}
-	r_{p,s} = \frac{t_{p,s}}{\min \lbrace t_{p,s}, s \in S \rbrace} \geq 1
-\end{align}
-For $\tau > 1$, we define a distribution function $\rho_{s}$ for the performance ratio for a solvers as
-\begin{align}
-	\rho_{s}(\tau) = \frac{1}{n_{p}} card \lbrace p \in P, r_{p,s} \leq \tau \rbrace \leq 1
-\end{align}
-%This distribution computes the number of problems $p$ that are solved with a performance ratio below a given threshold $\tau$. In other words, $\rho_{s}(\tau)$ represents the probability that the solver $s$ has a performance ratio not larger than a factor $\tau$ of the best solver. It is worth noting that $\rho_{s}(1)$ represents the probability that the solver $s$ beats the other solvers, and $\rho_{s}(\tau)$ characterizes the robustness of the method for large values of $\tau$. To summarize: the higher $\rho_{s}$ is, the better the method is. In the sequel, the term performance profile denotes a graph of the functions $\rho_{s}(\tau)$, $\tau > 1$. The computational time is used to measure performance in the algorithms.
-\end{frame}
-
 \begin{frame}{Nomenclature for the algorithms}
 The Table \ref{Table:1} shows the notation used in the results:
 
@@ -696,6 +677,7 @@ The Table \ref{Table:1} shows the notation used in the results:
 \caption{Nomenclature for the algorithms.}
 \label{Table:1}
 \end{table}
+%where cp: constant penalty, vp: varying penalty, N: normal, R: relaxed and RR: relaxed + restart.
 \end{frame}
 
 \begin{frame}{Set of examples}
@@ -706,8 +688,33 @@ The Table \ref{Table:1} shows the notation used in the results:
 \end{figure}
 \end{frame}
 
+\begin{frame}{Performance profiles}
+For a set $P$ of $n_{p}$ problems, and a set $S$ of $n_{s}$ solvers, we define a performance criterion for a solver $s$, a problem $p$ and a required precision \textit{tol} by
+\begin{align}
+	t_{p,s} = \text{computing time required for } s \text{ to solve } p \text{ at precision \textit{tol}}
+\end{align}
+A performance ratio over all the solvers is defined by
+\begin{align}
+	r_{p,s} = \frac{t_{p,s}}{\min \lbrace t_{p,s}, s \in S \rbrace} \geq 1
+\end{align}
+For $\tau > 1$, we define a distribution function $\rho_{s}$ for the performance ratio for a solvers as
+\begin{align}
+	\rho_{s}(\tau) = \frac{1}{n_{p}} card \lbrace p \in P, r_{p,s} \leq \tau \rbrace \leq 1
+\end{align}
+%This distribution computes the number of problems $p$ that are solved with a performance ratio below a given threshold $\tau$. In other words, $\rho_{s}(\tau)$ represents the probability that the solver $s$ has a performance ratio not larger than a factor $\tau$ of the best solver. It is worth noting that $\rho_{s}(1)$ represents the probability that the solver $s$ beats the other solvers, and $\rho_{s}(\tau)$ characterizes the robustness of the method for large values of $\tau$. To summarize: the higher $\rho_{s}$ is, the better the method is. In the sequel, the term performance profile denotes a graph of the functions $\rho_{s}(\tau)$, $\tau > 1$. The computational time is used to measure performance in the algorithms.
+\end{frame}
+
 \section{Results}
 %In this section, we perform a comparison of the algorithms by family of optimal penalty parameter. The goal is to study the influence of the various parameters and possible strategies on the performance of the solvers.
+\begin{frame}
+Family of optimal penalty parameters
+\begin{itemize}
+\item Ghadimi
+\item Di Cairano
+\item Acary
+\item Normal
+\end{itemize}
+\end{frame}
 
 \subsection{Ghadimi}
 \begin{frame}{Ghadimi}
@@ -756,7 +763,7 @@ In Table \ref{Table:2} are depicted the best algorithms with their respective op
  \hline
   & vp-RR-He \eqref{alg:prototype.vp-RR-He} (Di Cairano) & vp-RR-He \eqref{alg:prototype.vp-RR-He} (Normal) \\ [0.5ex] 
  \hline\hline
- $\rho_{s}(0)$ & 0.892 & 0.882 \\ 
+ $\rho_{s}(1)$ & 0.892 & 0.882 \\ 
  \hline
  $\tau_{\rho_{s} = 1}$ & 1.94 & 1.95 \\
  \hline
@@ -769,14 +776,15 @@ In Table \ref{Table:2} are depicted the best algorithms with their respective op
 \end{table}
 
 
-It is worth noting that for the penalty parameter proposed in this paper (Acary), its best performance is with cp-RR, i.e., this value is the closest one to the optimal and there is no need to update it under any scheme.
+It is worth noting that for the penalty parameter proposed in this work (Acary), its best performance is with cp-RR, i.e., this value is the closest one to the optimal and there is no need to update it under any scheme.
 \end{frame}
 
 \section{S-update}
 \begin{frame}{S-update}
 \begin{itemize}
-\item To solve the friction problem, the parameter $s$ in problem \eqref{P.original.friction.SOCP.1} should be updated. One obvious way is that, once we solve problem \eqref{P.original.friction.SOCP.1} with fixed $s$ by ADMM, then update $s$ by using the obtained solution, and repeat this procedure. This is what we called \textit{external update}. Another possibility is to update $s$ at each iteration of the ADMM. This is what we called \textit{internal update}. Intuitively, the latter saves the total computational cost, but stability of the algorithm in this is not clear, there is no proof of existence or uniqueness in comparison to the first one \citep{acary2011formulation}.
-\item Another issue is the initial guess of $s$ to improve the rate of convergence. One simple method that performs well in our tests (results not shown) is $\bi{s}^{0} = 0 \in \Re^{m}$.
+\item External update
+\item Internal update
+\item Initial guess
 \end{itemize}
 \end{frame}
 
@@ -824,14 +832,14 @@ The first step in \eqref{eq.ADMM.friction.1.1new} corresponds to
 unconstrained minimization of a convex function. 
 It follows from the stationarity condition of this convex 
 function that $\bi{v}^{k+1}$ is the solution to the following system of 
-linear equations: 
+non-linear equations: 
 \begin{align}
   \Bigl[ M + 
   \rho \left( H^{\top} + \partial_{\bi{v}} \Phi(\bi{v}^{k+1}) \right) H \Bigr] \bi{v}^{k+1} 
   = -\bi{f} 
   + \rho \left( H^{\top} + \partial_{\bi{v}} \Phi(\bi{v}^{k+1}) \right) (\tilde{\bi{u}}^k - \bi{w} - \Phi(\bi{v}^{k+1}) - \bi{\zeta}^k)
 \end{align}
-this non-linearity is difficult to handle, however, if the previous iteration is considered in the $\Phi(\bi{v})$ term, we get the following equation
+this non-linearity is difficult to handle, however, if the previous iteration is considered in the $\Phi(\bi{v})$ term, we get the following system of linear equations
 \begin{align}
   \Bigl[ M + 
   \rho \left( H^{\top} + \partial_{\bi{v}} \Phi(\bi{v}^{k}) \right) H \Bigr] \bi{v}^{k+1} 
@@ -962,8 +970,9 @@ In Table \ref{Table:3} are shown the values of the final $\| \Phi(s) \|$ with it
 \section{Final remarks}
 \begin{frame}{Final remarks}
 \begin{itemize}
+\item The best improvement is given by vp-RR-He with Di Cairano and Normal optimal penalty parameter.
+\item Open question in the same numerical value of convergence in  $\Phi(s)$ with external and internal update.
 \item Comparison with other numerical methods (Fixed point and projection methods for VI formulation, Newton based methods, Splitting techniques and proximal point algorithm, etc.).
-\item Open question in the same numerical value of convergence in  $\Phi(s)$ with internal update.
 \end{itemize}
 \end{frame}
 

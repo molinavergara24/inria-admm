@@ -15,16 +15,16 @@
 \beamer@subsectionintoc {5}{2}{Relaxed + Restart ADMM}{30}{0}{5}
 \beamer@sectionintoc {6}{Numerical experience}{31}{0}{6}
 \beamer@sectionintoc {7}{Results}{35}{0}{7}
-\beamer@subsectionintoc {7}{1}{Ghadimi}{36}{0}{7}
-\beamer@subsectionintoc {7}{2}{Di Cairano}{37}{0}{7}
-\beamer@subsectionintoc {7}{3}{Acary}{38}{0}{7}
-\beamer@subsectionintoc {7}{4}{Normal}{39}{0}{7}
-\beamer@subsectionintoc {7}{5}{Discussion}{40}{0}{7}
-\beamer@sectionintoc {8}{S-update}{41}{0}{8}
-\beamer@subsectionintoc {8}{1}{Internal update}{43}{0}{8}
-\beamer@sectionintoc {9}{Numerical experience: S-update}{47}{0}{9}
-\beamer@sectionintoc {10}{Final remarks}{52}{0}{10}
-\beamer@subsectionintoc {12}{1}{Constant penalty parameter}{56}{0}{10}
-\beamer@subsectionintoc {12}{2}{Varying penalty parameter - He}{58}{0}{10}
-\beamer@subsectionintoc {12}{3}{Varying penalty parameter - Wohlberg}{60}{0}{10}
-\beamer@subsectionintoc {12}{4}{Varying penalty parameter - Spectral}{62}{0}{10}
+\beamer@subsectionintoc {7}{1}{Ghadimi}{37}{0}{7}
+\beamer@subsectionintoc {7}{2}{Di Cairano}{38}{0}{7}
+\beamer@subsectionintoc {7}{3}{Acary}{39}{0}{7}
+\beamer@subsectionintoc {7}{4}{Normal}{40}{0}{7}
+\beamer@subsectionintoc {7}{5}{Discussion}{41}{0}{7}
+\beamer@sectionintoc {8}{S-update}{42}{0}{8}
+\beamer@subsectionintoc {8}{1}{Internal update}{44}{0}{8}
+\beamer@sectionintoc {9}{Numerical experience: S-update}{48}{0}{9}
+\beamer@sectionintoc {10}{Final remarks}{53}{0}{10}
+\beamer@subsectionintoc {12}{1}{Constant penalty parameter}{57}{0}{10}
+\beamer@subsectionintoc {12}{2}{Varying penalty parameter - He}{59}{0}{10}
+\beamer@subsectionintoc {12}{3}{Varying penalty parameter - Wohlberg}{61}{0}{10}
+\beamer@subsectionintoc {12}{4}{Varying penalty parameter - Spectral}{63}{0}{10}

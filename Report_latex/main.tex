@@ -319,7 +319,7 @@ where $\epsilon^{pri} > 0$ and $\epsilon^{dual} > 0$ are feasibility tolerances 
   \epsilon^{dual} = \sqrt{n} \epsilon^{abs} + \epsilon^{rel} \|A^{T} \rho \bi{z}^{k+1}\| 
 \end{array}
 \end{align}
-where $\epsilon^{abs} > 0$ and $\epsilon^{dual} > 0$ is an absolute and relative tolerance, respectively. A reasonable value for the absolute and relative tolerance might be $10^{-6}$ and $10^{-3}$, respectively. This values typically depend on the scale of the data size.
+where $\epsilon^{abs} > 0$ and $\epsilon^{real} > 0$ is an absolute and relative tolerance, respectively. A reasonable value for the absolute and relative tolerance might be $10^{-6}$ and $10^{-3}$, respectively. This values typically depend on the scale of the data size.
 
 \clearpage
 \mbox{}
@@ -340,7 +340,7 @@ The problem reads
     \tilde{\bi{u}} \in K_{e,\mu}^{*} 
   \end{alignat}
 \end{subequations}
-where $\bi{s} \in \Re^{m}$ is a parameter vector. Let $\delta_{K_{e,\mu}^{*}} : \Re^{n} \to \overRe$ denote the 
+where $\bi{s} \in \Re^{m}$ is a parameter vector and $\Phi(\bi{s}) = [\mu^{\alpha} \| E_{t} \bi{s}^{\alpha} \| \hat{e}_{n}, \alpha = 1...n_{c}]^{\top}$. Let $\delta_{K_{e,\mu}^{*}} : \Re^{n} \to \overRe$ denote the 
 indicator function of $K_{e,\mu}^{*}$, i.e., 
 \begin{align}
   \delta_{K_{e,\mu}^{*}}(\bi{x}) = 
@@ -360,7 +360,7 @@ Then problem \eqref{P.original.friction.SOCP.1} is equivalently rewritten as fol
      \tilde{\bi{u}} = H \bi{v} + \bi{w} + \Phi(\bi{s})   
    \end{alignat}
  \end{subequations} 
-where $\Phi(\bi{s}) = [\mu^{\alpha} \| E_{t} \bi{s}^{\alpha} \| \hat{e}_{n}, \alpha = 1...n_{c}]^{\top}$. Therefore, in the notation of \eqref{P.convex.1}: $f(\bi{v}) = \frac{1}{2} \bi{v}^{\top} M \bi{v} + \bi{f}^{\top} \bi{v}, g(\tilde{\bi{u}}) = \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}), A = H , B = -I$ and $\bi{c} = -\bi{w} -\Phi(\bi{s})$.
+Therefore, in the notation of \eqref{P.convex.1}: $f(\bi{v}) = \frac{1}{2} \bi{v}^{\top} M \bi{v} + \bi{f}^{\top} \bi{v}, g(\tilde{\bi{u}}) = \delta_{K_{e,\mu}^{*}}(\tilde{\bi{u}}), A = H , B = -I$ and $\bi{c} = -\bi{w} -\Phi(\bi{s})$.
 
 \subsection{Iteration}
 \label{sec:direction}
@@ -1133,7 +1133,7 @@ Figure 4 shows that most of the algorithms suffer of robustness. Wohlberg and Sp
 \clearpage
 \mbox{}
 \subsection{Discussion}
-In Table \ref{Table:2} are depicted the best algorithms with their respective optimal penalty parameter. Although their behavior are very close, Di Cairano takes into account the data size of the problem, which makes it a more general solver.
+In Table \ref{Table:2} are depicted the best algorithms with their respective optimal penalty parameter:
 
 \begin{table}[h!]
 \centering
@@ -1152,6 +1152,8 @@ In Table \ref{Table:2} are depicted the best algorithms with their respective op
 \label{Table:2}
 \end{table}
 
+
+Although their behavior are very close, Di Cairano takes into account the data size of the problem, which makes it a more general solver.
 
 It is worth noting that for the penalty parameter proposed in this paper (Acary), its best performance is with cp-RR, i.e., this value is the closest one to the optimal and there is no need to update it under any scheme.
 
@@ -1207,14 +1209,14 @@ The first step in \eqref{eq.ADMM.friction.1.1new} corresponds to
 unconstrained minimization of a convex function. 
 It follows from the stationarity condition of this convex 
 function that $\bi{v}^{k+1}$ is the solution to the following system of 
-linear equations: 
+non-linear equations: 
 \begin{align}
   \Bigl[ M + 
   \rho \left( H^{\top} + \partial_{\bi{v}} \Phi(\bi{v}^{k+1}) \right) H \Bigr] \bi{v}^{k+1} 
   = -\bi{f} 
   + \rho \left( H^{\top} + \partial_{\bi{v}} \Phi(\bi{v}^{k+1}) \right) (\tilde{\bi{u}}^k - \bi{w} - \Phi(\bi{v}^{k+1}) - \bi{\zeta}^k)
 \end{align}
-this non-linearity is difficult to handle, however, if the previous iteration is considered in the $\Phi(\bi{v})$ term, we get the following equation
+this non-linearity is difficult to handle, however, if the previous iteration is considered in the $\Phi(\bi{v})$ term, we get the following system of linear equations:
 \begin{align}
   \Bigl[ M + 
   \rho \left( H^{\top} + \partial_{\bi{v}} \Phi(\bi{v}^{k}) \right) H \Bigr] \bi{v}^{k+1} 
